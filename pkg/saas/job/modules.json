@@ -1,0 +1,16 @@
+[{
+  "id": "cowsay:v0.0.1",
+  "title": "Cow Say",
+  "cost": 1,
+  "template": "text-to-text"
+}, {
+  "id": "sdxl:v0.9-lilypad1",
+  "title": "SDXL",
+  "cost": 6,
+  "template": "text-to-image"
+}, {
+  "id": "mistral-7b-instruct:v0.1-lilypad3",
+  "title": "Mistral-7B-Instruct-v0.1",
+  "cost": 6,
+  "template": "text-to-text"
+}]
