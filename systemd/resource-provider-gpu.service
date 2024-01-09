@@ -1,0 +1,17 @@
+[Unit]
+Description=Lilypad V2 Resource Provider GPU
+After=network-online.target
+Wants=network-online.target systemd-networkd-wait-online.service
+
+[Service]
+Environment="LOG_TYPE=json"
+Environment="LOG_LEVEL=debug"
+Environment="HOME=/app/generic-dcn"
+Environment="OFFER_GPU=1"
+EnvironmentFile=/app/lilypad/resource-provider-gpu.env
+Restart=always
+RestartSec=5s
+ExecStart=/usr/bin/lilypad resource-provider 
+
+[Install]
+WantedBy=multi-user.target

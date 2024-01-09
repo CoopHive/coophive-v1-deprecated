@@ -33,7 +33,7 @@ const config: HardhatUserConfig = {
       url: `https://sepolia.infura.io/v3/${INFURA_KEY}`,
       accounts: PRIVATE_KEYS,
     },
-    prod: {
+    lilypad: {
       url: 'http://testnet.lilypad.tech:8545',
       chainId: 1337,
     }

@@ -15,7 +15,6 @@ async function main() {
   generate('MEDIATOR')
   generate('RESOURCE_PROVIDER')
   generate('JOB_CREATOR')
-  generate('DIRECTORY')
 }
 
 main().catch((error) => {

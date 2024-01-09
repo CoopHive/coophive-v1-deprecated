@@ -279,6 +279,10 @@ function print-contract-env() {
   hardhat-script scripts/print-contract-env.ts | grep export
 }
 
+function generate-addresses() {
+  hardhat-script scripts/generate-addresses.ts | grep export
+}
+
 function print-local-dev-env() {
   print-contract-env
 }
@@ -367,7 +371,6 @@ function mediator() {
   source .env
   eval $(./stack print-local-dev-env)
   export WEB3_PRIVATE_KEY=$MEDIATOR_PRIVATE_KEY
-  export WEB3_DIRECTORY_ADDRESS=$DIRECTORY_ADDRESS
   export SERVICE_SOLVER=$SOLVER_ADDRESS
   go run . mediator "$@"
 }
