@@ -39,6 +39,8 @@ function install() {
   go mod download
   (cd hardhat && yarn install)
   (cd frontend && yarn install)
+  (cd hardhat && npx hardhat compile)
+  print-env > .env
 }
 
 ############################################################################
@@ -95,8 +97,8 @@ function faucet() {
   local tokenAddress=$(echo -n "$WEB3_TOKEN_ADDRESS" | sed 's/^0x//')
   docker run -d \
     --name faucet \
-    -p 8080:8080 \
-    --network lilypad \
+    -p 8085:8080 \
+    --network "$GETH_DOCKER_NETWORK" \
     -e WEB3_PROVIDER=http://geth:8545 \
     -e PRIVATE_KEY=$privateKey \
     -e TOKEN_ADDRESS=$WEB3_TOKEN_ADDRESS \
@@ -106,6 +108,9 @@ function faucet() {
       --faucet.minutes=1
 }
 
+function faucet-stop() {
+  docker rm -f faucet 2> /dev/null || true
+}
 
 ############################################################################
 ############################################################################
@@ -291,6 +296,7 @@ function balances() {
 }
 
 function run-cowsay-onchain() {
+  export WEB3_PRIVATE_KEY=$JOB_CREATOR_PRIVATE_KEY
   hardhat-script scripts/run-cowsay-onchain.ts
 }
 
