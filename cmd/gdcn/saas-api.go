@@ -58,11 +58,11 @@ func NewAllOptions() *AllOptions {
 	}
 }
 
-func newServeCmd() *cobra.Command {
+func newSaasApiCmd() *cobra.Command {
 	allOptions := NewAllOptions()
 
 	serveCmd := &cobra.Command{
-		Use:     "serve",
+		Use:     "saas-api",
 		Short:   "Start the lilysaas api server.",
 		Long:    "Start the lilysaas api server.",
 		Example: "TBD",

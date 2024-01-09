@@ -13,8 +13,8 @@ func newJobCreatorCmd() *cobra.Command {
 
 	solverCmd := &cobra.Command{
 		Use:     "jobcreator",
-		Short:   "Start the lilypad job creator service.",
-		Long:    "Start the lilypad job creator service.",
+		Short:   "Start the gdcn job creator service.",
+		Long:    "Start the gdcn job creator service.",
 		Example: "",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			options, err := optionsfactory.ProcessOnChainJobCreatorOptions(options, args)

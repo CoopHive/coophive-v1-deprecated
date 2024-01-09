@@ -61,7 +61,6 @@ services:
       context: .
       dockerfile: Dockerfile.api
     restart: always
-    env_file: .env
     environment:
       - LOG_LEVEL=debug
       - APP_URL=${SERVER_URL:-http://localhost}
@@ -79,11 +78,12 @@ services:
       - WEB3_CONTROLLER_ADDRESS=${WEB3_CONTROLLER_ADDRESS-0x59b670e9fA9D0A427751Af201D676719a970857b}
       # this is an insecure development key - do not use in production!
       - KEYCLOAK_TOKEN=${KEYCLOAK_TOKEN-5ca0fc03-d625-456e-bca7-8e732309165f}
-    entrypoint: ${API_ENTRYPOINT:-tail -f /dev/null}
+    entrypoint: ${API_ENTRYPOINT:-go run . saas-api}
     volumes:
       - ./go.mod:/app/go.mod
       - ./go.sum:/app/go.sum
-      - ./api:/app/api
+      - ./cmd:/app/cmd
+      - ./pkg:/app/pkg
   gradio:
     ports:
       - 7860:7860

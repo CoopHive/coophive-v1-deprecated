@@ -11,5 +11,5 @@ func main() {
 }
 
 func init() {
-	fmt.Printf("Lilypad: %s\n", gdcn.VERSION)
+	fmt.Printf("GDCN\n")
 }

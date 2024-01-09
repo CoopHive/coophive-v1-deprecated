@@ -14,8 +14,8 @@ func newResourceProviderCmd() *cobra.Command {
 
 	resourceProviderCmd := &cobra.Command{
 		Use:     "resource-provider",
-		Short:   "Start the lilypad resource-provider service.",
-		Long:    "Start the lilypad resource-provider service.",
+		Short:   "Start the gdcn resource-provider service.",
+		Long:    "Start the gdcn resource-provider service.",
 		Example: "",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			options, err := optionsfactory.ProcessResourceProviderOptions(options)

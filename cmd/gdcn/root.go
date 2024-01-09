@@ -16,15 +16,15 @@ func init() { //nolint:gochecknoinits
 func NewRootCmd() *cobra.Command {
 	RootCmd := &cobra.Command{
 		Use:   getCommandLineExecutable(),
-		Short: "Lilypad",
-		Long:  `Lilypad`,
+		Short: "Generic Decentralized Compute Network",
+		Long:  `Generic Decentralized Compute Network`,
 	}
 	RootCmd.AddCommand(newSolverCmd())
 	RootCmd.AddCommand(newResourceProviderCmd())
 	RootCmd.AddCommand(newRunCmd())
 	RootCmd.AddCommand(newMediatorCmd())
 	RootCmd.AddCommand(newJobCreatorCmd())
-	RootCmd.AddCommand(newVersionCmd())
+	RootCmd.AddCommand(newSaasApiCmd())
 	return RootCmd
 }
 

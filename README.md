@@ -115,7 +115,7 @@ wget https://github.com/bacalhau-project/bacalhau/releases/download/v1.0.3/bacal
 tar xfv bacalhau_v1.0.3_linux_amd64.tar.gz
 mv bacalhau /usr/local/bin
 # Set the IPFS data path by exporting the `BACALHAU_SERVE_IPFS_PATH` variable to your desired location
-export BACALHAU_SERVE_IPFS_PATH=/tmp/lilypad/data/ipfs
+export BACALHAU_SERVE_IPFS_PATH=/tmp/gdcn/data/ipfs
 ```
 
 #### clone faucet repo
@@ -175,6 +175,12 @@ Run the following commands in separate terminal windows:
 ./stack solver
 ```
 
+**NOTE** if you want to run the SAAS layer then we need to run the solver on the docker bridge as follows:
+
+```bash
+./stack solver --server-url http://172.17.0.1:8080
+```
+
 #### mediator
 
 Wait for the solver to start when `🟡 SOL solver registered` is logged, and then, in another terminal window, run:
@@ -212,6 +218,25 @@ Otherwise, if you don't have a GPU:
 ```bash
 ./stack resource-provider
 ```
+
+### run saas
+
+The generic-dcn repo also comes with a saas layer that can be used as a web2 layer to the underlying web3 stack.
+
+The api will run using a `WEB3_PRIVATE_KEY` and essentially act as a job creator on behalf of registered users.
+
+This means you can open up your decentralized compute network to a wider audience who might not have access to metamask or other web3 tools.
+
+Once the core network is up and running as described above, you can run the saas layer as follows:
+
+**NOTE** it's important that you started the solver using the `./stack solver --server-url http://172.17.0.1:8080` command as described above.
+
+```bash
+docker-compose build
+docker-compose up -d
+```
+
+Now you should be able to access the saas layer using http://localhost
 
 ### run faucet
 
@@ -446,6 +471,18 @@ Upload the various systemd files from the `systemd` folder to the VM(s) you are 
 You can now start and stop the various services using `systemd` and see logs using `journalctl`.
 
 Make sure you start the solver first.
+
+### running the saas layer
+
+To run the saas layer in production it's important to use another machine than the solver so the saas api can speak to the solver using it's public http(s) endpoint.
+
+To run the various services there are a few options:
+
+ * use the `docker-compose.yaml` file but change some values
+ * run the various services using another tool like k8s (they are all docker based services)
+ * run the various services using systemd
+
+We have left this choice to the reader as it depends on the environment you are deploying to.
 
 ## troubleshooting
 

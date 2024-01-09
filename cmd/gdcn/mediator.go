@@ -15,8 +15,8 @@ func newMediatorCmd() *cobra.Command {
 
 	mediatorCmd := &cobra.Command{
 		Use:     "mediator",
-		Short:   "Start the lilypad mediator service.",
-		Long:    "Start the lilypad mediator service.",
+		Short:   "Start the gdcn mediator service.",
+		Long:    "Start the gdcn mediator service.",
 		Example: "",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			options, err := optionsfactory.ProcessMediatorOptions(options)

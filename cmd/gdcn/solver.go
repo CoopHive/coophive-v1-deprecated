@@ -14,8 +14,8 @@ func newSolverCmd() *cobra.Command {
 
 	solverCmd := &cobra.Command{
 		Use:     "solver",
-		Short:   "Start the lilypad solver service.",
-		Long:    "Start the lilypad solver service.",
+		Short:   "Start the Generic Decentralized Compute Network solver service.",
+		Long:    "Start the Generic Decentralized Compute Network solver service.",
 		Example: "",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			options, err := optionsfactory.ProcessSolverOptions(options)

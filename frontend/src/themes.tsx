@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-const DEFAULT_THEME_NAME = 'lilypad'
+const DEFAULT_THEME_NAME = 'gdcn'
 
 export interface ITheme {
   company: string,
@@ -16,9 +16,9 @@ export interface ITheme {
 }
 
 export const THEMES: Record<string, ITheme> = {
-  lilypad: {
-    company: 'Lilypad',
-    url: 'https://lilypad.tech/',
+  gdcn: {
+    company: 'Generic Decentralized Compute Network',
+    url: 'https://github.com/bacalhau-project/generic-dcn',
     primary: '#14c7c3',
     secondary: '#fec284',
     activeSections: [],
@@ -31,7 +31,7 @@ export const THEMES: Record<string, ITheme> = {
         <Box
           component="img"
           src="/img/logo.png"
-          alt="Lilypad" 
+          alt="Generic Decentralized Compute Network" 
           sx={{
             height: 30,
             ml: 1,
@@ -41,15 +41,16 @@ export const THEMES: Record<string, ITheme> = {
           ml: 2,
           mr: 1,
         }}>
-          Lilypad AI Studio
+          Generic Decentralized Compute Network AI Studio
         </Typography>
       </Box>
     ),
   },
 }
 
+// if you want to use different themes for different domains then put them here:
 export const THEME_DOMAINS: Record<string, string> = {
-  'lilypad.tech': 'lilypad',
+  
 }
 
 
