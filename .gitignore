@@ -19,3 +19,4 @@ vendor/
 node_modules
 *.sw*
 frontend/lib
+dist
