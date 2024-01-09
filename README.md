@@ -223,6 +223,8 @@ Otherwise, if you don't have a GPU:
 
 The generic-dcn repo also comes with a saas layer that can be used as a web2 layer to the underlying web3 stack.
 
+![Saas](docs/images/saas.png)
+
 The api will run using a `WEB3_PRIVATE_KEY` and essentially act as a job creator on behalf of registered users.
 
 This means you can open up your decentralized compute network to a wider audience who might not have access to metamask or other web3 tools.
