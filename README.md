@@ -1,6 +1,6 @@
-# generic distributed compute network
+# generic decentralized compute network
 
-Generic DCN is a project that aims to facilitate the creation of a distributed compute network.
+Generic DCN is a project that aims to facilitate the creation of a decentralized compute network.
 
 It will use an EVM based blockchain to manage agreed job state and payment and use [bacalhau](https://www.bacalhau.org/) to manage the compute nodes.
 
