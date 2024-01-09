@@ -84,6 +84,7 @@ services:
       - ./go.sum:/app/go.sum
       - ./cmd:/app/cmd
       - ./pkg:/app/pkg
+      - ./main.go:/app/main.go
   gradio:
     ports:
       - 7860:7860
