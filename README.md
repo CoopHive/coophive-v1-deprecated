@@ -4,7 +4,7 @@ Generic DCN is a project that aims to facilitate the creation of a decentralized
 
 It will use an EVM based blockchain to manage agreed job state and payment and use [bacalhau](https://www.bacalhau.org/) to manage the compute nodes.
 
-It attempts to bring various tools without a strog opinion on how they should be used together.  For example, it is possible to deploy the smart contracts on any EVM compatible blockchain and implement an interface to use any other tool than bacalhau to manage the compute nodes.
+It attempts to bring various tools without a strong opinion on how they should be used together.  For example, it is possible to deploy the smart contracts on any EVM compatible blockchain and implement an interface to use any other tool than bacalhau to manage the compute nodes.
 
 ## table of contents
 
