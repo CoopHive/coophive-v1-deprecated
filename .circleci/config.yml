@@ -1,0 +1,58 @@
+version: 2.1
+orbs:
+  gh: circleci/github-cli@2.2.0
+
+jobs:
+  build:
+    docker:
+      - image: cimg/go:1.21.1
+    steps:
+      - checkout
+      - run:
+          name: Build for multiple platforms
+          command: |
+            goos=("darwin" "darwin" "linux" "linux")
+            goarch=("arm64" "amd64" "arm64" "amd64")
+            for i in "${!goos[@]}"; do
+              mkdir -p build/${goos[$i]}-${goarch[$i]}
+              GOOS=${goos[$i]} GOARCH=${goarch[$i]} go build -o build/${goos[$i]}-${goarch[$i]}/hive-${goos[$i]}-${goarch[$i]}
+            done
+      - persist_to_workspace:
+          root: build/
+          paths:
+            - "*"
+      - store_artifacts:
+          path: build/
+          destination: build_artifacts
+
+  release:
+    docker:
+      - image: cimg/go:1.21.1
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - checkout
+      - run:
+          name: GitHub release
+          command: |
+            SHA=$(git rev-parse HEAD)
+            SHORTSHA="${SHA:0:7}"
+            wget https://github.com/cli/cli/releases/download/v2.35.0/gh_2.35.0_linux_amd64.deb
+            sudo dpkg -i gh_2.35.0_linux_amd64.deb
+            gh release create v2.0.0-${SHORTSHA} --notes "Release v2.0.0-${SHORTSHA}" \
+              /tmp/build/darwin-arm64/hive-darwin-arm64 \
+              /tmp/build/darwin-amd64/hive-darwin-amd64 \
+              /tmp/build/linux-arm64/hive-linux-arm64 \
+              /tmp/build/linux-amd64/hive-linux-amd64
+
+workflows:
+  test-and-deploy:
+    jobs:
+      - build
+      - release:
+         filters:
+           branches:
+             only: main
+         requires:
+           - build
+
