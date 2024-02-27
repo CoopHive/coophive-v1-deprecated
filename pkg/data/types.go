@@ -1,7 +1,7 @@
 package data
 
 import (
-	"github.com/bacalhau-project/generic-dcn/pkg/data/bacalhau"
+	"github.com/CoopHive/coophive/pkg/data/bacalhau"
 )
 
 // used by resource providers to describe their resources

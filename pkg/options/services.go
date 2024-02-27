@@ -3,7 +3,7 @@ package options
 import (
 	"fmt"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
+	"github.com/CoopHive/coophive/pkg/data"
 	"github.com/spf13/cobra"
 )
 

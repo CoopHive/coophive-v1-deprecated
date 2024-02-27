@@ -3,8 +3,8 @@ package web3
 import (
 	"context"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
-	"github.com/bacalhau-project/generic-dcn/pkg/web3/bindings/token"
+	"github.com/CoopHive/coophive/pkg/system"
+	"github.com/CoopHive/coophive/pkg/web3/bindings/token"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/event"

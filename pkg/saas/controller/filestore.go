@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"text/template"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/filestore"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/types"
+	"github.com/CoopHive/coophive/pkg/saas/filestore"
+	"github.com/CoopHive/coophive/pkg/saas/types"
 )
 
 type userPathTemplateData struct {

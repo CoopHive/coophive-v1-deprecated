@@ -3,9 +3,9 @@ package job
 import (
 	"fmt"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/jobcreator"
-	optionsfactory "github.com/bacalhau-project/generic-dcn/pkg/options"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/types"
+	"github.com/CoopHive/coophive/pkg/jobcreator"
+	optionsfactory "github.com/CoopHive/coophive/pkg/options"
+	"github.com/CoopHive/coophive/pkg/saas/types"
 )
 
 func checkJobCreatorOptions(options jobcreator.JobCreatorOptions, withModule bool) error {

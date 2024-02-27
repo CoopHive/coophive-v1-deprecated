@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
+	"github.com/CoopHive/coophive/pkg/data"
 )
 
 // allow shortcode github.com/lukemarsden/lilypad-sdxl:v0.0.1 (tag),

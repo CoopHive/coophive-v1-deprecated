@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	executorlib "github.com/bacalhau-project/generic-dcn/pkg/executor"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
+	"github.com/CoopHive/coophive/pkg/data"
+	executorlib "github.com/CoopHive/coophive/pkg/executor"
+	"github.com/CoopHive/coophive/pkg/system"
 )
 
 const RESULTS_DIR = "noop-results"

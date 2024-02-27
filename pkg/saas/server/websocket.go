@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/types"
+	"github.com/CoopHive/coophive/pkg/saas/types"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 	"github.com/rs/zerolog/log"

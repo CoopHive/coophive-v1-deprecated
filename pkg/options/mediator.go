@@ -3,8 +3,8 @@ package options
 import (
 	"fmt"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/mediator"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
+	"github.com/CoopHive/coophive/pkg/mediator"
+	"github.com/CoopHive/coophive/pkg/system"
 	"github.com/spf13/cobra"
 )
 

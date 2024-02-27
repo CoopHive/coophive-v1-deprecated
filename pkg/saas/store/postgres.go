@@ -14,7 +14,7 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/types"
+	"github.com/CoopHive/coophive/pkg/saas/types"
 	sync "github.com/bacalhau-project/golang-mutex-tracer"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"

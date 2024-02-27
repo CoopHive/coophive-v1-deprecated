@@ -7,11 +7,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/jobcreator"
-	optionsfactory "github.com/bacalhau-project/generic-dcn/pkg/options"
-	"github.com/bacalhau-project/generic-dcn/pkg/solver"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/jobcreator"
+	optionsfactory "github.com/CoopHive/coophive/pkg/options"
+	"github.com/CoopHive/coophive/pkg/solver"
+	"github.com/CoopHive/coophive/pkg/system"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
@@ -42,7 +42,7 @@ func newRunCmd() *cobra.Command {
 func runJob(cmd *cobra.Command, options jobcreator.JobCreatorOptions) error {
 	c := color.New(color.FgCyan).Add(color.Bold)
 	c.Print(`
-Generic Decentralized Compute Network https://github.com/bacalhau-project/generic-dcn
+Generic Decentralized Compute Network https://github.com/CoopHive/coophive
 `)
 	spinner, err := createSpinner("Generic Decentralized Compute Network submitting job", "🌟")
 	if err != nil {

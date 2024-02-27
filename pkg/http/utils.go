@@ -12,7 +12,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/web3"
+	"github.com/CoopHive/coophive/pkg/web3"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/rs/zerolog/log"
 )

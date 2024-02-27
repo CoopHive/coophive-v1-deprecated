@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
-	"github.com/bacalhau-project/generic-dcn/pkg/web3"
+	"github.com/CoopHive/coophive/pkg/system"
+	"github.com/CoopHive/coophive/pkg/web3"
 	"github.com/spf13/cobra"
 )
 

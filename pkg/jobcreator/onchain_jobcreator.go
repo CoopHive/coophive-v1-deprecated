@@ -6,10 +6,10 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
-	"github.com/bacalhau-project/generic-dcn/pkg/web3"
-	jobcreatorweb3 "github.com/bacalhau-project/generic-dcn/pkg/web3/bindings/jobcreator"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/system"
+	"github.com/CoopHive/coophive/pkg/web3"
+	jobcreatorweb3 "github.com/CoopHive/coophive/pkg/web3/bindings/jobcreator"
 	"github.com/davecgh/go-spew/spew"
 )
 

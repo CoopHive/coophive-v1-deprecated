@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/controller"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/store"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/system"
+	"github.com/CoopHive/coophive/pkg/saas/controller"
+	"github.com/CoopHive/coophive/pkg/saas/store"
+	"github.com/CoopHive/coophive/pkg/saas/system"
 	"github.com/gorilla/mux"
 )
 

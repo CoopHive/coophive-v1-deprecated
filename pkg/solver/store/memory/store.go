@@ -5,9 +5,9 @@ import (
 	"os"
 	"sync"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/jsonl"
-	"github.com/bacalhau-project/generic-dcn/pkg/solver/store"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/jsonl"
+	"github.com/CoopHive/coophive/pkg/solver/store"
 )
 
 type SolverStoreMemory struct {

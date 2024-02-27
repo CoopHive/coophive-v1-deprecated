@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/types"
+	"github.com/CoopHive/coophive/pkg/saas/types"
 )
 
 //go:embed modules.json

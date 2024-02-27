@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	gocloak "github.com/Nerzal/gocloak/v13"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/store"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/types"
+	"github.com/CoopHive/coophive/pkg/saas/store"
+	"github.com/CoopHive/coophive/pkg/saas/types"
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 

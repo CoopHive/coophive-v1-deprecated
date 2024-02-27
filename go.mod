@@ -1,4 +1,4 @@
-module github.com/bacalhau-project/generic-dcn
+module github.com/CoopHive/coophive
 
 go 1.21
 

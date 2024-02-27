@@ -11,10 +11,10 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/http"
-	"github.com/bacalhau-project/generic-dcn/pkg/solver/store"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/http"
+	"github.com/CoopHive/coophive/pkg/solver/store"
+	"github.com/CoopHive/coophive/pkg/system"
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"
 )

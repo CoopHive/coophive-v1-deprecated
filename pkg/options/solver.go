@@ -1,8 +1,8 @@
 package options
 
 import (
-	"github.com/bacalhau-project/generic-dcn/pkg/solver"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
+	"github.com/CoopHive/coophive/pkg/solver"
+	"github.com/CoopHive/coophive/pkg/system"
 	"github.com/spf13/cobra"
 )
 

@@ -1,11 +1,11 @@
 package gdcn
 
 import (
-	"github.com/bacalhau-project/generic-dcn/pkg/executor/bacalhau"
-	"github.com/bacalhau-project/generic-dcn/pkg/mediator"
-	optionsfactory "github.com/bacalhau-project/generic-dcn/pkg/options"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
-	"github.com/bacalhau-project/generic-dcn/pkg/web3"
+	"github.com/CoopHive/coophive/pkg/executor/bacalhau"
+	"github.com/CoopHive/coophive/pkg/mediator"
+	optionsfactory "github.com/CoopHive/coophive/pkg/options"
+	"github.com/CoopHive/coophive/pkg/system"
+	"github.com/CoopHive/coophive/pkg/web3"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 )

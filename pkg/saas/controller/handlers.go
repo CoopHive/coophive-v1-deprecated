@@ -5,12 +5,12 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/jobcreator"
-	jobutils "github.com/bacalhau-project/generic-dcn/pkg/saas/job"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/store"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/system"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/types"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/jobcreator"
+	jobutils "github.com/CoopHive/coophive/pkg/saas/job"
+	"github.com/CoopHive/coophive/pkg/saas/store"
+	"github.com/CoopHive/coophive/pkg/saas/system"
+	"github.com/CoopHive/coophive/pkg/saas/types"
 	"github.com/davecgh/go-spew/spew"
 )
 

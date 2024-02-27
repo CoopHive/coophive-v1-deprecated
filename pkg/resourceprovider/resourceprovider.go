@@ -3,11 +3,11 @@ package resourceprovider
 import (
 	"context"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/executor"
-	"github.com/bacalhau-project/generic-dcn/pkg/executor/bacalhau"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
-	"github.com/bacalhau-project/generic-dcn/pkg/web3"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/executor"
+	"github.com/CoopHive/coophive/pkg/executor/bacalhau"
+	"github.com/CoopHive/coophive/pkg/system"
+	"github.com/CoopHive/coophive/pkg/web3"
 )
 
 // this configures the resource offers we will keep track of

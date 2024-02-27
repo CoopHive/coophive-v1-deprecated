@@ -4,12 +4,12 @@ import (
 	"context"
 	"time"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/jobcreator"
-	optionsfactory "github.com/bacalhau-project/generic-dcn/pkg/options"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/types"
-	lilypadsystem "github.com/bacalhau-project/generic-dcn/pkg/system"
-	"github.com/bacalhau-project/generic-dcn/pkg/web3"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/jobcreator"
+	optionsfactory "github.com/CoopHive/coophive/pkg/options"
+	"github.com/CoopHive/coophive/pkg/saas/types"
+	lilypadsystem "github.com/CoopHive/coophive/pkg/system"
+	"github.com/CoopHive/coophive/pkg/web3"
 	"github.com/spf13/cobra"
 )
 

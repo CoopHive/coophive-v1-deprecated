@@ -1,8 +1,8 @@
 package options
 
 import (
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/module"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/module"
 	"github.com/spf13/cobra"
 )
 

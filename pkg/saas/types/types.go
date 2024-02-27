@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
+	"github.com/CoopHive/coophive/pkg/data"
 )
 
 type OwnerType string

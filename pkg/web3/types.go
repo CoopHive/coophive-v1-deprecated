@@ -3,7 +3,7 @@ package web3
 import (
 	"context"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
+	"github.com/CoopHive/coophive/pkg/system"
 )
 
 type Web3Options struct {

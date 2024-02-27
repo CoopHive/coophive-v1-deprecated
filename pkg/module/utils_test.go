@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
+	"github.com/CoopHive/coophive/pkg/data"
 )
 
 func TestPrepareModule(t *testing.T) {

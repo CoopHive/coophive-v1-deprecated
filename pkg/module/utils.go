@@ -15,9 +15,9 @@ import (
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/rs/zerolog/log"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/module/shortcuts"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/module/shortcuts"
+	"github.com/CoopHive/coophive/pkg/system"
 )
 
 const REPO_DIR = "repos"

@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/filestore"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/job"
-	"github.com/bacalhau-project/generic-dcn/pkg/saas/types"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/saas/filestore"
+	"github.com/CoopHive/coophive/pkg/saas/job"
+	"github.com/CoopHive/coophive/pkg/saas/types"
 )
 
 func (apiServer *LilysaasAPIServer) status(res http.ResponseWriter, req *http.Request) (types.UserStatus, error) {

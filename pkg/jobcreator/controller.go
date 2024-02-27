@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/http"
-	"github.com/bacalhau-project/generic-dcn/pkg/solver"
-	"github.com/bacalhau-project/generic-dcn/pkg/solver/store"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
-	"github.com/bacalhau-project/generic-dcn/pkg/web3"
-	"github.com/bacalhau-project/generic-dcn/pkg/web3/bindings/storage"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/http"
+	"github.com/CoopHive/coophive/pkg/solver"
+	"github.com/CoopHive/coophive/pkg/solver/store"
+	"github.com/CoopHive/coophive/pkg/system"
+	"github.com/CoopHive/coophive/pkg/web3"
+	"github.com/CoopHive/coophive/pkg/web3/bindings/storage"
 )
 
 type JobOfferSubscriber func(offer data.JobOfferContainer)

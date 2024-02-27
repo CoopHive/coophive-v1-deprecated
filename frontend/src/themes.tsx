@@ -18,7 +18,7 @@ export interface ITheme {
 export const THEMES: Record<string, ITheme> = {
   gdcn: {
     company: 'Generic Decentralized Compute Network',
-    url: 'https://github.com/bacalhau-project/generic-dcn',
+    url: 'https://github.com/CoopHive/coophive',
     primary: '#14c7c3',
     secondary: '#fec284',
     activeSections: [],

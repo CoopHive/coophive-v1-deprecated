@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/bacalhau-project/generic-dcn/cmd/gdcn"
+	"github.com/CoopHive/coophive/cmd/gdcn"
 )
 
 func main() {

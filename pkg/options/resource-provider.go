@@ -3,9 +3,9 @@ package options
 import (
 	"fmt"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/data"
-	"github.com/bacalhau-project/generic-dcn/pkg/resourceprovider"
-	"github.com/bacalhau-project/generic-dcn/pkg/system"
+	"github.com/CoopHive/coophive/pkg/data"
+	"github.com/CoopHive/coophive/pkg/resourceprovider"
+	"github.com/CoopHive/coophive/pkg/system"
 	"github.com/spf13/cobra"
 )
 

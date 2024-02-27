@@ -1,6 +1,6 @@
 package store
 
-import "github.com/bacalhau-project/generic-dcn/pkg/data"
+import "github.com/CoopHive/coophive/pkg/data"
 
 type GetJobOffersQuery struct {
 	JobCreator string `json:"job_creator"`

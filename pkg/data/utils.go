@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/bacalhau-project/generic-dcn/pkg/web3/bindings/controller"
+	"github.com/CoopHive/coophive/pkg/web3/bindings/controller"
 	"github.com/ethereum/go-ethereum/common"
 
 	mdag "github.com/ipfs/go-merkledag"
