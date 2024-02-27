@@ -1,6 +1,8 @@
 module github.com/bacalhau-project/generic-dcn
 
-go 1.20
+go 1.21
+
+toolchain go1.21.7
 
 require (
 	cloud.google.com/go/storage v1.36.0

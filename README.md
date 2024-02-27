@@ -121,13 +121,14 @@ export BACALHAU_SERVE_IPFS_PATH=/tmp/gdcn/data/ipfs
 
 #### clone faucet repo
 
-The [faucet](https://github.com/bacalhau-project/eth-faucet) allows us to mint tokens for testing purposes.
+The [faucet](https://github.com/CoopHive/faucet.coophive.network) allows us to mint tokens for testing purposes.
 
 We first need to clone the repo:
 
 ```bash
-# run this command at the same level as the generic-dcn repo
-git clone git@github.com:bacalhau-project/eth-faucet.git
+# run this command at the same level as the coophive repo
+git clone git@github.com:CoopHive/faucet.coophive.network
+mv faucet.coophive.network eth-faucet
 ```
 
 #### install stack
