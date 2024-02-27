@@ -1,10 +1,9 @@
-# generic decentralized compute network
+# CoopHive
 
-Generic DCN is a project that aims to facilitate the creation of a decentralized compute network.
+CoopHive is a two-sided marketplace for computational resources. It enables users to run computational workloads in a permissionless protocol, where anyone can get paid to connect
+their compute nodes to the network and run jobs.
 
-It will use an EVM based blockchain to manage agreed job state and payment and use [bacalhau](https://www.bacalhau.org/) to manage the compute nodes.
-
-It attempts to bring various tools without a strong opinion on how they should be used together.  For example, it is possible to deploy the smart contracts on any EVM compatible blockchain and implement an interface to use any other tool than bacalhau to manage the compute nodes.
+It uses an EVM-compatible blockchain to manage agreed job state and payment and use [bacalhau](https://www.bacalhau.org/) to manage the compute nodes.
 
 ## table of contents
 
