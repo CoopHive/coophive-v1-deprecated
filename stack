@@ -19,7 +19,7 @@ export GETH_DATA_DIRECTORY=${GETH_DATA_DIRECTORY:="/tmp/geth"}
 # which docker network do we connect geth to?
 export GETH_DOCKER_NETWORK=${GETH_DOCKER_NETWORK:="gdcn"}
 # what is the docker image that we use for geth?
-export GETH_DOCKER_IMAGE=${GETH_DOCKER_IMAGE:="ethereum/client-go"}
+export GETH_DOCKER_IMAGE=${GETH_DOCKER_IMAGE:="ethereum/client-go:v1.13.5"}
 # what is the docker image that we use for the faucet?
 export FAUCET_DOCKER_IMAGE=${FAUCET_DOCKER_IMAGE:="gdcn-faucet"}
 # what is the docker image that we use for solc compiler?
