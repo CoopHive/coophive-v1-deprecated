@@ -34,7 +34,7 @@ import "./ControllerOwnable.sol";
   now, only the payments contract can call the escrow functions that pay out
 
  */
-contract LilypadToken is ControllerOwnable, ERC20, ERC20Pausable {
+contract CoopHiveToken is ControllerOwnable, ERC20, ERC20Pausable {
 
   // keep track of the current escrow balance for each address
   mapping(address => uint256) private escrowBalances;
@@ -71,8 +71,8 @@ contract LilypadToken is ControllerOwnable, ERC20, ERC20Pausable {
     address toAddress,
     uint256 amount
   ) public onlyController returns (bool) {
-    require(toAddress != address(0), "LilypadToken: toAddress cannot be zero address");
-    require(escrowBalances[toAddress] >= amount, "LilypadToken: not enough funds in escrow");
+    require(toAddress != address(0), "CoopHiveToken: toAddress cannot be zero address");
+    require(escrowBalances[toAddress] >= amount, "CoopHiveToken: not enough funds in escrow");
     escrowBalances[toAddress] -= amount;
     _transfer(address(this), toAddress, amount);
     return true;
@@ -84,7 +84,7 @@ contract LilypadToken is ControllerOwnable, ERC20, ERC20Pausable {
     address toAddress,
     uint256 amount
   ) public onlyController returns (bool) {
-    require(escrowBalances[fromAddress] >= amount, "LilypadToken: not enough funds in escrow");
+    require(escrowBalances[fromAddress] >= amount, "CoopHiveToken: not enough funds in escrow");
     escrowBalances[fromAddress] -= amount;
     _transfer(address(this), toAddress, amount);
     return true;
@@ -97,7 +97,7 @@ contract LilypadToken is ControllerOwnable, ERC20, ERC20Pausable {
     address slashedAddress,
     uint256 amount
   ) public onlyController returns (bool) {
-    require(escrowBalances[slashedAddress] >= amount, "LilypadToken: not enough funds in escrow");
+    require(escrowBalances[slashedAddress] >= amount, "CoopHiveToken: not enough funds in escrow");
     escrowBalances[slashedAddress] -= amount;
     _transfer(address(this), owner(), amount);
     return true;

@@ -8,7 +8,6 @@ import (
 	"github.com/CoopHive/coophive/pkg/jobcreator"
 	optionsfactory "github.com/CoopHive/coophive/pkg/options"
 	"github.com/CoopHive/coophive/pkg/saas/types"
-	lilypadsystem "github.com/CoopHive/coophive/pkg/system"
 	"github.com/CoopHive/coophive/pkg/web3"
 	"github.com/spf13/cobra"
 )
@@ -40,7 +39,7 @@ func NewJobRunner(ctx context.Context) (*JobRunner, error) {
 	}
 	tmpCommand := &cobra.Command{}
 	tmpCommand.SetContext(ctx)
-	cmdCtx := lilypadsystem.NewCommandContext(tmpCommand)
+	cmdCtx := coophivesystem.NewCommandContext(tmpCommand)
 
 	jobCreatorErrors := jobCreatorService.Start(cmdCtx.Ctx, cmdCtx.Cm)
 
@@ -54,10 +53,10 @@ func NewJobRunner(ctx context.Context) (*JobRunner, error) {
 	}, nil
 }
 
-func getCommandContext(ctx context.Context) *lilypadsystem.CommandContext {
+func getCommandContext(ctx context.Context) *coophivesystem.CommandContext {
 	tmpCommand := &cobra.Command{}
 	tmpCommand.SetContext(ctx)
-	return lilypadsystem.NewCommandContext(tmpCommand)
+	return coophivesystem.NewCommandContext(tmpCommand)
 }
 
 func (runner *JobRunner) Subscribe(ctx context.Context, callback jobcreator.JobOfferSubscriber) {

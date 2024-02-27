@@ -2,9 +2,9 @@
 pragma solidity ^0.8.6;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "./ILilypadToken.sol";
+import "./ICoopHiveToken.sol";
 import "./ControllerOwnable.sol";
-import "./ILilypadPayments.sol";
+import "./ICoopHivePayments.sol";
 
 // import "@openzeppelin/contracts/utils/Strings.sol";
 // import "hardhat/console.sol";
@@ -12,15 +12,15 @@ import "./ILilypadPayments.sol";
 // console.log(Strings.toString(uint256(SharedStructs.AgreementState.DealNegotiating)));
 // console.log(Strings.toString(uint256(agreements[dealId].state)));
 
-contract LilypadPayments is ControllerOwnable, Initializable {
+contract CoopHivePayments is ControllerOwnable, Initializable {
 
   /**
    * Types
    */
 
-  // the address of the LilypadToken contract
+  // the address of the CoopHiveToken contract
   address private tokenAddress;
-  ILilypadToken private tokenContract;
+  ICoopHiveToken private tokenContract;
 
   // used to cut off upgrades for the remote contract
   bool private canChangeTokenAddress = true;
@@ -97,12 +97,12 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     // accountNames[address(0x976EA74026E726554dB657fA54763abd0C3a0aa9)] = "directory";
   }
 
-  // the LilypadToken we are calling payinEscrow and payoutEscrow on
+  // the CoopHiveToken we are calling payinEscrow and payoutEscrow on
   function setTokenAddress(address _tokenAddress) public onlyOwner {
     require(_tokenAddress != address(0), "LilepadPayments: Token address must be defined");
-    require(canChangeTokenAddress, "LilypadToken: canChangeTokenAddress is disabled");
+    require(canChangeTokenAddress, "CoopHiveToken: canChangeTokenAddress is disabled");
     tokenAddress = _tokenAddress;
-    tokenContract = ILilypadToken(_tokenAddress);
+    tokenContract = ICoopHiveToken(_tokenAddress);
   }
 
   function getTokenAddress() public view returns(address) {
@@ -133,7 +133,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
   ) public onlyController {
     // we check this here to double check who we are about to charge (the RP)
     // is who signed the TX and so we can take the money
-    require(tx.origin == resourceProvider, "LilypadPayments: Can only be called by the RP");
+    require(tx.origin == resourceProvider, "CoopHivePayments: Can only be called by the RP");
     _payEscrow(
       dealId,
       timeoutCollateral,
@@ -148,7 +148,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     uint256 paymentCollateral,
     uint256 timeoutCollateral
   ) public onlyController {
-    require(tx.origin == jobCreator, "LilypadPayments: Can only be called by the JC");
+    require(tx.origin == jobCreator, "CoopHivePayments: Can only be called by the JC");
     _payEscrow(
       dealId,
       paymentCollateral,
@@ -173,7 +173,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     uint256 resultsCollateral,
     uint256 timeoutCollateral
   ) public onlyController {
-    require(tx.origin == resourceProvider, "LilypadPayments: Can only be called by the RP");
+    require(tx.origin == resourceProvider, "CoopHivePayments: Can only be called by the RP");
     _payEscrow(
       dealId,
       resultsCollateral,
@@ -200,7 +200,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     uint256 resultsCollateral,
     uint256 timeoutCollateral
   ) public onlyController {
-    require(tx.origin == jobCreator, "LilypadPayments: Can only be called by the JC");
+    require(tx.origin == jobCreator, "CoopHivePayments: Can only be called by the JC");
 
     // what if the final job cost is more than the payment collateral?
     // well - we have to cap the job cost at that collateral
@@ -260,7 +260,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     uint256 timeoutCollateral,
     uint256 mediationFee
   ) public onlyController {
-    require(tx.origin == jobCreator, "LilypadPayments: Can only be called by the JC");
+    require(tx.origin == jobCreator, "CoopHivePayments: Can only be called by the JC");
     
     // the refund of the timeout collateral
     _refundEscrow(
@@ -390,7 +390,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     address resourceProvider,
     uint256 timeoutCollateral
   ) public onlyController {
-    require(tx.origin == resourceProvider, "LilypadPayments: Can only be called by the RP");
+    require(tx.origin == resourceProvider, "CoopHivePayments: Can only be called by the RP");
     // the refund of the job collateral to the JC
     _refundEscrow(
       dealId,
@@ -406,7 +406,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     uint256 paymentCollateral,
     uint256 timeoutCollateral
   ) public onlyController {
-    require(tx.origin == jobCreator, "LilypadPayments: Can only be called by the JC");
+    require(tx.origin == jobCreator, "CoopHivePayments: Can only be called by the JC");
     // the refund of the job collateral to the JC
     _refundEscrow(
       dealId,
@@ -434,7 +434,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     uint256 paymentCollateral,
     uint256 timeoutCollateral
   ) public onlyController {
-    require(tx.origin == jobCreator, "LilypadPayments: Can only be called by the JC");
+    require(tx.origin == jobCreator, "CoopHivePayments: Can only be called by the JC");
     // the refund of the job collateral to the JC
     _refundEscrow(
       dealId,
@@ -471,7 +471,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     uint256 resultsCollateral,
     uint256 timeoutCollateral
   ) public onlyController {
-    require(tx.origin == resourceProvider, "LilypadPayments: Can only be called by the RP");
+    require(tx.origin == resourceProvider, "CoopHivePayments: Can only be called by the RP");
     // the refund of the results collateral to the RP
     _refundEscrow(
       dealId,
@@ -500,7 +500,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     uint256 resultsCollateral,
     uint256 mediationFee
   ) public onlyController {
-    require(tx.origin == resourceProvider || tx.origin == jobCreator, "LilypadPayments: Can only be called by the RP or JC");
+    require(tx.origin == resourceProvider || tx.origin == jobCreator, "CoopHivePayments: Can only be called by the RP or JC");
     // the refund of the results collateral to the RP
     _refundEscrow(
       dealId,
@@ -537,14 +537,14 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     PaymentReason reason
   ) private {
     // we check they have that much in their token balance before moving to tokens to us
-    require(tokenContract.balanceOf(tx.origin) >= amount, "LilypadPayments: Insufficient balance");
+    require(tokenContract.balanceOf(tx.origin) >= amount, "CoopHivePayments: Insufficient balance");
 
     // console.log("_payEscrow");
     // console.log(accountNames[tx.origin]);
     // console.log(amount);
 
     bool success = tokenContract.payEscrow(amount);
-    require(success, "LilypadPayments: Pay escrow failed");
+    require(success, "CoopHivePayments: Pay escrow failed");
 
     emit Payment(
       dealId,
@@ -566,7 +566,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     // console.log(amount);
 
     bool success = tokenContract.refundEscrow(toAddress, amount);
-    require(success, "LilypadPayments: Refund escrow failed");
+    require(success, "CoopHivePayments: Refund escrow failed");
 
     emit Payment(
       dealId,
@@ -590,7 +590,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     // console.log(amount);
 
     bool success = tokenContract.payJob(fromAddress, toAddress, amount);
-    require(success, "LilypadPayments: Pay job failed");
+    require(success, "CoopHivePayments: Pay job failed");
 
     emit Payment(
       dealId,
@@ -612,7 +612,7 @@ contract LilypadPayments is ControllerOwnable, Initializable {
     // console.log(amount);
 
     bool success = tokenContract.slashEscrow(slashedAddress, amount);
-    require(success, "LilypadPayments: Slash escrow failed");
+    require(success, "CoopHivePayments: Slash escrow failed");
 
     emit Payment(
       dealId,

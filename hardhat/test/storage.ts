@@ -22,7 +22,7 @@ import {
 
 import {
   SharedStructs,
-} from '../typechain-types/contracts/LilypadStorage'
+} from '../typechain-types/contracts/CoopHiveStorage'
 
 chai.use(chaiAsPromised)
 const { expect } = chai

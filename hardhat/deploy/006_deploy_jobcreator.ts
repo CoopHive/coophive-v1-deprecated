@@ -8,7 +8,7 @@ const deployJobCreator: DeployFunction = async function (hre: HardhatRuntimeEnvi
     admin,
     solver,
   } = await getNamedAccounts()
-  await deploy("LilypadOnChainJobCreator", {
+  await deploy("CoopHiveOnChainJobCreator", {
     from: admin,
     args: [],
     log: true,
@@ -20,11 +20,11 @@ const deployJobCreator: DeployFunction = async function (hre: HardhatRuntimeEnvi
     log: true,
   })
 
-  const tokenContract = await deployments.get('LilypadToken')
-  const jobCreator = await deployments.get('LilypadOnChainJobCreator')
+  const tokenContract = await deployments.get('CoopHiveToken')
+  const jobCreator = await deployments.get('CoopHiveOnChainJobCreator')
 
   await execute(
-    'LilypadOnChainJobCreator',
+    'CoopHiveOnChainJobCreator',
     {
       from: admin,
       log: true,
@@ -46,7 +46,7 @@ const deployJobCreator: DeployFunction = async function (hre: HardhatRuntimeEnvi
   // we set the controller of the job creator to be the solver
   // because it will be the one pulling jobs from it
   await execute(
-    'LilypadOnChainJobCreator',
+    'CoopHiveOnChainJobCreator',
     {
       from: admin,
       log: true,

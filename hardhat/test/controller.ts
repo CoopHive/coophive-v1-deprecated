@@ -27,13 +27,13 @@ import {
   DATA_ID,
 } from './fixtures'
 import {
-  LilypadToken,
-  LilypadStorage,
-  LilypadController,
+  CoopHiveToken,
+  CoopHiveStorage,
+  CoopHiveController,
 } from '../typechain-types'
 import {
   SharedStructs,
-} from '../typechain-types/contracts/LilypadStorage'
+} from '../typechain-types/contracts/CoopHiveStorage'
 
 chai.use(chaiAsPromised)
 const { expect } = chai
@@ -53,7 +53,7 @@ describe("Controller", () => {
     timeoutCollateral,
   } = DEFAULT_VALUES
 
-  async function getBalances(token: LilypadToken, accountName: string) {
+  async function getBalances(token: CoopHiveToken, accountName: string) {
     const tokens = await token.balanceOf(getAddress(accountName))
     const escrow = await token.escrowBalanceOf(getAddress(accountName))
     return {
@@ -62,7 +62,7 @@ describe("Controller", () => {
     }
   }
 
-  async function checkDeal(storage: LilypadStorage, party: string) {
+  async function checkDeal(storage: CoopHiveStorage, party: string) {
     const deal = await storage.getDeal(DEAL_ID)
 
     expect(deal.dealId).to.equal(DEAL_ID)
@@ -89,12 +89,12 @@ describe("Controller", () => {
       .to.deep.equal([DEAL_ID])
   }
 
-  async function checkAgreement(storage: LilypadStorage, desiredState: string) {
+  async function checkAgreement(storage: CoopHiveStorage, desiredState: string) {
     const agreement = await storage.getAgreement(DEAL_ID)
     expect(agreement.state).to.equal(getAgreementState(desiredState))
   }
 
-  async function agree(controller: LilypadController, party: string) {
+  async function agree(controller: CoopHiveController, party: string) {
 
     const members: SharedStructs.DealMembersStruct = {
       solver: getAddress('solver'), 

@@ -4,12 +4,12 @@ pragma solidity ^0.8.6;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "./SharedStructs.sol";
-import "./ILilypadController.sol";
-import "./ILilypadStorage.sol";
-import "./ILilypadPayments.sol";
-import "./ILilypadMediation.sol";
+import "./ICoopHiveController.sol";
+import "./ICoopHiveStorage.sol";
+import "./ICoopHivePayments.sol";
+import "./ICoopHiveMediation.sol";
 
-contract LilypadController is ILilypadController, Ownable, Initializable {
+contract CoopHiveController is ICoopHiveController, Ownable, Initializable {
 
   /**
    * Types
@@ -21,9 +21,9 @@ contract LilypadController is ILilypadController, Ownable, Initializable {
   address private mediationAddress;
   address private jobCreatorAddress;
 
-  ILilypadStorage private storageContract;
-  ILilypadPayments private paymentsContract;
-  ILilypadMediationHandler private mediationContract;
+  ICoopHiveStorage private storageContract;
+  ICoopHivePayments private paymentsContract;
+  ICoopHiveMediationHandler private mediationContract;
 
   /**
    * Init
@@ -47,7 +47,7 @@ contract LilypadController is ILilypadController, Ownable, Initializable {
   function setStorageAddress(address _storageAddress) public onlyOwner {
     require(_storageAddress != address(0), "Storage address");
     storageAddress = _storageAddress;
-    storageContract = ILilypadStorage(storageAddress);
+    storageContract = ICoopHiveStorage(storageAddress);
   }
 
   function getStorageAddress() public view returns(address) {
@@ -66,7 +66,7 @@ contract LilypadController is ILilypadController, Ownable, Initializable {
   function setPaymentsAddress(address _paymentsAddress) public onlyOwner {
     require(_paymentsAddress != address(0), "Payments address");
     paymentsAddress = _paymentsAddress;
-    paymentsContract = ILilypadPayments(_paymentsAddress);
+    paymentsContract = ICoopHivePayments(_paymentsAddress);
   }
 
   function getPaymentsAddress() public view returns(address) {
@@ -76,7 +76,7 @@ contract LilypadController is ILilypadController, Ownable, Initializable {
   function setMediationAddress(address _mediationAddress) public onlyOwner {
     require(_mediationAddress != address(0), "Mediation address");
     mediationAddress = _mediationAddress;
-    mediationContract = ILilypadMediationHandler(_mediationAddress);
+    mediationContract = ICoopHiveMediationHandler(_mediationAddress);
   }
 
   function getMediationAddress() public view returns(address) {

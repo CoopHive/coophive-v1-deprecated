@@ -1,5 +1,5 @@
 [Unit]
-Description=Lilypad V2 Mediator
+Description=CoopHive Mediator
 After=network-online.target
 Wants=network-online.target systemd-networkd-wait-online.service
 
@@ -7,10 +7,10 @@ Wants=network-online.target systemd-networkd-wait-online.service
 Environment="LOG_TYPE=json"
 Environment="LOG_LEVEL=debug"
 Environment="HOME=/app/generic-dcn"
-EnvironmentFile=/app/lilypad/mediator.env
+EnvironmentFile=/app/coophive/mediator.env
 Restart=always
 RestartSec=5s
-ExecStart=/usr/bin/lilypad mediator
+ExecStart=/usr/bin/coophive mediator
 
 [Install]
 WantedBy=multi-user.target

@@ -5,7 +5,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "./SharedStructs.sol";
 import "./ControllerOwnable.sol";
 
-contract LilypadUsers is Ownable, Initializable {
+contract CoopHiveUsers is Ownable, Initializable {
 
   // a map of user address -> user
   mapping(address => SharedStructs.User) private users;

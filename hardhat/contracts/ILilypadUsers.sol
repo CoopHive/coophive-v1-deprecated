@@ -3,7 +3,7 @@ pragma solidity ^0.8.6;
 
 import "./SharedStructs.sol";
 
-interface ILilypadUsers {
+interface ICoopHiveUsers {
 
   /**
    * Users

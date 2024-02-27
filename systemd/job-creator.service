@@ -1,5 +1,5 @@
 [Unit]
-Description=Lilypad V2 On Chain Job Creator
+Description=CoopHive On Chain Job Creator
 After=network-online.target
 Wants=network-online.target systemd-networkd-wait-online.service
 
@@ -10,7 +10,7 @@ Environment="HOME=/app/generic-dcn"
 EnvironmentFile=/app/generic-dcn/job-creator.env
 Restart=always
 RestartSec=5s
-ExecStart=/usr/bin/lilypad jobcreator
+ExecStart=/usr/bin/coophive jobcreator
 
 [Install]
 WantedBy=multi-user.target

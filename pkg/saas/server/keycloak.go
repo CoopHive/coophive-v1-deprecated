@@ -6,14 +6,14 @@ import (
 	"net/http"
 	"strings"
 
-	gocloak "github.com/Nerzal/gocloak/v13"
 	"github.com/CoopHive/coophive/pkg/saas/store"
 	"github.com/CoopHive/coophive/pkg/saas/types"
+	gocloak "github.com/Nerzal/gocloak/v13"
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 
 const CLIENT_ID = "api"
-const REALM = "lilypad"
+const REALM = "coophive"
 
 type keycloak struct {
 	gocloak      *gocloak.GoCloak // keycloak client

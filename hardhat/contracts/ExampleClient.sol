@@ -3,13 +3,13 @@ pragma solidity ^0.8.6;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "./ILilypadJobManager.sol";
-import "./ILilypadJobClient.sol";
+import "./ICoopHiveJobManager.sol";
+import "./ICoopHiveJobClient.sol";
 
-contract ExampleClient is Ownable, Initializable, ILilypadJobClient {
+contract ExampleClient is Ownable, Initializable, ICoopHiveJobClient {
 
   address private jobManagerAddress;
-  ILilypadJobManager private jobManagerContract;
+  ICoopHiveJobManager private jobManagerContract;
 
   mapping(uint256 => string) private jobResults;
 
@@ -31,7 +31,7 @@ contract ExampleClient is Ownable, Initializable, ILilypadJobClient {
   function setJobManagerAddress(address _jobManagerAddress) public onlyOwner {
     require(_jobManagerAddress != address(0), "Job manager address");
     jobManagerAddress = _jobManagerAddress;
-    jobManagerContract = ILilypadJobManager(jobManagerAddress);
+    jobManagerContract = ICoopHiveJobManager(jobManagerAddress);
   }
 
   function getJobResult(uint256 _jobID) public view returns (string memory) {

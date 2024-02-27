@@ -11,13 +11,13 @@ import {
   getAccount,
 } from './accounts'
 import {
-  LilypadToken,
-  LilypadPayments,
-  LilypadStorage,
-  LilypadMediationRandom,
-  LilypadController,
-  LilypadOnChainJobCreator,
-  LilypadUsers,
+  CoopHiveToken,
+  CoopHivePayments,
+  CoopHiveStorage,
+  CoopHiveMediationRandom,
+  CoopHiveController,
+  CoopHiveOnChainJobCreator,
+  CoopHiveUsers,
   ExampleClient,
 } from '../typechain-types'
 
@@ -99,7 +99,7 @@ export async function deployContract<T extends any>(
 
 */
 export async function fundTokens(
-  tokenContract: LilypadToken,
+  tokenContract: CoopHiveToken,
   address: AddressLike,
   amount: BigNumberish = DEFAULT_TOKENS_PER_ACCOUNT,
 ) {
@@ -109,7 +109,7 @@ export async function fundTokens(
 }
 
 export async function fundAccountsWithTokens(
-  tokenContract: LilypadToken,
+  tokenContract: CoopHiveToken,
   amount: BigNumberish = DEFAULT_TOKENS_PER_ACCOUNT,
 ) {
   await bluebird.mapSeries(ACCOUNTS, async (account) => {
@@ -148,11 +148,11 @@ export async function getContractAddress(
 
 */
 export async function connectStorage() {
-  return connectContract<LilypadStorage>('LilypadStorage')
+  return connectContract<CoopHiveStorage>('CoopHiveStorage')
 }
 
 export async function getStorageAddress() {
-  return getContractAddress('LilypadStorage')
+  return getContractAddress('CoopHiveStorage')
 }
 
 /*
@@ -161,11 +161,11 @@ export async function getStorageAddress() {
 
 */
 export async function connectMediation() {
-  return connectContract<LilypadMediationRandom>('LilypadMediationRandom')
+  return connectContract<CoopHiveMediationRandom>('CoopHiveMediationRandom')
 }
 
 export async function getMediationAddress() {
-  return getContractAddress('LilypadMediationRandom')
+  return getContractAddress('CoopHiveMediationRandom')
 }
 
 /*
@@ -174,11 +174,11 @@ export async function getMediationAddress() {
 
 */
 export async function connectToken() {
-  return connectContract<LilypadToken>('LilypadToken')
+  return connectContract<CoopHiveToken>('CoopHiveToken')
 }
 
 export async function getTokenAddress() {
-  return getContractAddress('LilypadToken')
+  return getContractAddress('CoopHiveToken')
 }
 
 /*
@@ -187,11 +187,11 @@ export async function getTokenAddress() {
 
 */
 export async function connectPayments() {
-  return connectContract<LilypadPayments>('LilypadPayments')
+  return connectContract<CoopHivePayments>('CoopHivePayments')
 }
 
 export async function getPaymentsAddress() {
-  return getContractAddress('LilypadPayments')
+  return getContractAddress('CoopHivePayments')
 }
 
 
@@ -201,11 +201,11 @@ export async function getPaymentsAddress() {
 
 */
 export async function connectJobManager() {
-  return connectContract<LilypadOnChainJobCreator>('LilypadOnChainJobCreator')
+  return connectContract<CoopHiveOnChainJobCreator>('CoopHiveOnChainJobCreator')
 }
 
 export async function getJobManagerAddress() {
-  return getContractAddress('LilypadOnChainJobCreator')
+  return getContractAddress('CoopHiveOnChainJobCreator')
 }
 
 
@@ -215,11 +215,11 @@ export async function getJobManagerAddress() {
 
 */
 export async function connectUsers() {
-  return connectContract<LilypadUsers>('LilypadUsers')
+  return connectContract<CoopHiveUsers>('CoopHiveUsers')
 }
 
 export async function getUsersAddress() {
-  return getContractAddress('LilypadUsers')
+  return getContractAddress('CoopHiveUsers')
 }
 
 /*
@@ -241,9 +241,9 @@ export async function getExampleClientAddress() {
 
 */
 export async function connectController() {
-  return connectContract<LilypadController>('LilypadController')
+  return connectContract<CoopHiveController>('CoopHiveController')
 }
 
 export async function getControllerAddress() {
-  return getContractAddress('LilypadController')
+  return getContractAddress('CoopHiveController')
 }

@@ -7,21 +7,21 @@ const deployController: DeployFunction = async function (hre: HardhatRuntimeEnvi
   const {
     admin,
   } = await getNamedAccounts()
-  await deploy("LilypadController", {
+  await deploy("CoopHiveController", {
     from: admin,
     args: [],
     log: true,
   })
   
-  const controllerContract = await deployments.get('LilypadController')
-  const storageContract = await deployments.get('LilypadStorage')
-  const usersContract = await deployments.get('LilypadUsers')
-  const mediationContract = await deployments.get('LilypadMediationRandom')
-  const paymentsContract = await deployments.get('LilypadPayments')
-  const jobCreatorContract = await deployments.get('LilypadOnChainJobCreator')
+  const controllerContract = await deployments.get('CoopHiveController')
+  const storageContract = await deployments.get('CoopHiveStorage')
+  const usersContract = await deployments.get('CoopHiveUsers')
+  const mediationContract = await deployments.get('CoopHiveMediationRandom')
+  const paymentsContract = await deployments.get('CoopHivePayments')
+  const jobCreatorContract = await deployments.get('CoopHiveOnChainJobCreator')
 
   await execute(
-    'LilypadController',
+    'CoopHiveController',
     {
       from: admin,
       log: true,
@@ -35,7 +35,7 @@ const deployController: DeployFunction = async function (hre: HardhatRuntimeEnvi
   )
 
   await execute(
-    'LilypadStorage',
+    'CoopHiveStorage',
     {
       from: admin,
       log: true,
@@ -45,7 +45,7 @@ const deployController: DeployFunction = async function (hre: HardhatRuntimeEnvi
   )
 
   await execute(
-    'LilypadPayments',
+    'CoopHivePayments',
     {
       from: admin,
       log: true,
@@ -55,7 +55,7 @@ const deployController: DeployFunction = async function (hre: HardhatRuntimeEnvi
   )
 
   await execute(
-    'LilypadMediationRandom',
+    'CoopHiveMediationRandom',
     {
       from: admin,
       log: true,

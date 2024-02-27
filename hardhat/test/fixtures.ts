@@ -11,16 +11,16 @@ import {
   DEFAULT_TOKENS_PER_ACCOUNT,
 } from '../utils/web3'
 import {
-  LilypadToken,
-  LilypadPayments,
-  LilypadStorage,
-  LilypadUsers,
-  LilypadController,
-  LilypadMediationRandom,
+  CoopHiveToken,
+  CoopHivePayments,
+  CoopHiveStorage,
+  CoopHiveUsers,
+  CoopHiveController,
+  CoopHiveMediationRandom,
 } from '../typechain-types'
 import {
   SharedStructs,
-} from '../typechain-types/contracts/LilypadStorage'
+} from '../typechain-types/contracts/CoopHiveStorage'
 
 /*
 
@@ -45,8 +45,8 @@ export async function deployToken(
   tokenSupply: BigNumberish = DEFAULT_TOKEN_SUPPLY,
   testMode = false,
 ) {
-  return deployContract<LilypadToken>(testMode ? 'LilypadTokenTestable' : 'LilypadToken', signer, [
-    'LilyPad',
+  return deployContract<CoopHiveToken>(testMode ? 'CoopHiveTokenTestable' : 'CoopHiveToken', signer, [
+    'CoopHive',
     'LLY',
     tokenSupply,
   ])
@@ -57,7 +57,7 @@ export async function deployPayments(
   tokenAddress: AddressLike,
   testMode = false,
 ) {
-  const payments = await deployContract<LilypadPayments>(testMode ? 'LilypadPaymentsTestable' : 'LilypadPayments', signer)
+  const payments = await deployContract<CoopHivePayments>(testMode ? 'CoopHivePaymentsTestable' : 'CoopHivePayments', signer)
   await payments
     .connect(signer)
     .initialize(tokenAddress)
@@ -68,19 +68,19 @@ export async function deployStorage(
   signer: Signer,
   testMode = false,
 ) {
-  return deployContract<LilypadStorage>(testMode ? 'LilypadStorageTestable' : 'LilypadStorage', signer)
+  return deployContract<CoopHiveStorage>(testMode ? 'CoopHiveStorageTestable' : 'CoopHiveStorage', signer)
 }
 
 export async function deployUsers(
   signer: Signer
 ) {
-  return deployContract<LilypadUsers>('LilypadUsers', signer)
+  return deployContract<CoopHiveUsers>('CoopHiveUsers', signer)
 }
 
 export async function deployMediation(
   signer: Signer
 ) {
-  return deployContract<LilypadMediationRandom>('LilypadMediationRandom', signer)
+  return deployContract<CoopHiveMediationRandom>('CoopHiveMediationRandom', signer)
 }
 
 export async function deployController(
@@ -91,7 +91,7 @@ export async function deployController(
   mediationAddress: AddressLike,
   jobCreatorAddress: AddressLike
 ) {
-  const controller = await deployContract<LilypadController>('LilypadController', signer)
+  const controller = await deployContract<CoopHiveController>('CoopHiveController', signer)
   await controller
     .connect(signer)
     .initialize(storageAddress, usersAddress, paymentsAddress, mediationAddress, jobCreatorAddress)

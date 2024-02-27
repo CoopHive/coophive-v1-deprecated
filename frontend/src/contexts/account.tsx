@@ -17,7 +17,7 @@ import {
   IApiKey,
 } from '../types'
 
-const REALM = 'lilypad'
+const REALM = 'coophive'
 const KEYCLOAK_URL = '/auth/'
 const CLIENT_ID = 'frontend'
 

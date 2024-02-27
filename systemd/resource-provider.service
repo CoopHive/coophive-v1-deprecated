@@ -1,5 +1,5 @@
 [Unit]
-Description=Lilypad V2 Resource Provider
+Description=CoopHive Resource Provider
 After=network-online.target
 Wants=network-online.target systemd-networkd-wait-online.service
 
@@ -10,7 +10,7 @@ Environment="HOME=/app/generic-dcn"
 EnvironmentFile=/app/generic-dcn/resource-provider.env
 Restart=always
 RestartSec=5s
-ExecStart=/usr/bin/lilypad resource-provider
+ExecStart=/usr/bin/coophive resource-provider
 
 [Install]
 WantedBy=multi-user.target

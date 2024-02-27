@@ -7,18 +7,18 @@ import (
 	"github.com/CoopHive/coophive/pkg/data"
 )
 
-// allow shortcode github.com/lukemarsden/lilypad-sdxl:v0.0.1 (tag),
+// allow shortcode github.com/lukemarsden/coophive-sdxl:v0.0.1 (tag),
 // TODO: enforce sha1 for tags on the server side (like a pin file)
 
 // parse something with no slashes in it as
-// github.com/bacalhau-project/lilypad-module-<shortcode>
+// github.com/coophive/coophive-module-<shortcode>
 
-const LILYPAD_MODULE_CONFIG_PATH = "/lilypad_module.json.tmpl"
+const COOPHIVE_MODULE_CONFIG_PATH = "/module.coophive"
 
 func GetModule(name string) (data.ModuleConfig, error) {
 	// parse name per following valid formats
 	// github.com/user/repo:tag --> Repo: https://github.com/user/repo; Hash = tag
-	// bar:tag --> Repo = https://github.com/bacalhau-project/lilypad-module-<bar>, Hash = tag
+	// bar:tag --> Repo = https://github.com/coophive/coophive-module-<bar>, Hash = tag
 	if name == "" {
 		return data.ModuleConfig{}, fmt.Errorf("module name is empty")
 	}
@@ -31,8 +31,8 @@ func GetModule(name string) (data.ModuleConfig, error) {
 		// 3rd party module
 		repo = fmt.Sprintf("https://%s", repo)
 	} else {
-		// lilypad std module
-		repo = fmt.Sprintf("https://github.com/bacalhau-project/lilypad-module-%s", repo)
+		// coophive std module
+		repo = fmt.Sprintf("https://github.com/coophive/coophive-module-%s", repo)
 	}
 
 	// TODO: docs for authoring a module
@@ -40,7 +40,7 @@ func GetModule(name string) (data.ModuleConfig, error) {
 		Name: "", // TODO:
 		Repo: repo,
 		Hash: hash,
-		Path: LILYPAD_MODULE_CONFIG_PATH,
+		Path: COOPHIVE_MODULE_CONFIG_PATH,
 	}
 
 	return module, nil

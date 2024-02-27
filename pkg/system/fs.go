@@ -12,7 +12,7 @@ func dataDirPath(path string) string {
 	basePath := os.Getenv("DATA_DIR")
 	if basePath == "" {
 		// TODO: configure temp dir based on OS
-		basePath = "/tmp/lilypad/data"
+		basePath = "/tmp/coophive/data"
 	}
 	return filepath.Join(basePath, path)
 }

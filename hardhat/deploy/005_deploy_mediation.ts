@@ -7,13 +7,13 @@ const deployMediation: DeployFunction = async function (hre: HardhatRuntimeEnvir
   const {
     admin,
   } = await getNamedAccounts()
-  await deploy("LilypadMediationRandom", {
+  await deploy("CoopHiveMediationRandom", {
     from: admin,
     args: [],
     log: true,
   })
   await execute(
-    'LilypadMediationRandom',
+    'CoopHiveMediationRandom',
     {
       from: admin,
       log: true,

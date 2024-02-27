@@ -5,7 +5,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "./SharedStructs.sol";
 import "./ControllerOwnable.sol";
 
-contract LilypadStorage is ControllerOwnable, Initializable {
+contract CoopHiveStorage is ControllerOwnable, Initializable {
 
   // the address that is allowed to be the msg.sender for the payment functions
   address private controllerAddress;

@@ -7,13 +7,13 @@ const deployStorage: DeployFunction = async function (hre: HardhatRuntimeEnviron
   const {
     admin,
   } = await getNamedAccounts()
-  await deploy("LilypadStorage", {
+  await deploy("CoopHiveStorage", {
     from: admin,
     args: [],
     log: true,
   })
   await execute(
-    'LilypadStorage',
+    'CoopHiveStorage',
     {
       from: admin,
       log: true,

@@ -29,7 +29,7 @@ func NewSolverStoreMemory() (*SolverStoreMemory, error) {
 
 	kinds := []string{"job_offers", "resource_offers", "deals", "decisions", "results"}
 	for k := range kinds {
-		logfile, err := os.OpenFile(fmt.Sprintf("/var/tmp/lilypad_%s.jsonl", kinds[k]), os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+		logfile, err := os.OpenFile(fmt.Sprintf("/var/tmp/coophive_%s.jsonl", kinds[k]), os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
 		if err != nil {
 			return nil, err
 		}

@@ -267,7 +267,7 @@ Now you can run jobs on the stack as follows:
 If you have a GPU node - you can run SDXL (which needs a GPU):
 
 ```bash
-./stack runsdxl sdxl:v0.9-lilypad1 PROMPT="beautiful view of iceland with a record player"
+./stack runsdxl sdxl:v0.2.9 PROMPT="beautiful view of iceland with a record player"
 ```
 
 To demonstrate triggering jobs being run from on-chain smart contracts:

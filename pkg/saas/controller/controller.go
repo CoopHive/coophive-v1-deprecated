@@ -66,13 +66,13 @@ func (c *Controller) Start() error {
 			case <-c.Ctx.Done():
 				return
 			case err := <-c.Options.JobRunner.ErrorChan:
-				log.Error().Msgf("Lilypad error in job runner: %s", err.Error())
+				log.Error().Msgf("CoopHive error in job runner: %s", err.Error())
 				return
 			default:
 				time.Sleep(1 * time.Second)
 				err := c.loop(c.Ctx)
 				if err != nil {
-					log.Error().Msgf("Lilypad error in controller loop: %s", err.Error())
+					log.Error().Msgf("CoopHive error in controller loop: %s", err.Error())
 					debug.PrintStack()
 				}
 			}
@@ -121,7 +121,7 @@ func (c *Controller) handleJobUpdate(evOffer data.JobOfferContainer) {
 	}
 	// we have a race condition where we need to write the job to the solver to get
 	// it's ID and then we might not have written the job to the database yet
-	// TODO: make lilypad have a way to have deterministic ID's so we can know the
+	// TODO: make coophive have a way to have deterministic ID's so we can know the
 	// job ID before submitting it
 	if job == nil {
 		// this means the job has not been written to the database yet (probably)

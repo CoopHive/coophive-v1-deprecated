@@ -3,7 +3,7 @@ pragma solidity ^0.8.6;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-interface ILilypadToken is IERC20 {
+interface ICoopHiveToken is IERC20 {
   function escrowBalanceOf(
     address _address
   ) external returns (uint256);

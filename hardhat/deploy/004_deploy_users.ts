@@ -7,13 +7,13 @@ const deployUsers: DeployFunction = async function (hre: HardhatRuntimeEnvironme
   const {
     admin,
   } = await getNamedAccounts()
-  await deploy("LilypadUsers", {
+  await deploy("CoopHiveUsers", {
     from: admin,
     args: [],
     log: true,
   })
   await execute(
-    'LilypadUsers',
+    'CoopHiveUsers',
     {
       from: admin,
       log: true,

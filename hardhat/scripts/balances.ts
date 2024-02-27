@@ -7,11 +7,11 @@ import {
   connectToken,
 } from '../utils/web3'
 import {
-  LilypadToken,
+  CoopHiveToken,
 } from '../typechain-types'
 
 async function main() {
-  let token: LilypadToken
+  let token: CoopHiveToken
   
   try {
     token = await connectToken()

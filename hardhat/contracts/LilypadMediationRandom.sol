@@ -4,9 +4,9 @@ pragma solidity ^0.8.6;
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "./ControllerOwnable.sol";
 import "./SharedStructs.sol";
-import "./ILilypadMediation.sol";
+import "./ICoopHiveMediation.sol";
 
-contract LilypadMediationRandom is ControllerOwnable, Initializable {
+contract CoopHiveMediationRandom is ControllerOwnable, Initializable {
 
   // keep track of which mediators were choosen for which deals
   mapping(string => address) private mediators;
@@ -42,7 +42,7 @@ contract LilypadMediationRandom is ControllerOwnable, Initializable {
     return mediators[dealId];
   }
 
-  // call the controller contract as a ILilypadMediationRequester
+  // call the controller contract as a ICoopHiveMediationRequester
   function mediationAcceptResult(
     string memory dealId
   ) public {
@@ -50,10 +50,10 @@ contract LilypadMediationRandom is ControllerOwnable, Initializable {
     require(mediators[dealId] != address(0), "mediator cannot be 0x0");
     require(mediators[dealId] == tx.origin, "tx.origin must be the mediator");
     // call the controller contract
-    ILilypadMediationRequester(getControllerAddress()).mediationAcceptResult(dealId);
+    ICoopHiveMediationRequester(getControllerAddress()).mediationAcceptResult(dealId);
   }
 
-  // call the controller contract as a ILilypadMediationRequester
+  // call the controller contract as a ICoopHiveMediationRequester
   function mediationRejectResult(
     string memory dealId
   ) public {
@@ -61,6 +61,6 @@ contract LilypadMediationRandom is ControllerOwnable, Initializable {
     require(mediators[dealId] != address(0), "mediator cannot be 0x0");
     require(mediators[dealId] == tx.origin, "tx.origin must be the mediator");
     // call the controller contract
-    ILilypadMediationRequester(getControllerAddress()).mediationRejectResult(dealId);
+    ICoopHiveMediationRequester(getControllerAddress()).mediationRejectResult(dealId);
   }
 }

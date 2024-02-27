@@ -20,7 +20,7 @@ import {
   setupPaymentsFixture,
 } from './fixtures'
 import {
-  LilypadToken,
+  CoopHiveToken,
 } from '../typechain-types'
 
 chai.use(chaiAsPromised)
@@ -145,7 +145,7 @@ describe("Payments", () => {
     }
   }
 
-  async function getBalances(token: LilypadToken, accountName: string) {
+  async function getBalances(token: CoopHiveToken, accountName: string) {
     const tokens = await token.balanceOf(getAddress(accountName))
     const escrow = await token.escrowBalanceOf(getAddress(accountName))
     return {

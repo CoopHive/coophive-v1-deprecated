@@ -5,7 +5,7 @@ import "./SharedStructs.sol";
 
 // this is our controller contract
 // it will be called by the mediation handler once a decision has been reached
-interface ILilypadMediationRequester {
+interface ICoopHiveMediationRequester {
   function mediationAcceptResult(
     string memory dealId
   ) external;
@@ -16,7 +16,7 @@ interface ILilypadMediationRequester {
 }
 
 // this is the contract that will handle mediating a deal
-interface ILilypadMediationHandler {
+interface ICoopHiveMediationHandler {
   function mediationRequest(
     SharedStructs.Deal memory deal 
   ) external; 
