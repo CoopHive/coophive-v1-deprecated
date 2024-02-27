@@ -19,6 +19,7 @@ func RunJob(
 	options JobCreatorOptions,
 	eventSub JobOfferSubscriber,
 ) (*RunJobResults, error) {
+
 	web3SDK, err := web3.NewContractSDK(options.Web3)
 	if err != nil {
 		return nil, err

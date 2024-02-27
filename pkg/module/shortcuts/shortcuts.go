@@ -35,8 +35,6 @@ func GetModule(name string) (data.ModuleConfig, error) {
 		repo = fmt.Sprintf("https://github.com/coophive/coophive-module-%s", repo)
 	}
 
-	fmt.Println("+====================")
-
 	// TODO: docs for authoring a module
 	module := data.ModuleConfig{
 		Name: "", // TODO:

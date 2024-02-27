@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/CoopHive/coophive/cmd/gdcn"
 )
 
@@ -11,5 +9,4 @@ func main() {
 }
 
 func init() {
-	fmt.Printf("GDCN\n")
 }
