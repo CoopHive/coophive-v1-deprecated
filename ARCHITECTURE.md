@@ -97,8 +97,8 @@ You will need the following tools:
  * docker
    * `docker.io` ubuntu package is sufficient for controlplane
    * use [docker on ubuntu](https://docs.docker.com/engine/install/ubuntu/) and [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) for GPU-enabled resource-providers (these will be preinstalled in certain environments, e.g. Lambda Labs)
- * node.js (>= v16)
-   * see [nodesource distributions](https://github.com/nodesource/distributions?tab=readme-ov-file#installation-instructions)
+ * node.js (v18)
+   * see [nodesource distributions](https://github.com/nodesource/distributions?tab=readme-ov-file#using-ubuntu-2)
    * also install yarn globally: `sudo npm install -g yarn`
 
 ### initial setup
@@ -352,6 +352,14 @@ This will print the private keys and addresses to stdout so to create a producti
 ./stack generate-addresses > prod.env
 ```
 
+If you plan to run geth locally, also add to `prod.env`:
+```
+export LOG_LEVEL=info
+export NETWORK=geth
+export WEB3_RPC_URL=ws://localhost:8546
+export WEB3_CHAIN_ID=1337
+```
+
 ### funding accounts
 
 Each of our services will need some base currency to pay gas and for a production deployment, you will need to fund these accounts manually.  This is by design as compared to the local dev stack (where we use a script) because there are various block-chains and account arrangements that could be used for different networks.
@@ -376,7 +384,19 @@ We recommend looking at the balances of the local dev stack to understand how mu
 
 In a production network - the `JOBCREATOR` will be end users who should get their own either to pay gas (this also applies to tokens to pay for jobs).
 
+If you want to run your own geth testnet, you can start geth and transfer funds from the admin account of your local geth to the SECURE (non-development) addresses you created by running (after the `./stack generate-addresses > prod.env` step above):
+
+```bash
+./stack geth
+source prod.env
+./stack fund-admin
+./stack deploy
+./stack fund-services-ether
+```
+
 ### deploy contracts
+
+(skip this step if you are using your own geth, the step above will already have done it)
 
 Now it's time to deploy our contracts to the blockchain we are using, to do this, we need to add a `network` to the hardhat config.
 
