@@ -511,7 +511,7 @@ sudo systemctl start bacalhau
 Go to [https://github.com/CoopHive/coophive/releases](https://github.com/CoopHive/coophive/releases)
 ```
 export LATEST_RELEASE="<latest release as per github releases>"
-wget https://github.com/CoopHive/coophive/releases/download/${RELEASE}/hive-linux-amd64
+wget https://github.com/CoopHive/coophive/releases/download/${LATEST_RELEASE}/hive-linux-amd64
 chmod +x hive-linux-amd64
 sudo mv hive-linux-amd64 /usr/bin/coophive
 ```
