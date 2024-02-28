@@ -466,7 +466,7 @@ In the following, `SERVICE_SOLVER` and `SERVICE_MEDIATORS` aren't necessary if y
 
 `job-creator.env`
 
- * `WEB3_PRIVATE_KEY` (copy `SOLVER_PRIVATE_KEY` from `prod.env`)
+ * `WEB3_PRIVATE_KEY` (copy `SOLVER_PRIVATE_KEY` from `prod.env` - NOT the job creator one)
  * `SERVICE_SOLVER` (copy `SOLVER_ADDRESS` from `prod.env`)
  * `SERVICE_MEDIATORS` (copy `MEDIATOR_ADDRESS` from `prod.env`)
 
