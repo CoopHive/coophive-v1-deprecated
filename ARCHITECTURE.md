@@ -98,6 +98,7 @@ You will need the following tools:
    * use [docker on ubuntu](https://docs.docker.com/engine/install/ubuntu/) and [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) for GPU-enabled resource-providers (these will be preinstalled in certain environments, e.g. Lambda Labs)
  * node.js (>= v16)
    * see [nodesource distributions](https://github.com/nodesource/distributions?tab=readme-ov-file#installation-instructions)
+   * also install yarn globally: `sudo npm install -g yarn`
 
 ### initial setup
 
