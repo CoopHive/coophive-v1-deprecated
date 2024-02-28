@@ -513,7 +513,7 @@ sudo systemctl start bacalhau
 
 Go to [https://github.com/CoopHive/coophive/releases](https://github.com/CoopHive/coophive/releases)
 ```
-export LATEST_RELEASE="<latest release>"
+export LATEST_RELEASE="<latest release as per github releases>"
 wget https://github.com/CoopHive/coophive/releases/download/${RELEASE}/hive-linux-amd64
 chmod +x hive-linux-amd64
 sudo mv hive-linux-amd64 /usr/bin/coophive
@@ -528,6 +528,9 @@ sudo systemctl start mediator
 You can now start and stop the various services using `systemd` and see logs using `journalctl`.
 
 Make sure you start the solver first.
+
+You can now set up multiple resource providers, e.g. with GPUs. Make sure you mint each one a separate key, e.g. with metamask and the faucet.
+
 
 ### running the saas layer
 
