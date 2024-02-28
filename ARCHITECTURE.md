@@ -93,6 +93,7 @@ You will need the following tools:
 
  * go (>= v1.20)
    * see [golang-backports](https://launchpad.net/%7Elongsleep/+archive/ubuntu/golang-backports) for ubuntu
+   * after enabling the PPA, run: `sudo apt install -y golang-go`
  * docker
    * `docker.io` ubuntu package is sufficient for controlplane
    * use [docker on ubuntu](https://docs.docker.com/engine/install/ubuntu/) and [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) for GPU-enabled resource-providers (these will be preinstalled in certain environments, e.g. Lambda Labs)
