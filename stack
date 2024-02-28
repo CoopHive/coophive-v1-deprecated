@@ -100,6 +100,7 @@ function faucet() {
   docker run -d \
     --name faucet \
     -p 8085:8080 \
+    --restart always \
     --network "$GETH_DOCKER_NETWORK" \
     -e WEB3_PROVIDER=http://geth:8545 \
     -e PRIVATE_KEY=$privateKey \
