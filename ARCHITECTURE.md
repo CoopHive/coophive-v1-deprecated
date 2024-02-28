@@ -432,7 +432,7 @@ It's also important to match the `--network production` to the name of the netwo
 
 #### note addresses
 
-Once the contracts have been deployed - make a note of the addresses they have been deployed to (hardhat will print these to stdout or you can look in `hardhat/deployments/production/<ContractName>.json`).
+Once the contracts have been deployed - make a note of the addresses they have been deployed to (hardhat will print these to stdout or you can look in `hardhat/deployments/*/<ContractName>.json`).
 
 We will be required to add some of these contract addresses to `.env` files later.
 
@@ -462,7 +462,7 @@ The following is a guide to each of the `.env` files that need creating:
  * `SERVER_PORT` (the port the solver will listen on)
  * `SERVER_URL` (the public http(s) endpoint of the solver)
 
-In the following, `SERVICE_SOLVER` and `SERVICE_MEDIATORS` aren't necessary if you've updated the code in `pkg/options/services.go` to use yours as the default.
+In the following, `SERVICE_SOLVER` and `SERVICE_MEDIATORS` aren't necessary if you've updated the code in `pkg/options/services.go` to use yours as the default. WEB3_CONTROLLER_ADDRESS in `pkg/options/web3.go` too (for the controller contract address, see `cat hardhat/deployments/geth/CoopHiveController.json |head | grep address`).
 
 `job-creator.env`
 
@@ -492,6 +492,38 @@ Once you have created these files - you can upload them to the VM(s) you are goi
 ### systemd files
 
 Upload the various systemd files from the `systemd` folder to the VM(s) you are going to run the services on.
+E.g.
+
+```
+sudo cp bacalhau.service /etc/systemd/system/
+sudo cp solver.service /etc/systemd/system/
+sudo cp mediator.service /etc/systemd/system/
+sudo cp job-creator.service /etc/systemd/system/
+sudo systemctl enable bacalhau
+sudo systemctl enable solver
+sudo systemctl enable job-creator
+sudo systemctl enable mediator
+```
+```
+sudo mv /usr/local/bin/bacalhau /usr/bin/bacalhau
+```
+```
+sudo systemctl start bacalhau
+```
+
+Go to [https://github.com/CoopHive/coophive/releases](https://github.com/CoopHive/coophive/releases)
+```
+export LATEST_RELEASE="<latest release>"
+wget https://github.com/CoopHive/coophive/releases/download/${RELEASE}/hive-linux-amd64
+chmod +x hive-linux-amd64
+sudo mv hive-linux-amd64 /usr/bin/coophive
+```
+
+```
+sudo systemctl start solver
+sudo systemctl start job-creator
+sudo systemctl start mediator
+```
 
 You can now start and stop the various services using `systemd` and see logs using `journalctl`.
 
