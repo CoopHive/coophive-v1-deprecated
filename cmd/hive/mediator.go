@@ -1,4 +1,4 @@
-package gdcn
+package hive
 
 import (
 	"github.com/CoopHive/coophive/pkg/executor/bacalhau"
@@ -15,8 +15,8 @@ func newMediatorCmd() *cobra.Command {
 
 	mediatorCmd := &cobra.Command{
 		Use:     "mediator",
-		Short:   "Start the gdcn mediator service.",
-		Long:    "Start the gdcn mediator service.",
+		Short:   "Start the hive mediator service.",
+		Long:    "Start the hive mediator service.",
 		Example: "",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			options, err := optionsfactory.ProcessMediatorOptions(options)

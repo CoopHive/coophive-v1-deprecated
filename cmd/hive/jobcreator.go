@@ -1,4 +1,4 @@
-package gdcn
+package hive
 
 import (
 	"github.com/CoopHive/coophive/pkg/jobcreator"
@@ -13,8 +13,8 @@ func newJobCreatorCmd() *cobra.Command {
 
 	solverCmd := &cobra.Command{
 		Use:     "jobcreator",
-		Short:   "Start the gdcn job creator service.",
-		Long:    "Start the gdcn job creator service.",
+		Short:   "Start the hive job creator service.",
+		Long:    "Start the hive job creator service.",
 		Example: "",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			options, err := optionsfactory.ProcessOnChainJobCreatorOptions(options, args)

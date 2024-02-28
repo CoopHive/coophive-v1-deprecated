@@ -6,7 +6,7 @@ Wants=network-online.target systemd-networkd-wait-online.service
 [Service]
 Environment="LOG_TYPE=json"
 Environment="LOG_LEVEL=debug"
-Environment="HOME=/app/generic-dcn"
+Environment="HOME=/app/coophive"
 EnvironmentFile=/app/coophive/mediator.env
 Restart=always
 RestartSec=5s

@@ -27,7 +27,7 @@ type ServerOptions struct {
 	LocalFilestorePath string
 }
 
-type LilysaasAPIServer struct {
+type CoopSaaSAPIServer struct {
 	Options    ServerOptions
 	Store      store.Store
 	Controller *controller.Controller
@@ -37,7 +37,7 @@ func NewServer(
 	options ServerOptions,
 	store store.Store,
 	controller *controller.Controller,
-) (*LilysaasAPIServer, error) {
+) (*CoopSaaSAPIServer, error) {
 	if options.URL == "" {
 		return nil, fmt.Errorf("server url is required")
 	}
@@ -54,14 +54,14 @@ func NewServer(
 		return nil, fmt.Errorf("keycloak token is required")
 	}
 
-	return &LilysaasAPIServer{
+	return &CoopSaaSAPIServer{
 		Options:    options,
 		Store:      store,
 		Controller: controller,
 	}, nil
 }
 
-func (apiServer *LilysaasAPIServer) ListenAndServe(ctx context.Context, cm *system.CleanupManager) error {
+func (apiServer *CoopSaaSAPIServer) ListenAndServe(ctx context.Context, cm *system.CleanupManager) error {
 	router := mux.NewRouter()
 	router.Use(apiServer.corsMiddleware)
 

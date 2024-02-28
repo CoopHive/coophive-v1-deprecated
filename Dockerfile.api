@@ -7,6 +7,6 @@ COPY cmd ./cmd
 COPY pkg ./pkg
 COPY main.go .
 WORKDIR /app
-RUN go build -o /gdcn
+RUN go build -o /hive
 EXPOSE 80
-ENTRYPOINT [ "/gdcn" ]
+ENTRYPOINT [ "/hive" ]

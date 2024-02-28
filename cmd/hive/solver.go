@@ -1,4 +1,4 @@
-package gdcn
+package hive
 
 import (
 	optionsfactory "github.com/CoopHive/coophive/pkg/options"

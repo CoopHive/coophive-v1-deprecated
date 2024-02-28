@@ -8,14 +8,14 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func (apiServer *LilysaasAPIServer) corsMiddleware(next http.Handler) http.Handler {
+func (apiServer *CoopSaaSAPIServer) corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		res.Header().Set("Access-Control-Allow-Origin", "*")
 		next.ServeHTTP(res, req)
 	})
 }
 
-func (apiServer *LilysaasAPIServer) getRequestContext(req *http.Request) types.RequestContext {
+func (apiServer *CoopSaaSAPIServer) getRequestContext(req *http.Request) types.RequestContext {
 	return types.RequestContext{
 		Ctx:       req.Context(),
 		Owner:     getRequestUser(req),

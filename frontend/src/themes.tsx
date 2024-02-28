@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-const DEFAULT_THEME_NAME = 'gdcn'
+const DEFAULT_THEME_NAME = 'hive'
 
 export interface ITheme {
   company: string,
@@ -16,7 +16,7 @@ export interface ITheme {
 }
 
 export const THEMES: Record<string, ITheme> = {
-  gdcn: {
+  hive: {
     company: 'Generic Decentralized Compute Network',
     url: 'https://github.com/CoopHive/coophive',
     primary: '#14c7c3',

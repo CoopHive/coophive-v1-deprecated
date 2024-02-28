@@ -1,4 +1,4 @@
-package gdcn
+package hive
 
 import (
 	"context"
@@ -35,7 +35,7 @@ func NewAllOptions() *AllOptions {
 		},
 		FilestoreOptions: filestore.FileStoreOptions{
 			Type:         filestore.FileStoreType(getDefaultServeOptionString("FILESTORE_TYPE", "fs")),
-			LocalFSPath:  getDefaultServeOptionString("FILESTORE_LOCALFS_PATH", "/tmp/lilysaas/filestore"),
+			LocalFSPath:  getDefaultServeOptionString("FILESTORE_LOCALFS_PATH", "/tmp/coopsaas/filestore"),
 			GCSKeyBase64: getDefaultServeOptionString("FILESTORE_GCS_KEY_BASE64", ""),
 			GCSKeyFile:   getDefaultServeOptionString("FILESTORE_GCS_KEY_FILE", ""),
 			GCSBucket:    getDefaultServeOptionString("FILESTORE_GCS_BUCKET", ""),
@@ -43,7 +43,7 @@ func NewAllOptions() *AllOptions {
 		StoreOptions: store.StoreOptions{
 			Host:        getDefaultServeOptionString("POSTGRES_HOST", ""),
 			Port:        getDefaultServeOptionInt("POSTGRES_PORT", 5432),
-			Database:    getDefaultServeOptionString("POSTGRES_DATABASE", "lilysaas"),
+			Database:    getDefaultServeOptionString("POSTGRES_DATABASE", "coopsaas"),
 			Username:    getDefaultServeOptionString("POSTGRES_USER", ""),
 			Password:    getDefaultServeOptionString("POSTGRES_PASSWORD", ""),
 			AutoMigrate: true,
@@ -63,8 +63,8 @@ func newSaasApiCmd() *cobra.Command {
 
 	serveCmd := &cobra.Command{
 		Use:     "saas-api",
-		Short:   "Start the lilysaas api server.",
-		Long:    "Start the lilysaas api server.",
+		Short:   "Start the coopsaas api server.",
+		Long:    "Start the coopsaas api server.",
 		Example: "TBD",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			return serve(cmd, allOptions)
@@ -283,7 +283,7 @@ func serve(cmd *cobra.Command, options *AllOptions) error {
 	}
 	log.Info().Msgf("started server")
 
-	log.Info().Msgf("LilySaaS server listening on %s:%d", options.ServerOptions.Host, options.ServerOptions.Port)
+	log.Info().Msgf("CoopSaaS server listening on %s:%d", options.ServerOptions.Host, options.ServerOptions.Port)
 
 	go func() {
 		err := server.ListenAndServe(ctx, cm)

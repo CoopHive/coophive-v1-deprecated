@@ -32,7 +32,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ${POSTGRES_DATA:-lilysaas-postgres-db}:/var/lib/postgresql/data
+      - ${POSTGRES_DATA:-coopsaas-postgres-db}:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
@@ -49,7 +49,7 @@ services:
       - KEYCLOAK_FRONTEND_URL=${KEYCLOAK_FRONTEND_URL:-http://localhost/auth/}
     volumes:
       - ./realm.json:/imported/realm.json
-      - ${KEYCLOAK_DATA:-lilysaas-keycloak-db}:/opt/jboss/keycloak/standalone/data
+      - ${KEYCLOAK_DATA:-coopsaas-keycloak-db}:/opt/jboss/keycloak/standalone/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/"]
       interval: 10s
@@ -123,5 +123,5 @@ services:
       - ./frontend/vite.config.ts:/app/vite.config.ts
 
 volumes:
-  lilysaas-keycloak-db:
-  lilysaas-postgres-db:
+  coopsaas-keycloak-db:
+  coopsaas-postgres-db:

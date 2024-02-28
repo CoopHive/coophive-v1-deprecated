@@ -507,7 +507,7 @@ func (d *PostgresStore) GetMigrations() (*migrate.Migrate, error) {
 	migrations, err := migrate.NewWithSourceInstance(
 		"iofs",
 		files,
-		fmt.Sprintf("%s&&x-migrations-table=lilysaas_schema_migrations", d.connectionString),
+		fmt.Sprintf("%s&&x-migrations-table=coopsaas_schema_migrations", d.connectionString),
 	)
 	if err != nil {
 		return nil, err

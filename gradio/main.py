@@ -49,11 +49,11 @@ def mistral7b(message, history, request: gr.Request):
     results_dir = run("mistral-7b-instruct:v0.1.0", {"PromptEnv": f"PROMPT={prompt}"}, request)
     return open(results_dir+"/stdout").read().split("[START]")[1].split("[/INST]")[-1]
 
-# TODO: show the API call made to LilySaaS API in the UI, so users can see
+# TODO: show the API call made to CoopSaaS API in the UI, so users can see
 # easily how to recreate it
 
 # WHAT TO DO NEXT: make the functions above call the authenticated (for now)
-# lilysaas API and actually work end-to-end
+# coopsaas API and actually work end-to-end
 
 # If user is not logged in, make the frontend display a "log in to run this
 # model" button with direct links to google and github OAuth

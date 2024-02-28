@@ -1,4 +1,4 @@
-package gdcn
+package hive
 
 import (
 	"os"

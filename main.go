@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/CoopHive/coophive/cmd/gdcn"
+	"github.com/CoopHive/coophive/cmd/hive"
 )
 
 func main() {
-	gdcn.Execute()
+	hive.Execute()
 }
 
 func init() {

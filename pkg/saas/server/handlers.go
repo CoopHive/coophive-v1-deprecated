@@ -13,19 +13,19 @@ import (
 	"github.com/CoopHive/coophive/pkg/saas/types"
 )
 
-func (apiServer *LilysaasAPIServer) status(res http.ResponseWriter, req *http.Request) (types.UserStatus, error) {
+func (apiServer *CoopSaaSAPIServer) status(res http.ResponseWriter, req *http.Request) (types.UserStatus, error) {
 	return apiServer.Controller.GetStatus(apiServer.getRequestContext(req))
 }
 
-func (apiServer *LilysaasAPIServer) getJobs(res http.ResponseWriter, req *http.Request) ([]*types.Job, error) {
+func (apiServer *CoopSaaSAPIServer) getJobs(res http.ResponseWriter, req *http.Request) ([]*types.Job, error) {
 	return apiServer.Controller.GetJobs(apiServer.getRequestContext(req))
 }
 
-func (apiServer *LilysaasAPIServer) getTransactions(res http.ResponseWriter, req *http.Request) ([]*types.BalanceTransfer, error) {
+func (apiServer *CoopSaaSAPIServer) getTransactions(res http.ResponseWriter, req *http.Request) ([]*types.BalanceTransfer, error) {
 	return apiServer.Controller.GetTransactions(apiServer.getRequestContext(req))
 }
 
-func (apiServer *LilysaasAPIServer) getModules(res http.ResponseWriter, req *http.Request) ([]types.Module, error) {
+func (apiServer *CoopSaaSAPIServer) getModules(res http.ResponseWriter, req *http.Request) ([]types.Module, error) {
 	return job.GetModules()
 }
 
@@ -34,7 +34,7 @@ type RunJobResults struct {
 	Result   data.Result            `json:"result"`
 }
 
-func (apiServer *LilysaasAPIServer) createJobSync(res http.ResponseWriter, req *http.Request) (*RunJobResults, error) {
+func (apiServer *CoopSaaSAPIServer) createJobSync(res http.ResponseWriter, req *http.Request) (*RunJobResults, error) {
 	request := types.JobSpec{}
 	bs, err := io.ReadAll(req.Body)
 	if err != nil {
@@ -54,7 +54,7 @@ func (apiServer *LilysaasAPIServer) createJobSync(res http.ResponseWriter, req *
 	}, nil
 }
 
-func (apiServer *LilysaasAPIServer) createJobAsync(res http.ResponseWriter, req *http.Request) (string, error) {
+func (apiServer *CoopSaaSAPIServer) createJobAsync(res http.ResponseWriter, req *http.Request) (string, error) {
 	request := types.JobSpec{}
 	bs, err := io.ReadAll(req.Body)
 	if err != nil {
@@ -67,33 +67,33 @@ func (apiServer *LilysaasAPIServer) createJobAsync(res http.ResponseWriter, req 
 	return apiServer.Controller.CreateJobAsync(apiServer.getRequestContext(req), request)
 }
 
-func (apiServer *LilysaasAPIServer) filestoreConfig(res http.ResponseWriter, req *http.Request) (filestore.FilestoreConfig, error) {
+func (apiServer *CoopSaaSAPIServer) filestoreConfig(res http.ResponseWriter, req *http.Request) (filestore.FilestoreConfig, error) {
 	return apiServer.Controller.FilestoreConfig(apiServer.getRequestContext(req))
 }
 
-func (apiServer *LilysaasAPIServer) filestoreList(res http.ResponseWriter, req *http.Request) ([]filestore.FileStoreItem, error) {
+func (apiServer *CoopSaaSAPIServer) filestoreList(res http.ResponseWriter, req *http.Request) ([]filestore.FileStoreItem, error) {
 	return apiServer.Controller.FilestoreList(apiServer.getRequestContext(req), req.URL.Query().Get("path"))
 }
 
-func (apiServer *LilysaasAPIServer) filestoreGet(res http.ResponseWriter, req *http.Request) (filestore.FileStoreItem, error) {
+func (apiServer *CoopSaaSAPIServer) filestoreGet(res http.ResponseWriter, req *http.Request) (filestore.FileStoreItem, error) {
 	return apiServer.Controller.FilestoreGet(apiServer.getRequestContext(req), req.URL.Query().Get("path"))
 }
 
-func (apiServer *LilysaasAPIServer) filestoreCreateFolder(res http.ResponseWriter, req *http.Request) (filestore.FileStoreItem, error) {
+func (apiServer *CoopSaaSAPIServer) filestoreCreateFolder(res http.ResponseWriter, req *http.Request) (filestore.FileStoreItem, error) {
 	return apiServer.Controller.FilestoreCreateFolder(apiServer.getRequestContext(req), req.URL.Query().Get("path"))
 }
 
-func (apiServer *LilysaasAPIServer) filestoreRename(res http.ResponseWriter, req *http.Request) (filestore.FileStoreItem, error) {
+func (apiServer *CoopSaaSAPIServer) filestoreRename(res http.ResponseWriter, req *http.Request) (filestore.FileStoreItem, error) {
 	return apiServer.Controller.FilestoreRename(apiServer.getRequestContext(req), req.URL.Query().Get("path"), req.URL.Query().Get("new_path"))
 }
 
-func (apiServer *LilysaasAPIServer) filestoreDelete(res http.ResponseWriter, req *http.Request) (string, error) {
+func (apiServer *CoopSaaSAPIServer) filestoreDelete(res http.ResponseWriter, req *http.Request) (string, error) {
 	path := req.URL.Query().Get("path")
 	err := apiServer.Controller.FilestoreDelete(apiServer.getRequestContext(req), path)
 	return path, err
 }
 
-func (apiServer *LilysaasAPIServer) filestoreUpload(res http.ResponseWriter, req *http.Request) (bool, error) {
+func (apiServer *CoopSaaSAPIServer) filestoreUpload(res http.ResponseWriter, req *http.Request) (bool, error) {
 	path := req.URL.Query().Get("path")
 	err := req.ParseMultipartForm(10 << 20)
 	if err != nil {
@@ -116,7 +116,7 @@ func (apiServer *LilysaasAPIServer) filestoreUpload(res http.ResponseWriter, req
 	return true, nil
 }
 
-func (apiServer *LilysaasAPIServer) createAPIKey(res http.ResponseWriter, req *http.Request) (string, error) {
+func (apiServer *CoopSaaSAPIServer) createAPIKey(res http.ResponseWriter, req *http.Request) (string, error) {
 	name := req.URL.Query().Get("name")
 	apiKey, err := apiServer.Controller.CreateAPIKey(apiServer.getRequestContext(req), name)
 	if err != nil {
@@ -125,7 +125,7 @@ func (apiServer *LilysaasAPIServer) createAPIKey(res http.ResponseWriter, req *h
 	return apiKey, nil
 }
 
-func (apiServer *LilysaasAPIServer) getAPIKeys(res http.ResponseWriter, req *http.Request) ([]*types.ApiKey, error) {
+func (apiServer *CoopSaaSAPIServer) getAPIKeys(res http.ResponseWriter, req *http.Request) ([]*types.ApiKey, error) {
 	apiKeys, err := apiServer.Controller.GetAPIKeys(apiServer.getRequestContext(req))
 	if err != nil {
 		return nil, err
@@ -133,7 +133,7 @@ func (apiServer *LilysaasAPIServer) getAPIKeys(res http.ResponseWriter, req *htt
 	return apiKeys, nil
 }
 
-func (apiServer *LilysaasAPIServer) deleteAPIKey(res http.ResponseWriter, req *http.Request) (string, error) {
+func (apiServer *CoopSaaSAPIServer) deleteAPIKey(res http.ResponseWriter, req *http.Request) (string, error) {
 	apiKey := req.URL.Query().Get("key")
 	err := apiServer.Controller.DeleteAPIKey(apiServer.getRequestContext(req), apiKey)
 	if err != nil {
@@ -142,7 +142,7 @@ func (apiServer *LilysaasAPIServer) deleteAPIKey(res http.ResponseWriter, req *h
 	return "", nil
 }
 
-func (apiServer *LilysaasAPIServer) checkAPIKey(res http.ResponseWriter, req *http.Request) (*types.ApiKey, error) {
+func (apiServer *CoopSaaSAPIServer) checkAPIKey(res http.ResponseWriter, req *http.Request) (*types.ApiKey, error) {
 	apiKey := req.URL.Query().Get("key")
 	key, err := apiServer.Controller.CheckAPIKey(apiServer.getRequestContext(req).Ctx, apiKey)
 	if err != nil {

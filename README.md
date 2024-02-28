@@ -116,7 +116,7 @@ wget https://github.com/bacalhau-project/bacalhau/releases/download/v1.0.3/bacal
 tar xfv bacalhau_v1.0.3_linux_amd64.tar.gz
 mv bacalhau /usr/local/bin
 # Set the IPFS data path by exporting the `BACALHAU_SERVE_IPFS_PATH` variable to your desired location
-export BACALHAU_SERVE_IPFS_PATH=/tmp/gdcn/data/ipfs
+export BACALHAU_SERVE_IPFS_PATH=/tmp/hive/data/ipfs
 ```
 
 #### clone faucet repo
@@ -134,7 +134,7 @@ mv faucet.coophive.network eth-faucet
 #### install stack
 
 ```bash
-cd generic-dcn
+cd coophive
 ./stack install
 ```
 
@@ -154,7 +154,7 @@ After you've run the install script - you can look inside of `.env` to see the c
 These steps boot geth, deploy our contracts and ensure that the various services named in `.env` are funded with ether and tokens.
 
 ```bash
-cd generic-dcn
+cd coophive
 ./stack boot
 ```
 
@@ -223,7 +223,7 @@ Otherwise, if you don't have a GPU:
 
 ### run saas
 
-The generic-dcn repo also comes with a saas layer that can be used as a web2 layer to the underlying web3 stack.
+The coophive repo also comes with a saas layer that can be used as a web2 layer to the underlying web3 stack.
 
 ![Saas](docs/images/saas.png)
 
@@ -318,7 +318,7 @@ Whenever you make changes to the smart contracts, regenerate the Go bindings in 
 
 ## production deployment
 
-Running the generic-dcn in a production environment will require:
+Running the coophive in a production environment will require:
 
  * an EVM compatible blockchain for which you have a private key with funds
    * you will use this `admin` private key to fund our various services
@@ -328,9 +328,9 @@ Running the generic-dcn in a production environment will require:
  * a compiled binary of bacalhau `v1.0.3`
    * see the development instructions for how to get this onto the machine
    * it must live on the VM at the `/usr/bin/bacalhau` path
- * a compiled binary of the generic-dcn
+ * a compiled binary of the coophive
    * this can be compiled locally or in CI
-   * it must live on the VM at the `/usr/bin/generic-dcn` path
+   * it must live on the VM at the `/usr/bin/coophive` path
  * docker running on the vm that will serve the faucet and saas platform
    * the faucet and saas will require a public http(s) endpoint
    * it is recommended that you use a reverse proxy to terminate TLS and forward to these services
@@ -357,7 +357,7 @@ This will print the private keys and addresses to stdout so to create a producti
 
 Each of our services will need some base currency to pay gas and for a production deployment, you will need to fund these accounts manually.  This is by design as compared to the local dev stack (where we use a script) because there are various block-chains and account arrangements that could be used for different networks.
 
-This is just to pay gas - we will deploy the g-dcn ERC-20 token to pay for jobs.
+This is just to pay gas - we will deploy the hive ERC-20 token to pay for jobs.
 
 **NOTE** it should be fairly trivial to change the payments contract to re-use an existing ERC-20 token.
 
@@ -421,9 +421,9 @@ We will be required to add some of these contract addresses to `.env` files late
 
 Now we need to create the `.env` files for each of our services.  Once created, we will upload these files to the vm(s) you are going to run the services on and then configure the systemd units to use them.
 
-The systemd units in the `systemd` folder all mention `/app/generic-dcn` as the location of their `.env` files, you are free to change the name of this folder (as long as you then upload the `.env` files you create to that folder).
+The systemd units in the `systemd` folder all mention `/app/coophive` as the location of their `.env` files, you are free to change the name of this folder (as long as you then upload the `.env` files you create to that folder).
 
-We also need to have a data folder for `ipfs` - like above, the systemd units are configured to point at `/app/generic-dcn/ipfs` - you can change this folder but make sure to update the systemd units to what you created on the vm.
+We also need to have a data folder for `ipfs` - like above, the systemd units are configured to point at `/app/coophive/ipfs` - you can change this folder but make sure to update the systemd units to what you created on the vm.
 
 The format of these files is classic env format as follows (using the solver as an example):
 
