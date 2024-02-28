@@ -120,7 +120,7 @@ We first need to clone the repo:
 
 ```bash
 # run this command at the same level as the coophive repo
-git clone git@github.com:CoopHive/eth-faucet
+git clone https://github.com/CoopHive/eth-faucet
 ```
 
 #### install stack
