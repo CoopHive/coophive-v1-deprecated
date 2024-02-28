@@ -462,6 +462,8 @@ The following is a guide to each of the `.env` files that need creating:
  * `SERVER_PORT` (the port the solver will listen on)
  * `SERVER_URL` (the public http(s) endpoint of the solver)
 
+In the following, `SERVICE_SOLVER` and `SERVICE_MEDIATORS` aren't necessary if you've updated the code in `pkg/options/services.go` to use yours as the default.
+
 `job-creator.env`
 
  * `WEB3_PRIVATE_KEY` (copy `SOLVER_PRIVATE_KEY` from `prod.env`)
