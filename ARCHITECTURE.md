@@ -111,9 +111,9 @@ We are currently pinned to bacalhau v1.0.3 - to install this version run the fol
 
 ```bash
 wget https://github.com/bacalhau-project/bacalhau/releases/download/v1.0.3/bacalhau_v1.0.3_linux_amd64.tar.gz
-# Extract the downloaded archive and move the `bacalhau` binary to `/usr/local/bin`
+# Extract the downloaded archive and move the `bacalhau` binary to `/usr/bin`
 tar xfv bacalhau_v1.0.3_linux_amd64.tar.gz
-sudo mv bacalhau /usr/local/bin
+sudo mv bacalhau /usr/bin
 ```
 
 #### clone faucet repo
@@ -505,9 +505,6 @@ sudo systemctl enable job-creator
 sudo systemctl enable mediator
 ```
 ```
-sudo mv /usr/local/bin/bacalhau /usr/bin/bacalhau
-```
-```
 sudo systemctl start bacalhau
 ```
 
@@ -529,7 +526,7 @@ You can now start and stop the various services using `systemd` and see logs usi
 
 Make sure you start the solver first.
 
-You can now set up multiple resource providers, e.g. with GPUs. Make sure you mint each one a separate key, e.g. with metamask and the faucet.
+You can now set up multiple resource providers (RPs), e.g. with GPUs. Make sure you mint each one a separate key, e.g. with metamask and the faucet. RPs will need `bacalhau` and `resource-provider{,-gpu}`.
 
 
 ### running the saas layer
