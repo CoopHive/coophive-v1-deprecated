@@ -465,25 +465,25 @@ The following is a guide to each of the `.env` files that need creating:
 `job-creator.env`
 
  * `WEB3_PRIVATE_KEY` (copy `SOLVER_PRIVATE_KEY` from `prod.env`)
- * `SERVICE_SOLVER` (the solver contract address copied from the output of `hardhat deploy`)
+ * `SERVICE_SOLVER` (copy `SOLVER_ADDRESS` from `prod.env`)
  * `SERVICE_MEDIATORS` (copy `MEDIATOR_ADDRESS` from `prod.env`)
 
 `resource-provider.env`
 
  * `WEB3_PRIVATE_KEY` (copy `RESOURCE_PROVIDER_PRIVATE_KEY` from `prod.env`)
- * `SERVICE_SOLVER` (the solver contract address copied from the output of `hardhat deploy`)
+ * `SERVICE_SOLVER` (copy `SOLVER_ADDRESS` from `prod.env`)
  * `SERVICE_MEDIATORS` (copy `MEDIATOR_ADDRESS` from `prod.env`)
 
 `resource-provider-gpu.env`
 
  * `WEB3_PRIVATE_KEY` (copy `RESOURCE_PROVIDER_PRIVATE_KEY` from `prod.env`)
- * `SERVICE_SOLVER` (the solver contract address copied from the output of `hardhat deploy`)
+ * `SERVICE_SOLVER` (copy `SOLVER_ADDRESS` from `prod.env`)
  * `SERVICE_MEDIATORS` (copy `MEDIATOR_ADDRESS` from `prod.env`)
 
 `mediator.env`
 
  * `WEB3_PRIVATE_KEY` (copy `MEDIATOR_PRIVATE_KEY` from `prod.env`)
- * `SERVICE_SOLVER` (the solver contract address copied from the output of `hardhat deploy`)
+ * `SERVICE_SOLVER` (copy `SOLVER_ADDRESS` from `prod.env`)
 
 Once you have created these files - you can upload them to the VM(s) you are going to run the services on.
 

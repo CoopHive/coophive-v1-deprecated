@@ -15,7 +15,7 @@ IFS=$'\n\t'
 export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # if we are running geth in docker (for testnets)
 # then which folder do we mount the data folder to?
-export GETH_DATA_DIRECTORY=${GETH_DATA_DIRECTORY:="/tmp/geth"}
+export GETH_DATA_DIRECTORY=${GETH_DATA_DIRECTORY:="/var/run/hive/geth"}
 # which docker network do we connect geth to?
 export GETH_DOCKER_NETWORK=${GETH_DOCKER_NETWORK:="hive"}
 # what is the docker image that we use for geth?
@@ -149,6 +149,11 @@ function clean-deploy() {
 }
 
 function clean() {
+  echo -n "Are you sure? This will DESTROY GETH DATA (type 'yes' if sure) "
+  read response
+  if [[ "$response" != "yes" ]]; then
+    exit 0
+  fi
   docker rm -f $(docker ps -aq) || true
   sudo rm -rf ${GETH_DATA_DIRECTORY}
   clean-deploy
