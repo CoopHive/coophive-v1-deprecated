@@ -11,11 +11,11 @@ jobs:
       - run:
           name: Build for multiple platforms
           command: |
-            goos=("darwin" "darwin" "linux" "linux")
-            goarch=("arm64" "amd64" "arm64" "amd64")
-            for i in "${!goos[@]}"; do
-              mkdir -p build/${goos[$i]}-${goarch[$i]}
-              GOOS=${goos[$i]} GOARCH=${goarch[$i]} go build -o build/${goos[$i]}-${goarch[$i]}/hive-${goos[$i]}-${goarch[$i]}
+            for goos in "darwin" "linux"; do
+              for goarch in "arm64" "amd64"; do
+                mkdir -p build/${goos}-${goarch}
+                GOOS=${goos} GOARCH=${goarch} go build -o build/${goos}-${goarch}/hive-${goos}-${goarch}
+              done
             done
       - persist_to_workspace:
           root: build/
