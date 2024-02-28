@@ -131,7 +131,7 @@ Tips:
 
 If your module is not deterministic, compute providers will not adopt it and blacklist your module
 
-.### Writing Advanced Modules
+### Writing Advanced Modules
 
 1. `subt`:
 The `subt` function allows for substitutions in your template.
