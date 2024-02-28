@@ -114,7 +114,7 @@ wget https://github.com/bacalhau-project/bacalhau/releases/download/v1.0.3/bacal
 tar xfv bacalhau_v1.0.3_linux_amd64.tar.gz
 mv bacalhau /usr/local/bin
 # Set the IPFS data path by exporting the `BACALHAU_SERVE_IPFS_PATH` variable to your desired location
-export BACALHAU_SERVE_IPFS_PATH=/tmp/hive/data/ipfs
+export BACALHAU_SERVE_IPFS_PATH=/var/lib/hive/data/ipfs
 ```
 
 #### clone faucet repo
