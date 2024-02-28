@@ -92,8 +92,12 @@ This section will demonstrate how to run the stack on your local machine.
 You will need the following tools:
 
  * go (>= v1.20)
+   * see [golang-backports](https://launchpad.net/%7Elongsleep/+archive/ubuntu/golang-backports) for ubuntu
  * docker
+   * `docker.io` ubuntu package is sufficient for controlplane
+   * use [docker on ubuntu](https://docs.docker.com/engine/install/ubuntu/) and [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) for GPU-enabled resource-providers (these will be preinstalled in certain environments, e.g. Lambda Labs)
  * node.js (>= v16)
+   * see [nodesource distributions](https://github.com/nodesource/distributions?tab=readme-ov-file#installation-instructions)
 
 ### initial setup
 
