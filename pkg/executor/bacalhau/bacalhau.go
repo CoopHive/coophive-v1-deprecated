@@ -121,19 +121,66 @@ func (executor *BacalhauExecutor) copyJobResults(dealID string, jobID string) (s
 		return "", fmt.Errorf("error creating a local folder of results %s -> %s", dealID, err.Error())
 	}
 
-	copyResultsCmd := exec.Command(
-		"bacalhau",
-		"get",
-		jobID,
-		"--output-dir", resultsDir,
-	)
-	copyResultsCmd.Env = executor.bacalhauEnv
+	// if we are running on the same node as bacalhau (which is the normal
+	// configuration for coophive), we can shortcut going via bacalhau get and
+	// the ipfs terribleness that entails, and just copy the results directly
+	// out of bacalhau's temp directory
+	//
+	// This relies on using the hacked fork of bacalhau v1.0.3 at
+	// https://github.com/CoopHive/bacalhau, sorry
 
-	_, err = copyResultsCmd.CombinedOutput()
+	// Search for a directory matching /tmp/bacalhau-results*/e-{jobID}*
+	matches, err := filepath.Glob(filepath.Join("/tmp", "bacalhau-results*", "e-"+jobID+"*"))
 	if err != nil {
-		return "", fmt.Errorf("error copying results %s -> %s", dealID, err.Error())
+		return "", fmt.Errorf("error searching for matching directories: %s", err.Error())
 	}
 
+	succeededRename := false
+	var sourceDir string
+	if len(matches) > 0 {
+		// Pick the first matching directory
+		sourceDir = matches[0]
+
+		// delete an empty resultsDir so we can rename over the top of it
+		if _, err := os.Stat(resultsDir); err == nil {
+			files, err := os.ReadDir(resultsDir)
+			if err != nil {
+				return "", fmt.Errorf("error reading directory: %s", err.Error())
+			}
+			if len(files) == 0 {
+				err = os.Remove(resultsDir)
+				if err != nil {
+					return "", fmt.Errorf("error deleting directory: %s", err.Error())
+				}
+			}
+		}
+		// Rename the directory to resultsDir
+		err = os.Rename(sourceDir, resultsDir)
+		if err != nil {
+			log.Info().Msgf("error renaming directory: %s", err.Error())
+		} else {
+			succeededRename = true
+		}
+	}
+	if succeededRename {
+		log.Info().Msgf("shortcutted ipfs, just renamed directory %s to %s", sourceDir, resultsDir)
+	}
+	if !succeededRename {
+		log.Info().Msgf("%s: failed to shortcut ipfs, falling back to bacalhau get", jobID)
+		// Fallback to the current bacalhau get behavior
+		copyResultsCmd := exec.Command(
+			"bacalhau",
+			"get",
+			jobID,
+			"--output-dir", resultsDir,
+		)
+		copyResultsCmd.Env = executor.bacalhauEnv
+
+		_, err = copyResultsCmd.CombinedOutput()
+		if err != nil {
+			return "", fmt.Errorf("error copying results: %s", err.Error())
+		}
+	}
 	return resultsDir, nil
 }
 
