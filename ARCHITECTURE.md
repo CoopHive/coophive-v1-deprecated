@@ -107,12 +107,11 @@ These steps only need to be done once.
 
 #### install bacalhau
 
-We are currently pinned to bacalhau v1.0.3 - to install this version run the following commands:
+We are currently pinned to bacalhau v1.0.3-coophive1 - to install this version run the following commands:
 
 ```bash
-wget https://github.com/bacalhau-project/bacalhau/releases/download/v1.0.3/bacalhau_v1.0.3_linux_amd64.tar.gz
-# Extract the downloaded archive and move the `bacalhau` binary to `/usr/bin`
-tar xfv bacalhau_v1.0.3_linux_amd64.tar.gz
+wget https://github.com/CoopHive/bacalhau/releases/download/v1.0.3-coophive1/bacalhau
+chmod +x bacalhau
 sudo mv bacalhau /usr/bin
 ```
 
@@ -324,7 +323,7 @@ Running the coophive in a production environment will require:
  * a VM (or multiple) connected to the Internet
    * the solver will require a public http(s) endpoint
    * it is recommended that you use a reverse proxy to terminate TLS and forward to the solver
- * a compiled binary of bacalhau `v1.0.3`
+ * a compiled binary of bacalhau `v1.0.3-coophive1`
    * see the development instructions for how to get this onto the machine
    * it must live on the VM at the `/usr/bin/bacalhau` path
  * a compiled binary of the coophive
