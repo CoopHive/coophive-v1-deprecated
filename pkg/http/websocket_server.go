@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"sync"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
@@ -63,18 +64,31 @@ func StartWebSocketServer(
 					// error: concurrent map iteration and map write)
 					mutex.Lock()
 					defer mutex.Unlock()
+					totalStartTime := time.Now()
+					log.Debug().Msgf("Starting all WriteMessages (count %d)", len(connections))
+					i := 0
 					for _, connWrapper := range connections {
 						// wrap in a func so that we can defer the unlock so we can
 						// unlock the mutex on panics as well as errors
 						func() {
 							connWrapper.mu.Lock()
 							defer connWrapper.mu.Unlock()
+
+							log.Debug().Msgf("Starting WriteMessage/%d", i)
+							startTime := time.Now()
+
 							if err := connWrapper.conn.WriteMessage(websocket.TextMessage, message); err != nil {
 								log.Error().Msgf("Error writing to websocket: %s", err.Error())
 								// don't stop reading from messageChan just because one write failed
 							}
+
+							duration := time.Since(startTime)
+							log.Debug().Msgf("WriteMessage/%d took %s", i, duration)
 						}()
+						i += 1
 					}
+					duration := time.Since(totalStartTime)
+					log.Debug().Msgf("Finished all WriteMessages (count %d) took %s", i, duration)
 				}()
 			case <-ctx.Done():
 				return
