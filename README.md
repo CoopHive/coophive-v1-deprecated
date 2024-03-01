@@ -83,7 +83,7 @@ Try ```rm -rf /tmp/coophive/data/repos``` uninstall hive path and reinstall from
 
 
 ```
-hive serve
+hive resource-provider --offer-cpu 1  --offer-ram 1024 --offer-gpu 0 --offer-count 1
 ```
 
 systemd units & more details [here](https://github.com/CoopHive/coophive/blob/main/ARCHITECTURE.md)
