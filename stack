@@ -53,7 +53,7 @@ function install() {
 
 # run a local geth node in dev mode mounted against a local data directory
 function geth() {
-  docker network ls | grep "$GETH_DOCKER_NETWORK" || docker network create "$GETH_DOCKER_NETWORK"
+  docker network ls | grep " $GETH_DOCKER_NETWORK " || docker network create "$GETH_DOCKER_NETWORK"
   docker run -d --restart always \
     --name geth \
     --network "$GETH_DOCKER_NETWORK" \
