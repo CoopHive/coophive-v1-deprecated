@@ -218,11 +218,16 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Modul
 	// TODO: golang handlebars implementation, with shortcode for string encoding e.g. escape_string
 
 	templateName := fmt.Sprintf("%s-%s-%s", module.Repo, module.Path, module.Hash)
-	tmpl, err := template.New(templateName).Parse(moduleText)
+	tmpl := template.New(templateName)
 	tmpl.Funcs(template.FuncMap{
 		"subst": subst,
+		"subt":  subst,
 	})
+
+	tmpl, err = tmpl.Parse(moduleText)
+
 	if err != nil {
+		log.Debug().Err(err).Msgf("failed to parse module")
 		return nil, err
 	}
 
@@ -231,6 +236,7 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Modul
 	for k, v := range inputs {
 		bs, err := json.Marshal(v)
 		if err != nil {
+			log.Debug().Err(err).Msgf("failed to parse inputs")
 			return nil, fmt.Errorf("unable to marshal string %q", v)
 		}
 		newInputs[k] = string(bs)
@@ -238,6 +244,8 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Modul
 
 	var template bytes.Buffer
 	if err := tmpl.Execute(&template, newInputs); err != nil {
+		log.Debug().Err(err).Msgf("failed to executue template")
+
 		return nil, fmt.Errorf(
 			"error executing template: %s (tmpl=%s, inputs=%+v)",
 			err,
@@ -249,6 +257,7 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Modul
 	var moduleData data.Module
 	bs := template.Bytes()
 	if err := json.Unmarshal(bs, &moduleData); err != nil {
+		log.Debug().Err(err).Msgf("failed to unmarshall module")
 		return nil, fmt.Errorf(
 			"error unmarshalling resulting json: %s, %s",
 			err,
