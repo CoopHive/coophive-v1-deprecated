@@ -55,3 +55,17 @@ func TestSubst(t *testing.T) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, actualOutput)
 	}
 }
+
+func TestShouldNotPanicRP(t *testing.T) {
+	msg := "This module will not run!"
+	module, err := LoadModule(data.ModuleConfig{
+		Name: "cowsay:testcase/invalid-template-function",
+	}, map[string]string{
+		"Message": msg,
+	})
+
+	t.Logf("module: %+v", module)
+	assert.Error(t, err, "RP should panic and return error")
+	assert.Nil(t, module, "This module won't be parsed")
+
+}
