@@ -55,3 +55,22 @@ func TestSubst(t *testing.T) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, actualOutput)
 	}
 }
+
+func TestInvalidModuleDueToUndefinedTmpFunc(t *testing.T) {
+	msg := "This module will not run!"
+	module, err := LoadModule(data.ModuleConfig{
+		// Name: "cowsay:testcase/invalid-template-function", // FIXME: tags with slashes are not working
+		Name: "cowsay:testcase-invalid-template-function",
+	}, map[string]string{
+		"Message": msg,
+	})
+
+	t.Logf("module: %+v", module)
+	t.Logf("err: %v", err)
+
+	assert.Error(t, err, "RP should panic and return error")
+	assert.ErrorContains(t, err, "not defined")
+	// assert.ErrorContains(t, err, "panic")
+	assert.Nil(t, module, "This module won't be parsed")
+
+}

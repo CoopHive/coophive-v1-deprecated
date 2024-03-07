@@ -196,7 +196,7 @@ func subst(format string, jsonEncodedInputs ...string) string {
 		var s string
 
 		if err := json.Unmarshal([]byte(input), &s); err != nil {
-			log.Debug().AnErr("subst: json unmarshall", err).Msgf("input:%s", input)
+			log.Debug().AnErr("subst: json unmarshal", err).Msgf("input:%s", input)
 			panic("subst: invalid input")
 		}
 
@@ -210,7 +210,16 @@ func subst(format string, jsonEncodedInputs ...string) string {
 // - prepare the module - now we have the text of the template
 // - inject the given values using template syntax
 // - JSON parse and check we don't have errors
-func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Module, error) {
+func LoadModule(module data.ModuleConfig, inputs map[string]string) (moduleData *data.Module, err error) {
+	defer func() {
+		a := recover()
+		if a != nil {
+			err = fmt.Errorf("loadModule panics: %v", a)
+			log.Error().Err(err).Msgf("panic handler")
+			log.Debug().Err(err).Msg("recovered panic in loadModule")
+		}
+	}()
+
 	moduleText, err := PrepareModule(module)
 	if err != nil {
 		return nil, err
@@ -218,11 +227,16 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Modul
 	// TODO: golang handlebars implementation, with shortcode for string encoding e.g. escape_string
 
 	templateName := fmt.Sprintf("%s-%s-%s", module.Repo, module.Path, module.Hash)
-	tmpl, err := template.New(templateName).Parse(moduleText)
+	tmpl := template.New(templateName)
 	tmpl.Funcs(template.FuncMap{
 		"subst": subst,
+		"subt":  subst,
 	})
+
+	tmpl, err = tmpl.Parse(moduleText)
+
 	if err != nil {
+		log.Debug().Err(err).Msgf("failed to parse module")
 		return nil, err
 	}
 
@@ -231,6 +245,7 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Modul
 	for k, v := range inputs {
 		bs, err := json.Marshal(v)
 		if err != nil {
+			log.Debug().Err(err).Msgf("failed to parse inputs")
 			return nil, fmt.Errorf("unable to marshal string %q", v)
 		}
 		newInputs[k] = string(bs)
@@ -238,6 +253,8 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Modul
 
 	var template bytes.Buffer
 	if err := tmpl.Execute(&template, newInputs); err != nil {
+		log.Debug().Err(err).Msgf("failed to executue template")
+
 		return nil, fmt.Errorf(
 			"error executing template: %s (tmpl=%s, inputs=%+v)",
 			err,
@@ -246,9 +263,9 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Modul
 		)
 	}
 
-	var moduleData data.Module
 	bs := template.Bytes()
 	if err := json.Unmarshal(bs, &moduleData); err != nil {
+		log.Debug().Err(err).Msgf("failed to unmarshall module")
 		return nil, fmt.Errorf(
 			"error unmarshalling resulting json: %s, %s",
 			err,
@@ -256,5 +273,5 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Modul
 		)
 	}
 
-	return &moduleData, nil
+	return
 }
