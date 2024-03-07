@@ -65,6 +65,7 @@ func TestShouldNotPanicRP(t *testing.T) {
 	})
 
 	t.Logf("module: %+v", module)
+	t.Logf("err: %+v", err)
 	assert.Error(t, err, "RP should panic and return error")
 	assert.Nil(t, module, "This module won't be parsed")
 
