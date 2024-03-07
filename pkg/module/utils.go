@@ -211,6 +211,13 @@ func subst(format string, jsonEncodedInputs ...string) string {
 // - inject the given values using template syntax
 // - JSON parse and check we don't have errors
 func LoadModule(module data.ModuleConfig, inputs map[string]string) (*data.Module, error) {
+	defer func() {
+		a := recover()
+		if a != nil {
+			log.Error().Any("panic", a).Msgf("panic handler")
+		}
+	}()
+
 	moduleText, err := PrepareModule(module)
 	if err != nil {
 		return nil, err
