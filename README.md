@@ -121,32 +121,18 @@ hive run github.com/username/repo:tag -i Message=moo
 
 Inputs are a map of strings to strings.
 
-**YOU MUST MAKE YOUR MODULE DETERMINISTIC**
-
-Tips:
-* Make the output reproducible, for example for the diffusers library, see [here](https://huggingface.co/docs/diffusers/using-diffusers/reproducibility)
-* Strip timestamps and time measurements out of the output, including to stdout/stderr
-* Don't read any sources of entropy (e.g. /dev/random)
-* When referencing docker images, you MUST specify their sha256 hashes, as shown in this example
-
-If your module is not deterministic, compute providers will not adopt it and blacklist your module
-
 ### Writing Advanced Modules
 
-1. `subt`:
+#### `subt`
+
 The `subt` function allows for substitutions in your template.
 
 This function is a workaround for the lack of direct substitution support in the module. It implements the [printf](https://pkg.go.dev/text/template#Template.Funcs) function under the hood, which allows you to format strings with placeholders.
 
-<details>
-  <summary> 
-    Usage   
-  </summary>
-    The `subt` function can be used in the same way as the `printf` function in Go. You pass in a format string, followed by values that correspond to the placeholders in the format string.
-    ```
-    const templateText = `
-    {{ subt "Hello %s" .name }}
-    `
-    ```
-</details>
+##### Usage   
+
+The `subt` function can be used in the same way as the `printf` function in Go. You pass in a format string, followed by values that correspond to the placeholders in the format string.
+```
+const templateText = {{ subt "Hello %s" .name }}
+```
 
