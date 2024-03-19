@@ -1,9 +1,6 @@
 # CoopHive
 
-CoopHive is a two-sided marketplace for computational resources. It enables users to run computational workloads in a permissionless protocol, where anyone can get paid to connect
-their compute nodes to the network and run jobs.
-
-It uses an EVM-compatible blockchain to manage agreed job state and payment and use [bacalhau](https://www.bacalhau.org/) to manage the compute nodes.
+CoopHive is a two-sided marketplace for computational resources. It enables users to run computational workloads in a permissionless protocol, where anyone can get paid to connect their compute nodes to the network and run jobs. It uses an EVM-compatible blockchain to manage payments and storage, and uses [bacalhau](https://www.bacalhau.org/) to manage the compute nodes.
 
 # Getting started
 
@@ -52,20 +49,22 @@ sudo mv hive /usr/local/bin/hive
 
 You can also, at your option, choose to compile `hive` using Go and install it that way on any machine that supports the Go toolchain.
 
+
 ## Run a Job
 
+First, make sure your Web3 private key is in the environment.
 
 ```
 export WEB3_PRIVATE_KEY=<your private key>
 ```
-(or arrange for the key to be in your environment in a more secure way that doesn't get written to your shell history)
 
+Alternatively, arrange for the key to be in your environment in a more secure way that doesn't get written to your shell history.
 
 
 ### Cows
 
 ```
-hive run cowsay:v0.0.1 -i Message="moo"
+hive run cowsay:v0.0.1 -i Message="hello world"
 ```
 
 
@@ -76,7 +75,7 @@ hive run sdxl:v0.2.9 -i PromptEnv="PROMPT=a new hexagonal beehive in the halcyon
 ```
 
 Not working?
-Try ```rm -rf /tmp/coophive/data/repos``` uninstall hive path and reinstall from the start
+Try ```rm -rf /tmp/coophive/data/repos```. Then reinstall from the start.
 
 
 ## Run a Node, Earn HIVE
