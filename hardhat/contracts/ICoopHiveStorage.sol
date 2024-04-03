@@ -4,7 +4,12 @@ pragma solidity ^0.8.6;
 import "./SharedStructs.sol";
 
 interface ICoopHiveStorage {
-  
+  /**
+   * Events
+   */
+
+  event ResultAdded(string dealId, string resultsId, string dataId, uint256 instructionCount);
+
   /**
    * Deals
    */

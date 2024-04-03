@@ -187,6 +187,8 @@ contract CoopHiveStorage is ControllerOwnable, Initializable {
     return results[dealId];
   }
 
+  event ResultAdded(string dealId, string resultsId, string dataId, uint256 instructionCount);
+
   function addResult(
     string memory dealId,
     string memory resultsId,
@@ -202,6 +204,9 @@ contract CoopHiveStorage is ControllerOwnable, Initializable {
       dataId,
       instructionCount
     );
+
+    emit ResultAdded(dealId, resultsId, dataId, instructionCount);
+
     return results[dealId];
   }
 
