@@ -16,7 +16,7 @@ const deployToken: DeployFunction = async function (hre: HardhatRuntimeEnvironme
     from: admin,
     args: [
       "CoopHive Token",
-      "LP",
+      "HIVE",
       DEFAULT_TOKEN_SUPPLY,
     ],  
     log: true,
