@@ -11,7 +11,8 @@ async function main() {
   const wallet = new ethers.Wallet(privateKey).connect(ethers.provider);
 
   const controller = await connectController();
-  console.log("current storage", await controller.getStorageAddress());
+  const initialControllerAddress = await controller.getAddress();
+  const initalStorageAddr = await controller.getStorageAddress();
 
   const { deploy } = deployments;
   const storage = await deploy("CoopHiveStorage", {
@@ -20,7 +21,21 @@ async function main() {
   });
 
   const repointTx = await controller.setStorageAddress(storage.address);
-  console.log("new storage", await controller.getStorageAddress());
+  await repointTx.wait();
+  const finalStorageAddr = await controller.getStorageAddress();
+  const finalControllerAddress = await controller.getAddress();
+  if (initialControllerAddress !== finalControllerAddress) {
+    console.warn("Control address changed, something went very wrong");
+    return;
+  }
+
+  if (initalStorageAddr == finalStorageAddr) {
+    console.warn(
+      "storage address unchanged, hardhat deploy wont redeploy if the contract is the same as prior"
+    );
+    return;
+  }
+  console.log("New Storage Address: ", finalStorageAddr);
 }
 
 main().catch((error) => {
