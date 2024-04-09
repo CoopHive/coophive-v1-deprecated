@@ -1,5 +1,5 @@
 import { connectStorage, connectController } from "../utils/web3";
-import { ethers, upgrades, deployments } from "hardhat";
+import { ethers, deployments } from "hardhat";
 async function main() {
   const privateKey = process.env.WEB3_PRIVATE_KEY;
 
