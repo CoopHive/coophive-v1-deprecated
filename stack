@@ -198,19 +198,6 @@ function boot() {
 ############################################################################
 ############################################################################
 
-function redeploy-storage() {
-  source .env
-  eval $(./stack print-local-dev-env)
-  export WEB3_PRIVATE_KEY=$ADMIN_PRIVATE_KEY
-  #export WEB3_RPC_URL=$WEB3_RPC_URL
-  #export WEB3_CHAIN_ID=$WEB3_CHAIN_ID
-  export NETWORK=$NETWORK
-  (
-    set -euo pipefail
-    cd hardhat
-    npx hardhat run scripts/redeploy-storage.ts --network "$NETWORK"
-  )
-}
 
 function go-binding() {
   local name="$1"
@@ -281,6 +268,18 @@ function deploy-contracts() {
     set -euo pipefail
     cd hardhat
     npx hardhat deploy --network "$NETWORK"
+  )
+}
+
+function redeploy-storage() {
+  source .env
+  eval $(./stack print-local-dev-env)
+  export WEB3_PRIVATE_KEY=$ADMIN_PRIVATE_KEY
+  export NETWORK=$NETWORK
+  (
+    set -euo pipefail
+    cd hardhat
+    npx hardhat run scripts/redeploy-storage.ts --network "$NETWORK"
   )
 }
 
