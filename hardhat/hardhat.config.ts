@@ -1,31 +1,29 @@
-import { HardhatUserConfig } from 'hardhat/config'
-import '@typechain/hardhat'
-import '@nomicfoundation/hardhat-toolbox'
-import '@nomicfoundation/hardhat-ethers'
-import '@nomicfoundation/hardhat-chai-matchers'
-import 'hardhat-deploy'
-import * as dotenv from 'dotenv'
+import { HardhatUserConfig } from "hardhat/config";
+import "@typechain/hardhat";
+import "@openzeppelin/hardhat-upgrades";
+import "@nomicfoundation/hardhat-toolbox";
+import "@nomicfoundation/hardhat-ethers";
+import "@nomicfoundation/hardhat-chai-matchers";
+import "hardhat-deploy";
+import * as dotenv from "dotenv";
 
-import {
-  ACCOUNT_ADDRESSES,
-  PRIVATE_KEYS,
-} from './utils/accounts'
+import { ACCOUNT_ADDRESSES, PRIVATE_KEYS } from "./utils/accounts";
 
-const ENV_FILE = process.env.DOTENV_CONFIG_PATH || '../.env'
-dotenv.config({ path: ENV_FILE })
+const ENV_FILE = process.env.DOTENV_CONFIG_PATH || "../.env";
+dotenv.config({ path: ENV_FILE });
 
 const NETWORK = process.env.NETWORK || "geth";
 
 const INFURA_KEY = process.env.INFURA_KEY || "";
 
 const config: HardhatUserConfig = {
-  solidity: '0.8.21',
+  solidity: "0.8.21",
   defaultNetwork: NETWORK,
   namedAccounts: ACCOUNT_ADDRESSES,
   networks: {
     hardhat: {},
     geth: {
-      url: 'http://localhost:8545',
+      url: "http://localhost:8545",
       chainId: 1337,
       accounts: PRIVATE_KEYS,
     },
@@ -34,13 +32,13 @@ const config: HardhatUserConfig = {
       accounts: PRIVATE_KEYS,
     },
     coophive: {
-      url: 'http://halcyon.co-ophive.network:8545',
+      url: "http://halcyon.co-ophive.network:8545",
       chainId: 1337,
-    }
+    },
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
 };
 
-module.exports = config
+module.exports = config;
