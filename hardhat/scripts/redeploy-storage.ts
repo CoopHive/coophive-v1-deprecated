@@ -35,6 +35,14 @@ async function main() {
     );
     return;
   }
+  await deployments.execute(
+    "CoopHiveStorage",
+    {
+      from: wallet.address,
+      log: true,
+    },
+    "initialize"
+  );
   console.log("New Storage Address: ", finalStorageAddr);
 }
 
