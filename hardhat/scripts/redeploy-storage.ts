@@ -19,6 +19,14 @@ async function main() {
     from: wallet.address,
     log: true,
   });
+  await deployments.execute(
+    "CoopHiveStorage",
+    {
+      from: wallet.address,
+      log: true,
+    },
+    "initialize"
+  );
 
   const repointTx = await controller.setStorageAddress(storage.address);
   await repointTx.wait();
