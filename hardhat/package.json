@@ -2,7 +2,6 @@
   "name": "hive",
   "version": "0.0.1",
   "license": "Apache-2.0",
-  "scripts": {},
   "dependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
     "@nomicfoundation/hardhat-ethers": "^3.0.4",
