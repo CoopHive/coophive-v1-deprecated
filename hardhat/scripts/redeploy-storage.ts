@@ -51,7 +51,7 @@ async function main() {
       log: true,
     },
     "setControllerAddress",
-    initalStorageAddr
+    initialControllerAddress
   );
 
   console.log("New Storage Address: ", finalStorageAddr);
