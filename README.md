@@ -1,6 +1,6 @@
 # CoopHive
 
-CoopHive is a two-sided marketplace for computational resources. It enables users to run computational workloads in a permissionless protocol, where anyone can get paid to connect their compute nodes to the network and run jobs. It uses an EVM-compatible blockchain to manage payments and storage, and uses [bacalhau](https://www.bacalhau.org/) to manage the compute nodes.
+CoopHive is a two-sided marketplace for computational resources. It enables clients to run computational workloads in a permissionless protocol, where anyone can get paid to connect their compute nodes to the network and run jobs. It uses an EVM-compatible blockchain to manage payments and storage, and uses [bacalhau](https://www.bacalhau.org/) to manage the compute nodes.
 
 # Getting started
 
