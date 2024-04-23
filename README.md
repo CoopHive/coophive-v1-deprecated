@@ -41,7 +41,7 @@ OSNAME=$(uname -s | awk '{if ($1 == "Darwin") print "darwin"; else if ($1 == "Li
 Then Download & Install
 ```
 # Download the latest production build
-curl -sSL -o hive https://github.com/CoopHive/coophive/releases/download/v0.1.0-f58afae/hive-$OSNAME-$OSARCH
+curl -sSL -o hive https://github.com/CoopHive/coophive/releases/download/v0.1.0-5e6070b/hive-$OSNAME-$OSARCH
 # Make executable and install it
 chmod +x hive
 sudo mv hive /usr/local/bin/hive
