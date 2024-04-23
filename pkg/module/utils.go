@@ -188,23 +188,14 @@ func PrepareModule(module data.ModuleConfig) (string, error) {
 	return string(fileContents), nil
 }
 
-func subst(format string, jsonEncodedInputs ...string) string {
+func subst(format string, inputStrings ...string) string {
+	inputAnys := make([]any, 0, len(inputStrings))
 
-	jsonDecodedInputs := make([]any, 0, len(jsonEncodedInputs))
-
-	for _, input := range jsonEncodedInputs {
-		var s string
-
-		if err := json.Unmarshal([]byte(input), &s); err != nil {
-			log.Debug().AnErr("subst: json unmarshal", err).Msgf("input:%s", input)
-			panic("subst: invalid input")
-		}
-
-		jsonDecodedInputs = append(jsonDecodedInputs, s)
+	for _, input := range inputStrings {
+		inputAnys = append(inputAnys, any(input))
 	}
-	log.Printf("jsonDecodedInputs:%v", jsonDecodedInputs)
 
-	return fmt.Sprintf(format, jsonDecodedInputs...)
+	return fmt.Sprintf(format, inputAnys...)
 }
 
 // - prepare the module - now we have the text of the template
