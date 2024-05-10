@@ -122,20 +122,38 @@ function build-faucet() {
 # run the faucet container
 function faucet() {
   eval $(./stack print-contract-env)
+  echo $ADMIN_PRIVATE_KEY
   local privateKey=$(echo -n "$ADMIN_PRIVATE_KEY" | sed 's/^0x//')
+  echo $WEB3_TOKEN_ADDRESS
   local tokenAddress=$(echo -n "$WEB3_TOKEN_ADDRESS" | sed 's/^0x//')
-  docker run -d \
-    --name faucet \
-    -p 8085:8080 \
-    --restart always \
-    --network "$GETH_DOCKER_NETWORK" \
-    -e WEB3_PROVIDER=http://geth:8545 \
-    -e PRIVATE_KEY=$privateKey \
-    -e TOKEN_ADDRESS=$WEB3_TOKEN_ADDRESS \
-    $FAUCET_DOCKER_IMAGE \
-      --faucet.amount=100 \
-      --faucet.tokenamount=100 \
-      --faucet.minutes=1
+  echo $GETH_DOCKER_NETWORK
+  if [[ -n $LOCAL_GETH ]]; then
+    docker run -d \
+      --name faucet \
+      -p 8085:8080 \
+      --restart always \
+      --network "$GETH_DOCKER_NETWORK" \
+      -e WEB3_PROVIDER=http://host.docker.internal:8545 \
+      -e PRIVATE_KEY=$privateKey \
+      -e TOKEN_ADDRESS=$WEB3_TOKEN_ADDRESS \
+      $FAUCET_DOCKER_IMAGE \
+        --faucet.amount=100 \
+        --faucet.tokenamount=100 \
+        --faucet.minutes=1
+  else
+    docker run -d \
+      --name faucet \
+      -p 8085:8080 \
+      --restart always \
+      --network "$GETH_DOCKER_NETWORK" \
+      -e WEB3_PROVIDER=http://geth:8545 \
+      -e PRIVATE_KEY=$privateKey \
+      -e TOKEN_ADDRESS=$WEB3_TOKEN_ADDRESS \
+      $FAUCET_DOCKER_IMAGE \
+        --faucet.amount=100 \
+        --faucet.tokenamount=100 \
+        --faucet.minutes=1
+  fi
 }
 
 function faucet-stop() {
@@ -382,6 +400,7 @@ function run() {
   export WEB3_PRIVATE_KEY=$JOB_CREATOR_PRIVATE_KEY
   export SERVICE_SOLVER=$SOLVER_ADDRESS
   export SERVICE_MEDIATORS=$MEDIATOR_ADDRESS
+  echo "$@"
   go run . run "$@"
 }
 
@@ -411,6 +430,7 @@ function solver() {
   export SERVICE_MEDIATORS=$MEDIATOR_ADDRESS
   export SERVER_PORT=8080
   export SERVER_URL=http://localhost:8080
+  echo "Starting solver"
   go run . solver "$@"
 }
 
@@ -421,7 +441,7 @@ function jobcreator() {
   export WEB3_PRIVATE_KEY=$SOLVER_PRIVATE_KEY
   export SERVICE_SOLVER=$SOLVER_ADDRESS
   export SERVICE_MEDIATORS=$MEDIATOR_ADDRESS
-  # TODO : add echo
+  echo "Starting jobcreator"
   go run . jobcreator "$@"
 }
 
@@ -431,6 +451,7 @@ function resource-provider() {
   export WEB3_PRIVATE_KEY=$RESOURCE_PROVIDER_PRIVATE_KEY
   export SERVICE_SOLVER=$SOLVER_ADDRESS
   export SERVICE_MEDIATORS=$MEDIATOR_ADDRESS
+  echo "Starting resource provider"
   go run . resource-provider "$@"
 }
 
@@ -439,6 +460,7 @@ function mediator() {
   eval $(./stack print-local-dev-env)
   export WEB3_PRIVATE_KEY=$MEDIATOR_PRIVATE_KEY
   export SERVICE_SOLVER=$SOLVER_ADDRESS
+  echo "Starting mediator"
   go run . mediator "$@"
 }
 
