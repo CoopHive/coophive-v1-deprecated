@@ -453,7 +453,6 @@ These steps boot geth, deploy our contracts and ensure that the various services
 
 This script will:
 
- * start geth as a docker container
  * fund the admin account with ether
  * fund the various services with ether
  * compile and deploy the solidity contracts
@@ -474,6 +473,119 @@ Run the following commands in separate terminal windows:
 
 ```bash
 ./stack solver --server-url http://172.17.0.1:8080
+```
+
+#### mediator
+
+Wait for the solver to start when `🟡 SOL solver registered` is logged, and then, in another terminal window, run:
+
+```bash
+./stack mediator
+```
+
+#### jobcreator
+
+In another terminal window run:
+
+```bash
+./stack jobcreator
+```
+
+#### bacalhau
+
+In another terminal window run:
+
+```bash
+# Set the IPFS data path by exporting the `BACALHAU_SERVE_IPFS_PATH` variable to your desired location
+export BACALHAU_SERVE_IPFS_PATH=/tmp/hive/data/ipfs
+sudo mkdir -p ${BACALHAU_SERVE_IPFS_PATH}
+./stack bacalhau-serve
+```
+
+#### resource-provider
+
+If you have a GPU, run the following command in a separate terminal window:
+
+```bash
+./stack resource-provider --offer-gpu 1
+```
+
+Otherwise, if you don't have a GPU:
+
+```bash
+./stack resource-provider
+```
+
+### run faucet
+
+To run the faucet container so you can test with other user accounts:
+
+```bash
+./stack faucet
+```
+
+Once the faucet is running, you can access it using http://localhost:8085
+
+**NOTE**: if you want a different logo or otherwise a different design for the faucet, fork the [repo](https://github.com/bacalhau-project/eth-faucet) and use that as your basis for the faucet container.
+
+You can find the frontend code in the `web` directory and the images are in the `web/public` directory.
+
+### run jobs
+
+Now you can run jobs on the stack as follows:
+
+```bash
+./stack run cowsay:v0.0.1 -i Message="moo"
+```
+
+If you have a GPU node - you can run SDXL (which needs a GPU):
+
+```bash
+./stack runsdxl sdxl:v0.2.9 PROMPT="beautiful view of iceland with a record player"
+```
+
+To demonstrate triggering jobs being run from on-chain smart contracts:
+
+```bash
+./stack run-cowsay-onchain
+```
+
+### stop stack
+
+To stop the various services you have started in the numerous terminal windows, `ctrl+c` will suffice.
+
+To stop geth:
+
+Press `ctrl+c` to close the local geth server that is running inside one of the numerous terminal windows.
+
+To stop the faucet:
+
+```bash
+./stack faucet-stop
+```
+
+To reset Geth data, effectively performing a complete restart, use the following command:
+
+```bash
+./stack clean
+```
+
+Please note that after running `clean`, you will need to re-run the `fund-admin` and `fund-services` commands.
+
+### unit tests
+
+Run the smart contract unit tests with the following command:
+
+```bash
+./stack unit-tests
+```
+
+### regenerating go bindings
+
+Whenever you make changes to the smart contracts, regenerate the Go bindings in `pkg/contract/bindings/contracts` by running:
+
+```bash
+./stack compile-contracts
 ```
 
 ## production deployment
