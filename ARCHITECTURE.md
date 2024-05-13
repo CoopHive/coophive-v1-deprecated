@@ -85,21 +85,89 @@ In the case that the job creator is not happy but the resource provider was not 
 
 ## local development
 
-This section will demonstrate how to run the stack on your local machine.
+This section will demonstrate how to run the stack on your local machine for both ubuntu x86_64 and mac arm64.
 
 ### pre-requisites
+
+#### (ubuntu x86_64)
 
 You will need the following tools:
 
  * go (>= v1.20)
    * see [golang-backports](https://launchpad.net/%7Elongsleep/+archive/ubuntu/golang-backports) for ubuntu
-   * after enabling the PPA, run: `sudo apt install -y golang-go`
+   * after enabling the PPA, run:
+      ```bash
+      sudo apt install -y golang-go
+      ```
+
  * docker
    * `docker.io` ubuntu package is sufficient for controlplane
    * use [docker on ubuntu](https://docs.docker.com/engine/install/ubuntu/) and [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) for GPU-enabled resource-providers (these will be preinstalled in certain environments, e.g. Lambda Labs)
+
  * node.js (v18)
    * see [nodesource distributions](https://github.com/nodesource/distributions?tab=readme-ov-file#using-ubuntu-2)
-   * also install yarn globally: `sudo npm install -g yarn`
+   * also install yarn globally:
+    ```bash
+    sudo npm install -g yarn
+    ```
+
+#### (mac arm64)
+
+You will need the following tools:
+
+ * go (>= v1.20)
+   * Install Go:
+      ```bash
+      brew install go@1.22
+      ```
+   * If you already have an older go version there are two options:
+      * Perform a complete removal of the installed older version.
+        ```bash
+        brew uninstall go
+        ``` 
+      * Unlink the installed older version and make it point to the new installed one
+        ```bash
+        brew unlink go
+        brew link go@1.22
+        ```
+
+ * docker
+   * Install Docker Desktop for Mac - Apple Chip (ARM64) from: https://www.docker.com/products/docker-desktop/
+   * After the instalation is done go to Settings -> Advanced, and enable `Allow the default Docker socket to be used (requires password)`. By doing this it will allow bacalhau to connect to the local running docker.
+   ![ARM64 Docker Setup](docs/images/arm64_docker_setup.png)
+
+ * node.js (v18)
+   * Install Node:
+      ```bash
+      brew install node@18
+      ```
+   * If you already have an older Node version there are two options:
+      * Perform a complete removal of the installed older version.
+        ```bash
+        brew uninstall node
+        ```
+      * Unlink the installed older version and make it point to the new installed one
+        ```bash
+        brew unlink node
+        brew link node@18
+        ```
+   * Install yarn globally:
+      ```bash
+      sudo npm install -g yarn
+      ```
+
+* geth (v1.13.5)
+  * Download geth from: https://gethstore.blob.core.windows.net/builds/geth-darwin-arm64-1.13.5-916d6a44.tar.gz
+  * Unpack it:
+    ```bash
+    tar xvf geth-darwin-amd64-1.13.5-916d6a44.tar.gz
+    ```
+  * Copy the executable in ```/usr/Local/bin```:
+    ```bash
+    cd geth-darwin-amd64-1.13.5-916d6a44
+    sudo mv geth /usr/Local/bin/
+    ```
+  * Restart terminal so the changes will have effect.
 
 ### initial setup
 
@@ -107,12 +175,22 @@ These steps only need to be done once.
 
 #### install bacalhau
 
-We are currently pinned to bacalhau v1.0.3-coophive1 - to install this version run the following commands:
+We are currently pinned to bacalhau v1.0.3-coophive2 - to install this version run the following commands:
+
+##### (ubuntu x86_64)
 
 ```bash
-wget https://github.com/CoopHive/bacalhau/releases/download/v1.0.3-coophive1/bacalhau
+wget https://github.com/CoopHive/bacalhau/releases/download/v1.0.3-coophive2/bacalhau
 chmod +x bacalhau
 sudo mv bacalhau /usr/bin
+```
+
+##### (mac arm64)
+
+```bash
+wget https://github.com/CoopHive/bacalhau/releases/download/v1.0.3-coophive2/bacalhau-darwin-arm64
+chmod +x bacalhau-darwin-arm64
+sudo cp bacalhau-darwin-arm64 /usr/local/bin/bachalau
 ```
 
 #### clone faucet repo
@@ -126,10 +204,34 @@ We first need to clone the repo:
 git clone https://github.com/CoopHive/eth-faucet
 ```
 
+#### clone coophive repo
+
+We first need to clone the repo:
+
+```bash
+git clone git@github.com:CoopHive/coophive.git
+cd coophive
+```
+
+In order for the `stack` script command to successfully run on mac arm64, `LOCAL_GETH` flag needs to be set.
+
+```bash
+vim stack
+# at line 28 or search for LOCAL_GETH and set it to have "dev" value.
+export LOCAL_GETH="dev"
+```
+
+#### start local geth server (mac arm64)
+
+We will use local installed geth to run the geth server.
+
+```bash
+./stack dev-geth
+```
+
 #### install stack
 
 ```bash
-cd coophive
 ./stack install
 ```
 
@@ -148,14 +250,21 @@ After you've run the install script - you can look inside of `.env` to see the c
 
 These steps boot geth, deploy our contracts and ensure that the various services named in `.env` are funded with ether and tokens.
 
+#### ubuntu x86_64
+
 ```bash
-cd coophive
 ./stack boot
+```
+
+#### mac arm64
+
+```bash
+./stack dev-boot
 ```
 
 This script will:
 
- * start geth as a docker container
+ * start geth as a docker container -> only on ubunt x86_64. For mac this step is covered by starting local Geth server.
  * fund the admin account with ether
  * fund the various services with ether
  * compile and deploy the solidity contracts
@@ -198,9 +307,20 @@ In another terminal window run:
 
 In another terminal window run:
 
+##### ubuntu x86_64
+
 ```bash
 # Set the IPFS data path by exporting the `BACALHAU_SERVE_IPFS_PATH` variable to your desired location
 export BACALHAU_SERVE_IPFS_PATH=/var/lib/hive/data/ipfs
+sudo mkdir -p ${BACALHAU_SERVE_IPFS_PATH}
+./stack bacalhau-serve
+```
+
+##### mac arm64
+
+```bash
+# Set the IPFS data path by exporting the `BACALHAU_SERVE_IPFS_PATH` variable to your desired location
+export BACALHAU_SERVE_IPFS_PATH=/tmp/hive/data/ipfs
 sudo mkdir -p ${BACALHAU_SERVE_IPFS_PATH}
 ./stack bacalhau-serve
 ```
@@ -283,280 +403,6 @@ To stop geth:
 ```bash
 ./stack geth-stop
 ```
-
-To stop the faucet:
-
-```bash
-./stack faucet-stop
-```
-
-To reset Geth data, effectively performing a complete restart, use the following command:
-
-```bash
-./stack clean
-```
-
-Please note that after running `clean`, you will need to re-run the `fund-admin` and `fund-services` commands.
-
-### unit tests
-
-Run the smart contract unit tests with the following command:
-
-```bash
-./stack unit-tests
-```
-
-### regenerating go bindings
-
-Whenever you make changes to the smart contracts, regenerate the Go bindings in `pkg/contract/bindings/contracts` by running:
-
-```bash
-./stack compile-contracts
-```
-
-## local development for ARM64
-
-This section will demonstrate how to run the stack on your local machine which has ARM64 CPU architecture.
-
-### pre-requisites
-
-You will need the following tools:
-
- * go (>= v1.20)
-   * Install Go:
-      ```bash
-      brew install go@1.22
-      ```
-   * If you already have an older go version there are two options:
-      * Perform a complete removal of the installed older version.
-        ```bash
-        brew uninstall go
-        ``` 
-      * Unlink the installed older version and make it point to the new installed one
-        ```bash
-        brew unlink go
-        brew link go@1.22
-        ```
-
- * docker
-   * Install Docker Desktop for Mac - Apple Chip (ARM64) from: https://www.docker.com/products/docker-desktop/
-   * After the instalation is done go to Settings -> Advanced, and enable `Allow the default Docker socket to be used (requires password)`. By doing this it will allow bacalhau to connect to the local running docker.
-   ![ARM64 Docker Setup](docs/images/arm64_docker_setup.png)
-
- * node.js (v18)
-   * Install Node:
-      ```bash
-      brew install node@18
-      ```
-   * If you already have an older Node version there are two options:
-      * Perform a complete removal of the installed older version.
-        ```bash
-        brew uninstall node
-        ```
-      * Unlink the installed older version and make it point to the new installed one
-        ```bash
-        brew unlink node
-        brew link node@18
-        ```
-   * Install yarn globally:
-      ```bash
-      sudo npm install -g yarn
-      ```
-
-* geth (v1.13.5)
-  * Download geth from: https://gethstore.blob.core.windows.net/builds/geth-darwin-arm64-1.13.5-916d6a44.tar.gz
-  * Unpack it:
-    ```bash
-    tar xvf geth-darwin-amd64-1.13.5-916d6a44.tar.gz
-    ```
-  * Copy the executable in ```/usr/Local/bin```:
-    ```bash
-    cd geth-darwin-amd64-1.13.5-916d6a44
-    sudo mv geth /usr/Local/bin/
-    ```
-  * Restart terminal so the changes will have effect.
-
-### initial setup
-
-These steps only need to be done once.
-
-#### install bacalhau
-
-We are currently pinned to bacalhau v1.0.3-coophive2 - to install this version run the following commands:
-
-```bash
-wget https://github.com/CoopHive/bacalhau/releases/download/v1.0.3-coophive2/bacalhau-darwin-arm64
-chmod +x bacalhau-darwin-arm64
-sudo cp bacalhau-darwin-arm64 /usr/local/bin/bachalau
-```
-
-#### clone faucet repo
-
-The [faucet](https://github.com/CoopHive/faucet.coophive.network) allows us to mint tokens for testing purposes.
-
-We first need to clone the repo:
-
-```bash
-# run this command at the same level as the coophive repo
-git clone https://github.com/CoopHive/eth-faucet
-```
-
-#### clone coophive repo
-
-We first need to clone the repo:
-
-```bash
-git clone git@github.com:CoopHive/coophive.git
-cd coophive
-```
-
-As we are on ARM64 and the ```stack``` script needs to also be backward compatible with AMD64 we need to setup a flag in it.
-
-```bash
-vim stack
-# at line 28 or search for LOCAL_GETH and set it to have "dev" value.
-export LOCAL_GETH="dev"
-```
-
-#### start local geth server
-
-We will use local installed geth to run the geth server.
-
-```bash
-./stack dev-geth
-```
-
-#### install stack
-
-```bash
-./stack install
-```
-
-This script will:
-
- * build the faucet docker image from the locally cloned repo
- * download the go modules
- * install the node modules for hardhat
- * install the node modules for the frontend
- * compile the solidity contracts and generate the typechain bindings
- * generate the dev `.env` file with insecure private keys
-
-After you've run the install script - you can look inside of `.env` to see the core service private keys and addresses that are used in the local dev stack.
-
-### run web3 stack
-
-These steps boot geth, deploy our contracts and ensure that the various services named in `.env` are funded with ether and tokens.
-
-```bash
-./stack dev-boot
-```
-
-This script will:
-
- * fund the admin account with ether
- * fund the various services with ether
- * compile and deploy the solidity contracts
- * fund the various services with tokens
- * print the balances of the various accounts in `.env` 
-
-### run services
-
-#### solver
-
-Run the following commands in separate terminal windows:
-
-```bash
-./stack solver
-```
-
-**NOTE** if you want to run the SAAS layer then we need to run the solver on the docker bridge as follows:
-
-```bash
-./stack solver --server-url http://172.17.0.1:8080
-```
-
-#### mediator
-
-Wait for the solver to start when `🟡 SOL solver registered` is logged, and then, in another terminal window, run:
-
-```bash
-./stack mediator
-```
-
-#### jobcreator
-
-In another terminal window run:
-
-```bash
-./stack jobcreator
-```
-
-#### bacalhau
-
-In another terminal window run:
-
-```bash
-# Set the IPFS data path by exporting the `BACALHAU_SERVE_IPFS_PATH` variable to your desired location
-export BACALHAU_SERVE_IPFS_PATH=/tmp/hive/data/ipfs
-sudo mkdir -p ${BACALHAU_SERVE_IPFS_PATH}
-./stack bacalhau-serve
-```
-
-#### resource-provider
-
-If you have a GPU, run the following command in a separate terminal window:
-
-```bash
-./stack resource-provider --offer-gpu 1
-```
-
-Otherwise, if you don't have a GPU:
-
-```bash
-./stack resource-provider
-```
-
-### run faucet
-
-To run the faucet container so you can test with other user accounts:
-
-```bash
-./stack faucet
-```
-
-Once the faucet is running, you can access it using http://localhost:8085
-
-**NOTE**: if you want a different logo or otherwise a different design for the faucet, fork the [repo](https://github.com/bacalhau-project/eth-faucet) and use that as your basis for the faucet container.
-
-You can find the frontend code in the `web` directory and the images are in the `web/public` directory.
-
-### run jobs
-
-Now you can run jobs on the stack as follows:
-
-```bash
-./stack run cowsay:v0.0.1 -i Message="moo"
-```
-
-If you have a GPU node - you can run SDXL (which needs a GPU):
-
-```bash
-./stack runsdxl sdxl:v0.2.9 PROMPT="beautiful view of iceland with a record player"
-```
-
-To demonstrate triggering jobs being run from on-chain smart contracts:
-
-```bash
-./stack run-cowsay-onchain
-```
-
-### stop stack
-
-To stop the various services you have started in the numerous terminal windows, `ctrl+c` will suffice.
-
-To stop geth:
-
-Press `ctrl+c` to close the local geth server that is running inside one of the numerous terminal windows.
 
 To stop the faucet:
 
