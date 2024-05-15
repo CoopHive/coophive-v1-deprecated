@@ -213,14 +213,6 @@ git clone git@github.com:CoopHive/coophive.git
 cd coophive
 ```
 
-In order for the `stack` script command to successfully run on mac arm64, `LOCAL_GETH` flag needs to be set.
-
-```bash
-vim stack
-# at line 28 or search for LOCAL_GETH and set it to have "dev" value.
-export LOCAL_GETH="dev"
-```
-
 #### start local geth server (mac arm64)
 
 We will use local installed geth to run the geth server.
@@ -264,7 +256,7 @@ These steps boot geth, deploy our contracts and ensure that the various services
 
 This script will:
 
- * start geth as a docker container -> only on ubunt x86_64. For mac this step is covered by starting local Geth server.
+ * start geth as a docker container -> only on ubuntu x86_64. For mac this step is covered by starting local Geth server.
  * fund the admin account with ether
  * fund the various services with ether
  * compile and deploy the solidity contracts
