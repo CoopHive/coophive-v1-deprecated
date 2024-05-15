@@ -24,8 +24,11 @@ export GETH_DOCKER_IMAGE=${GETH_DOCKER_IMAGE:="ethereum/client-go:v1.13.5"}
 export FAUCET_DOCKER_IMAGE=${FAUCET_DOCKER_IMAGE:="hive-faucet"}
 # what is the docker image that we use for solc compiler?
 export SOLC_DOCKER_IMAGE=${SOLC_DOCKER_IMAGE:="hive-solc"}
-# if this variable is set, use a local geth instance rather than geth in docker. needed on macos
-export LOCAL_GETH=""
+# if the LOCAL_GETH variable is set, use a local geth instance rather than geth in docker. needed on macos
+# Check if the system is an ARM-based Mac
+if [ "$(uname -m)" = "arm64" ] && [ "$(uname -s)" = "Darwin" ]; then
+  export LOCAL_GETH=true
+fi
 # local geth data store folder
 export LOCAL_GETH_DATA_DIRECTORY=${LOCAL_GETH_DATA_DIRECTORY:="/tmp/geth"}
 
