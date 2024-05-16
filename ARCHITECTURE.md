@@ -190,7 +190,7 @@ sudo mv bacalhau /usr/bin
 ```bash
 wget https://github.com/CoopHive/bacalhau/releases/download/v1.0.3-coophive2/bacalhau-darwin-arm64
 chmod +x bacalhau-darwin-arm64
-sudo cp bacalhau-darwin-arm64 /usr/local/bin/bachalau
+sudo cp bacalhau-darwin-arm64 /usr/local/bin/bacalhau
 ```
 
 #### clone faucet repo
