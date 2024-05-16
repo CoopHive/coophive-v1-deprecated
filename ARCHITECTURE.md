@@ -85,21 +85,89 @@ In the case that the job creator is not happy but the resource provider was not 
 
 ## local development
 
-This section will demonstrate how to run the stack on your local machine.
+This section will demonstrate how to run the stack on your local machine for both ubuntu x86_64 and mac arm64.
 
 ### pre-requisites
+
+#### (ubuntu x86_64)
 
 You will need the following tools:
 
  * go (>= v1.20)
    * see [golang-backports](https://launchpad.net/%7Elongsleep/+archive/ubuntu/golang-backports) for ubuntu
-   * after enabling the PPA, run: `sudo apt install -y golang-go`
+   * after enabling the PPA, run:
+      ```bash
+      sudo apt install -y golang-go
+      ```
+
  * docker
    * `docker.io` ubuntu package is sufficient for controlplane
    * use [docker on ubuntu](https://docs.docker.com/engine/install/ubuntu/) and [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) for GPU-enabled resource-providers (these will be preinstalled in certain environments, e.g. Lambda Labs)
+
  * node.js (v18)
    * see [nodesource distributions](https://github.com/nodesource/distributions?tab=readme-ov-file#using-ubuntu-2)
-   * also install yarn globally: `sudo npm install -g yarn`
+   * also install yarn globally:
+    ```bash
+    sudo npm install -g yarn
+    ```
+
+#### (mac arm64)
+
+You will need the following tools:
+
+ * go (>= v1.20)
+   * Install Go:
+      ```bash
+      brew install go@1.22
+      ```
+   * If you already have an older go version there are two options:
+      * Perform a complete removal of the installed older version.
+        ```bash
+        brew uninstall go
+        ``` 
+      * Unlink the installed older version and make it point to the new installed one
+        ```bash
+        brew unlink go
+        brew link go@1.22
+        ```
+
+ * docker
+   * Install Docker Desktop for Mac - Apple Chip (ARM64) from: https://www.docker.com/products/docker-desktop/
+   * After the instalation is done go to Settings -> Advanced, and enable `Allow the default Docker socket to be used (requires password)`. By doing this it will allow bacalhau to connect to the local running docker.
+   ![ARM64 Docker Setup](docs/images/arm64_docker_setup.png)
+
+ * node.js (v18)
+   * Install Node:
+      ```bash
+      brew install node@18
+      ```
+   * If you already have an older Node version there are two options:
+      * Perform a complete removal of the installed older version.
+        ```bash
+        brew uninstall node
+        ```
+      * Unlink the installed older version and make it point to the new installed one
+        ```bash
+        brew unlink node
+        brew link node@18
+        ```
+   * Install yarn globally:
+      ```bash
+      sudo npm install -g yarn
+      ```
+
+* geth (v1.13.5)
+  * Download geth from: https://gethstore.blob.core.windows.net/builds/geth-darwin-arm64-1.13.5-916d6a44.tar.gz
+  * Unpack it:
+    ```bash
+    tar xvf geth-darwin-amd64-1.13.5-916d6a44.tar.gz
+    ```
+  * Copy the executable in ```/usr/Local/bin```:
+    ```bash
+    cd geth-darwin-amd64-1.13.5-916d6a44
+    sudo mv geth /usr/Local/bin/
+    ```
+  * Restart terminal so the changes will have effect.
 
 ### initial setup
 
@@ -107,12 +175,22 @@ These steps only need to be done once.
 
 #### install bacalhau
 
-We are currently pinned to bacalhau v1.0.3-coophive1 - to install this version run the following commands:
+We are currently pinned to bacalhau v1.0.3-coophive2 - to install this version run the following commands:
+
+##### (ubuntu x86_64)
 
 ```bash
-wget https://github.com/CoopHive/bacalhau/releases/download/v1.0.3-coophive1/bacalhau
+wget https://github.com/CoopHive/bacalhau/releases/download/v1.0.3-coophive2/bacalhau
 chmod +x bacalhau
 sudo mv bacalhau /usr/bin
+```
+
+##### (mac arm64)
+
+```bash
+wget https://github.com/CoopHive/bacalhau/releases/download/v1.0.3-coophive2/bacalhau-darwin-arm64
+chmod +x bacalhau-darwin-arm64
+sudo cp bacalhau-darwin-arm64 /usr/local/bin/bachalau
 ```
 
 #### clone faucet repo
@@ -126,10 +204,26 @@ We first need to clone the repo:
 git clone https://github.com/CoopHive/eth-faucet
 ```
 
+#### clone coophive repo
+
+We first need to clone the repo:
+
+```bash
+git clone git@github.com:CoopHive/coophive.git
+cd coophive
+```
+
+#### start local geth server (mac arm64)
+
+We will use local installed geth to run the geth server.
+
+```bash
+./stack dev-geth
+```
+
 #### install stack
 
 ```bash
-cd coophive
 ./stack install
 ```
 
@@ -148,14 +242,21 @@ After you've run the install script - you can look inside of `.env` to see the c
 
 These steps boot geth, deploy our contracts and ensure that the various services named in `.env` are funded with ether and tokens.
 
+#### ubuntu x86_64
+
 ```bash
-cd coophive
 ./stack boot
+```
+
+#### mac arm64
+
+```bash
+./stack dev-boot
 ```
 
 This script will:
 
- * start geth as a docker container
+ * start geth as a docker container -> only on ubuntu x86_64. For mac this step is covered by starting local Geth server.
  * fund the admin account with ether
  * fund the various services with ether
  * compile and deploy the solidity contracts
@@ -198,9 +299,20 @@ In another terminal window run:
 
 In another terminal window run:
 
+##### ubuntu x86_64
+
 ```bash
 # Set the IPFS data path by exporting the `BACALHAU_SERVE_IPFS_PATH` variable to your desired location
 export BACALHAU_SERVE_IPFS_PATH=/var/lib/hive/data/ipfs
+sudo mkdir -p ${BACALHAU_SERVE_IPFS_PATH}
+./stack bacalhau-serve
+```
+
+##### mac arm64
+
+```bash
+# Set the IPFS data path by exporting the `BACALHAU_SERVE_IPFS_PATH` variable to your desired location
+export BACALHAU_SERVE_IPFS_PATH=/tmp/hive/data/ipfs
 sudo mkdir -p ${BACALHAU_SERVE_IPFS_PATH}
 ./stack bacalhau-serve
 ```

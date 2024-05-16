@@ -24,6 +24,13 @@ export GETH_DOCKER_IMAGE=${GETH_DOCKER_IMAGE:="ethereum/client-go:v1.13.5"}
 export FAUCET_DOCKER_IMAGE=${FAUCET_DOCKER_IMAGE:="hive-faucet"}
 # what is the docker image that we use for solc compiler?
 export SOLC_DOCKER_IMAGE=${SOLC_DOCKER_IMAGE:="hive-solc"}
+# if the LOCAL_GETH variable is set, use a local geth instance rather than geth in docker. needed on macos
+# Check if the system is an ARM-based Mac
+if [ "$(uname -m)" = "arm64" ] && [ "$(uname -s)" = "Darwin" ]; then
+  export LOCAL_GETH=true
+fi
+# local geth data store folder
+export LOCAL_GETH_DATA_DIRECTORY=${LOCAL_GETH_DATA_DIRECTORY:="/tmp/geth"}
 
 # if "$DIR/.env" exists then source it
 # this will contian the various addresses and private keys
@@ -76,8 +83,31 @@ function geth() {
       --http.vhosts '*'
 }
 
+# run local geth in dev mode mounted against local data directory
+function dev-geth() {
+  clean
+  /usr/local/bin/geth \
+    --datadir /tmp/geth \
+    --dev \
+    --ws \
+    --ws.api web3,eth,net \
+    --ws.addr 0.0.0.0 \
+    --ws.port 8546 \
+    --ws.origins '*' \
+    --http \
+    --http.api web3,eth,net \
+    --http.addr 0.0.0.0 \
+    --http.corsdomain '*' \
+    --http.port 8545 \
+    --http.vhosts '*'
+}
+
 function geth-command() {
-  docker exec -i geth geth --exec "$@" attach /data/geth/geth.ipc
+  if [[ -n $LOCAL_GETH ]]; then
+    /usr/local/bin/geth --exec "$@" attach /tmp/geth/geth.ipc
+  else
+    docker exec -i geth geth --exec "$@" attach /data/geth/geth.ipc
+  fi
 }
 
 ############################################################################
@@ -97,12 +127,17 @@ function faucet() {
   eval $(./stack print-contract-env)
   local privateKey=$(echo -n "$ADMIN_PRIVATE_KEY" | sed 's/^0x//')
   local tokenAddress=$(echo -n "$WEB3_TOKEN_ADDRESS" | sed 's/^0x//')
+  if [[ -n $LOCAL_GETH ]]; then
+    export WEB3_PROVIDER=${WEB3_PROVIDER:="http://host.docker.internal:8545"}
+  else
+    export WEB3_PROVIDER=${WEB3_PROVIDER:="http://geth:8545"}
+  fi
   docker run -d \
     --name faucet \
     -p 8085:8080 \
     --restart always \
     --network "$GETH_DOCKER_NETWORK" \
-    -e WEB3_PROVIDER=http://geth:8545 \
+    -e WEB3_PROVIDER=$WEB3_PROVIDER \
     -e PRIVATE_KEY=$privateKey \
     -e TOKEN_ADDRESS=$WEB3_TOKEN_ADDRESS \
     $FAUCET_DOCKER_IMAGE \
@@ -136,7 +171,9 @@ function fund-admin() {
     echo >&2 "ADMIN_ADDRESS must be set (source ${DIR}/.env)"
     exit 1
   fi
-  geth-command "eth.sendTransaction({from: eth.coinbase, to: \"${ADMIN_ADDRESS}\", value: new web3.BigNumber(eth.getBalance(eth.coinbase)).minus(web3.toWei(1, \"ether\"))  })"
+
+  echo ${ADMIN_ADDRESS}
+  geth-command "eth.sendTransaction({from: eth.coinbase, to: \"${ADMIN_ADDRESS}\", value: new web3.BigNumber(eth.getBalance(eth.coinbase)).minus(web3.toWei(1, \"ether\")) })"
 }
 
 function geth-stop() {
@@ -155,8 +192,12 @@ function clean() {
   if [[ "$response" != "yes" ]]; then
     exit 0
   fi
-  docker rm -f $(docker ps -aq) || true
-  sudo rm -rf ${GETH_DATA_DIRECTORY}
+  if [[ -n $LOCAL_GETH ]]; then
+    sudo rm -rf ${LOCAL_GETH_DATA_DIRECTORY}
+  else
+    docker rm -f $(docker ps -aq) || true
+    sudo rm -rf ${GETH_DATA_DIRECTORY}
+  fi
   clean-deploy
 }
 
@@ -192,6 +233,14 @@ function boot() {
   deploy
 }
 
+function dev-boot() {
+  boot-message "Funding admin account"
+  fund-admin
+  boot-message "Funding services with ether"
+  fund-services-ether
+  deploy
+}
+
 ############################################################################
 ############################################################################
 # hardhat
@@ -216,7 +265,9 @@ function go-binding() {
       "contracts/$name.sol" \
       -o artifacts
 
-  sudo chown -R $USER:$USER hardhat/artifacts
+  if ! [[ -n $LOCAL_GETH ]]; then
+    sudo chown -R $USER:$USER hardhat/artifacts
+  fi
   mkdir -p hardhat/artifacts/bindings/$pkg
 
   # generate the go bindings
@@ -229,7 +280,9 @@ function go-binding() {
       "--abi=artifacts/$name.abi" \
       "--pkg=$pkg" "--out=artifacts/bindings/$pkg/$pkg.go"
 
-  sudo chown -R $USER:$USER hardhat/artifacts/bindings/$pkg
+  if ! [[ -n $LOCAL_GETH ]]; then
+    sudo chown -R $USER:$USER hardhat/artifacts/bindings/$pkg
+  fi
   sudo chmod 0644 hardhat/artifacts/bindings/$pkg/$pkg.go
   cp -r hardhat/artifacts/bindings/$pkg pkg/web3/bindings/$pkg
 
@@ -337,6 +390,7 @@ function run() {
   export WEB3_PRIVATE_KEY=$JOB_CREATOR_PRIVATE_KEY
   export SERVICE_SOLVER=$SOLVER_ADDRESS
   export SERVICE_MEDIATORS=$MEDIATOR_ADDRESS
+  echo "$@"
   go run . run "$@"
 }
 
@@ -366,6 +420,7 @@ function solver() {
   export SERVICE_MEDIATORS=$MEDIATOR_ADDRESS
   export SERVER_PORT=8080
   export SERVER_URL=http://localhost:8080
+  echo "Starting solver"
   go run . solver "$@"
 }
 
@@ -376,6 +431,7 @@ function jobcreator() {
   export WEB3_PRIVATE_KEY=$SOLVER_PRIVATE_KEY
   export SERVICE_SOLVER=$SOLVER_ADDRESS
   export SERVICE_MEDIATORS=$MEDIATOR_ADDRESS
+  echo "Starting jobcreator"
   go run . jobcreator "$@"
 }
 
@@ -385,6 +441,7 @@ function resource-provider() {
   export WEB3_PRIVATE_KEY=$RESOURCE_PROVIDER_PRIVATE_KEY
   export SERVICE_SOLVER=$SOLVER_ADDRESS
   export SERVICE_MEDIATORS=$MEDIATOR_ADDRESS
+  echo "Starting resource provider"
   go run . resource-provider "$@"
 }
 
@@ -393,6 +450,7 @@ function mediator() {
   eval $(./stack print-local-dev-env)
   export WEB3_PRIVATE_KEY=$MEDIATOR_PRIVATE_KEY
   export SERVICE_SOLVER=$SOLVER_ADDRESS
+  echo "Starting mediator"
   go run . mediator "$@"
 }
 
