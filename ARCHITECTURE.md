@@ -314,6 +314,7 @@ sudo mkdir -p ${BACALHAU_SERVE_IPFS_PATH}
 # Set the IPFS data path by exporting the `BACALHAU_SERVE_IPFS_PATH` variable to your desired location
 export BACALHAU_SERVE_IPFS_PATH=/tmp/hive/data/ipfs
 sudo mkdir -p ${BACALHAU_SERVE_IPFS_PATH}
+sudo chown -R $USER /tmp/hive
 ./stack bacalhau-serve
 ```
 
