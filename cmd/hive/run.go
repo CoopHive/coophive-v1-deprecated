@@ -124,12 +124,12 @@ Generic Decentralized Compute Network https://github.com/CoopHive/coophive
 		return err
 	}
 	spinner.Stop()
-	fmt.Printf("\n🍂 Generic Decentralized Compute Network job completed, try 👇\n    open %s\n    cat %s/stdout\n    cat %s/stderr\n    https://ipfs.io/ipfs/%s\n",
-		solver.GetDownloadsFilePath(result.JobOffer.DealID),
-		solver.GetDownloadsFilePath(result.JobOffer.DealID),
-		solver.GetDownloadsFilePath(result.JobOffer.DealID),
-		result.Result.DataID,
-	)
+	downloadFilePath := solver.GetDownloadsFilePath(result.JobOffer.DealID)
+	fmt.Printf("\n🍂 Generic Decentralized Compute Network job completed, try 👇\n")
+	fmt.Printf("\topen %s\n", downloadFilePath)
+	fmt.Printf("\tcat %s/stdout\n", downloadFilePath)
+	fmt.Printf("\tcat %s/stderr\n", downloadFilePath)
+	fmt.Printf("\thttps://ipfs.io/ipfs/%s\n", result.Result.DataID)
 	return err
 }
 
