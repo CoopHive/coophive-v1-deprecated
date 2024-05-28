@@ -14,7 +14,7 @@ jobs:
             for goos in "darwin" "linux"; do
               for goarch in "arm64" "amd64"; do
                 mkdir -p build/${goos}-${goarch}
-                GOOS=${goos} GOARCH=${goarch} go build -o build/${goos}-${goarch}/hive-${goos}-${goarch}
+                GOOS=${goos} GOARCH=${goarch} CGO_ENABLE=0 go build -o build/${goos}-${goarch}/hive-${goos}-${goarch}
               done
             done
       - persist_to_workspace:
