@@ -8,7 +8,8 @@ import (
 
 func NewInspectOptions() inspect.InspectOptions {
 	options := inspect.InspectOptions{
-		Web3: GetDefaultWeb3Options(),
+		Web3:   GetDefaultWeb3Options(),
+		DealID: "",
 	}
 	options.Web3.Service = system.JobCreatorService
 	return options
