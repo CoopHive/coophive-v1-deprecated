@@ -135,6 +135,7 @@ function faucet() {
   else
     export WEB3_PROVIDER=${WEB3_PROVIDER:="http://geth:8545"}
   fi
+  docker network ls | grep " $GETH_DOCKER_NETWORK " || docker network create "$GETH_DOCKER_NETWORK"
   docker run -d \
     --name faucet \
     -p 8085:8080 \
