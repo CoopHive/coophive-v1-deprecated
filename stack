@@ -85,6 +85,7 @@ function geth() {
 
 # run local geth in dev mode mounted against local data directory
 function dev-geth() {
+  docker network ls | grep " $GETH_DOCKER_NETWORK " || docker network create "$GETH_DOCKER_NETWORK"
   clean
   /usr/local/bin/geth \
     --datadir /tmp/geth \
@@ -129,6 +130,8 @@ function faucet() {
   local tokenAddress=$(echo -n "$WEB3_TOKEN_ADDRESS" | sed 's/^0x//')
   if [[ -n $LOCAL_GETH ]]; then
     export WEB3_PROVIDER=${WEB3_PROVIDER:="http://host.docker.internal:8545"}
+    echo provider: $WEB3_PROVIDER
+    echo docker network: $GETH_DOCKER_NETWORK
   else
     export WEB3_PROVIDER=${WEB3_PROVIDER:="http://geth:8545"}
   fi
