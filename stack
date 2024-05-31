@@ -129,6 +129,8 @@ function faucet() {
   local tokenAddress=$(echo -n "$WEB3_TOKEN_ADDRESS" | sed 's/^0x//')
   if [[ -n $LOCAL_GETH ]]; then
     export WEB3_PROVIDER=${WEB3_PROVIDER:="http://host.docker.internal:8545"}
+    echo provider: $WEB3_PROVIDER
+    echo docker network: $GETH_DOCKER_NETWORK
   else
     export WEB3_PROVIDER=${WEB3_PROVIDER:="http://geth:8545"}
   fi
