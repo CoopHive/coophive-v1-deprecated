@@ -24,6 +24,12 @@ contract ExampleClient is Ownable, Initializable, ICoopHiveJobClient {
     string dataId
   );
 
+  event JobForfeited(
+    uint256 id,
+    string dealId,
+    string message
+  );
+
   function initialize(address _jobManagerAddress) public initializer {
     setJobManagerAddress(_jobManagerAddress);
   }
@@ -51,6 +57,18 @@ contract ExampleClient is Ownable, Initializable, ICoopHiveJobClient {
 
     emit JobCreated(
       id,
+      message
+    );
+  }
+
+  function forfeit(
+    uint256 id,
+    string memory dealId,
+    string memory message
+  ) public override {
+    emit JobForfeited(
+      id,
+      dealId,
       message
     );
   }

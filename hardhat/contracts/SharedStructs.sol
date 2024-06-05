@@ -18,6 +18,9 @@ library SharedStructs {
     // both parties have agreed
     DealAgreed,
 
+    // the resource provider had to forfeit the deal
+    DealForfeited,
+
     // results have been submitted by the RP
     ResultsSubmitted,
 
@@ -146,6 +149,8 @@ library SharedStructs {
     uint256 jobCreatorAgreedAt;
     uint256 dealCreatedAt;
     uint256 dealAgreedAt;
+
+    uint256 dealForfeitedAt;
 
     uint256 resultsSubmittedAt;
     uint256 resultsAcceptedAt;

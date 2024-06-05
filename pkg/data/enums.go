@@ -18,6 +18,7 @@ var ServiceType = []string{
 var AgreementState = []string{
 	"DealNegotiating",
 	"DealAgreed",
+  "DealForfeited",
 	"ResultsSubmitted",
 	"ResultsAccepted",
 	"ResultsChecked",

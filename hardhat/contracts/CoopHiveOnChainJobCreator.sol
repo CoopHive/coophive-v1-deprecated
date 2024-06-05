@@ -36,6 +36,12 @@ contract CoopHiveOnChainJobCreator is ICoopHiveJobManager, ControllerOwnable, In
     string[] inputs
   );
 
+  event JobForfeited(
+    uint256 id,
+    string dealId,
+    string message
+  );
+
   /**
    * Init
    */
@@ -101,6 +107,18 @@ contract CoopHiveOnChainJobCreator is ICoopHiveJobManager, ControllerOwnable, In
     );
 
     return nextJobID;
+  }
+
+  function forfeit(uint256 id, string memory dealId, string memory message) public onlyController  {
+    SharedStructs.JobOffer storage offer = jobOffers[id];
+    require(offer.id != 0, "Job not found");
+    ICoopHiveJobClient(offer.calling_contract).forfeit(id, dealId, message);
+
+    emit JobForfeited(
+      id,
+      dealId,
+      message
+    );
   }
 
   // this is called by the solver once we've got results out of the controller

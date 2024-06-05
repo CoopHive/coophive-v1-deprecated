@@ -178,6 +178,23 @@ contract CoopHiveStorage is ControllerOwnable, Initializable {
   }
 
   /**
+   * Forfeiting Results
+   */
+
+  function forfeit(
+    string memory dealId
+  ) public onlyController returns (SharedStructs.Agreement memory) {
+    require(isState(dealId, SharedStructs.AgreementState.DealAgreed), "A deals needs to be agreed to to forfeit");
+    agreements[dealId].dealForfeitedAt = block.timestamp;
+    _changeAgreementState(dealId, SharedStructs.AgreementState.DealForfeited);
+    return agreements[dealId];
+  }
+
+  /*
+  model would suggest forfeitDealMediation as well
+  */
+
+  /**
    * Post Results
    */
 

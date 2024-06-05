@@ -6,13 +6,12 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-
 	"github.com/CoopHive/coophive/pkg/data"
 	"github.com/CoopHive/coophive/pkg/jobcreator"
 	optionsfactory "github.com/CoopHive/coophive/pkg/options"
 	"github.com/CoopHive/coophive/pkg/solver"
 	"github.com/CoopHive/coophive/pkg/system"
-	"github.com/fatih/color"
+	//"ithub.com/fatih/color"
 	"github.com/spf13/cobra"
 
 	"github.com/theckman/yacspin"
@@ -22,8 +21,8 @@ func newRunCmd() *cobra.Command {
 	options := optionsfactory.NewJobCreatorOptions()
 	runCmd := &cobra.Command{
 		Use:     "run",
-		Short:   "Run a job on the Generic Decentralized Compute network.",
-		Long:    "Run a job on the Generic Decentralized Compute network.",
+		Short:   "Run a job on the Coophive Network.",
+		Long:    "Run a job on the Coophive Network.",
 		Example: "run cowsay:v0.0.1 -i Message=moo",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			options, err := optionsfactory.ProcessJobCreatorOptions(options, args)
@@ -40,11 +39,10 @@ func newRunCmd() *cobra.Command {
 }
 
 func runJob(cmd *cobra.Command, options jobcreator.JobCreatorOptions) error {
-	c := color.New(color.FgCyan).Add(color.Bold)
-	c.Print(`
-Generic Decentralized Compute Network https://github.com/CoopHive/coophive
-`)
-	spinner, err := createSpinner("Generic Decentralized Compute Network submitting job", "🌟")
+	//c := color.New(color.FgCyan).Add(color.Bold)
+  intro :=  "🐝"+ " Welcome to Coophive " + "🐝" 
+  fmt.Println(intro)
+	spinner, err := createSpinner("submitting job", "🌟")
 	if err != nil {
 		fmt.Printf("failed to make spinner from config struct: %v\n", err)
 		os.Exit(1)
@@ -89,6 +87,9 @@ Generic Decentralized Compute Network https://github.com/CoopHive/coophive
 		case "DealAgreed":
 			desc = "Deal agreed. Running job..."
 			emoji = "💌"
+    case "DealForfeited":
+      desc = "Deal Forfeited. Getting refund..."
+      emoji = "⚠️"
 		case "ResultsSubmitted":
 			desc = "Results submitted. Awaiting verification..."
 			emoji = "🤔"
@@ -117,22 +118,25 @@ Generic Decentralized Compute Network https://github.com/CoopHive/coophive
 		// UPDATE FUNCTION
 		// fmt.Printf("evOffer: %s --------------------------------------\n")
 		// spew.Dump(evOffer)
-
 	})
 	if err != nil {
 		fmt.Printf("Error: %s", err)
 		return err
 	}
 	spinner.Stop()
+    if (data.GetAgreementStateString(result.JobOffer.State) == "DealForfeited") {
+      fmt.Printf("Error: Deal Forfeited. Getting refund...")
+    } else {
+      downloadFilePath := solver.GetDownloadsFilePath(result.JobOffer.DealID)
+      fmt.Printf("\n🍂 Generic Decentralized Compute Network job completed, try 👇\n")
+      fmt.Printf("\topen %s\n", downloadFilePath)
+      fmt.Printf("\tcat %s/stdout\n", downloadFilePath)
+      fmt.Printf("\tcat %s/stderr\n", downloadFilePath)
+      fmt.Printf("\thttps://ipfs.io/ipfs/%s\n", result.Result.DataID)
+      fmt.Printf("\nFor more details try: hive inspect %s\n", result.JobOffer.DealID)
 
-	downloadFilePath := solver.GetDownloadsFilePath(result.JobOffer.DealID)
-	fmt.Printf("\n🍂 Generic Decentralized Compute Network job completed, try 👇\n")
-	fmt.Printf("\topen %s\n", downloadFilePath)
-	fmt.Printf("\tcat %s/stdout\n", downloadFilePath)
-	fmt.Printf("\tcat %s/stderr\n", downloadFilePath)
-	fmt.Printf("\thttps://ipfs.io/ipfs/%s\n", result.Result.DataID)
+    }
 
-	fmt.Printf("\nFor more details try: hive inspect %s\n", result.JobOffer.DealID)
 
 	return err
 }

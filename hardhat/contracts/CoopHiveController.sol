@@ -119,6 +119,7 @@ contract CoopHiveController is ICoopHiveController, Ownable, Initializable {
       timeouts,
       pricing
     );
+    // why not msg.sender ?
     bool isResourceProvider = tx.origin == deal.members.resourceProvider;
     bool isJobCreator = tx.origin == deal.members.jobCreator;
     require(isResourceProvider || isJobCreator, "Only RP / JC");
@@ -143,6 +144,25 @@ contract CoopHiveController is ICoopHiveController, Ownable, Initializable {
     }
     return storageContract.getAgreement(dealId);
   }
+
+  function forfeit(
+    string memory dealId
+  ) public {
+    require(storageContract.isState(dealId, SharedStructs.AgreementState.DealAgreed), "Forfeit is only allowed in the Agreed State");
+    SharedStructs.Deal memory deal = storageContract.getDeal(dealId);
+    require(msg.sender == deal.members.jobCreator || msg.sender == deal.members.resourceProvider, "Only RP / JC"); 
+    //require(tx.origin == deal.members.resourceProvider || tx.origin == deal.members.jobCreator, "Only RP / JC");
+    paymentsContract.forfeit(
+      dealId,
+      deal.members.jobCreator,
+      deal.members.resourceProvider,
+      deal.pricing.paymentCollateral,
+      deal.timeouts
+    );
+
+    storageContract.forfeit(dealId);
+  }
+
 
   /**
    * Results
