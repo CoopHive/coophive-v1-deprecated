@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/CoopHive/hive/utils"
+	"github.com/CoopHive/coophive/pkg/utils"
 )
 
 type EnsureDirTest struct {
