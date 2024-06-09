@@ -17,7 +17,7 @@ import (
 
 	"github.com/CoopHive/coophive/pkg/data"
 	"github.com/CoopHive/coophive/pkg/module/shortcuts"
-	"github.com/CoopHive/coophive/pkg/utils"
+	"github.com/CoopHive/coophive/pkg/system"
 )
 
 const REPO_DIR = "repos"
@@ -77,7 +77,7 @@ func CloneModule(module data.ModuleConfig) (repo *git.Repository, err error) {
 	if err != nil {
 		return nil, err
 	}
-	repoDir, err := utils.EnsureDir(repoPath)
+	repoDir, err := system.EnsureDataDir(repoPath)
 	if err != nil {
 		return nil, err
 	}
