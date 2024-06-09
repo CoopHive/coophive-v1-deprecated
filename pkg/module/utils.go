@@ -17,7 +17,7 @@ import (
 
 	"github.com/CoopHive/coophive/pkg/data"
 	"github.com/CoopHive/coophive/pkg/module/shortcuts"
-	"github.com/CoopHive/coophive/pkg/system"
+	"github.com/CoopHive/coophive/pkg/utils"
 )
 
 const REPO_DIR = "repos"
@@ -77,7 +77,7 @@ func CloneModule(module data.ModuleConfig) (repo *git.Repository, err error) {
 	if err != nil {
 		return nil, err
 	}
-	repoDir, err := system.EnsureDataDir(repoPath)
+	repoDir, err := utils.EnsureDir(repoPath)
 	if err != nil {
 		return nil, err
 	}
@@ -188,16 +188,6 @@ func PrepareModule(module data.ModuleConfig) (string, error) {
 	return string(fileContents), nil
 }
 
-func subst(format string, inputStrings ...string) string {
-	inputAnys := make([]any, 0, len(inputStrings))
-
-	for _, input := range inputStrings {
-		inputAnys = append(inputAnys, any(input))
-	}
-
-	return fmt.Sprintf(format, inputAnys...)
-}
-
 // - prepare the module - now we have the text of the template
 // - inject the given values using template syntax
 // - JSON parse and check we don't have errors
@@ -220,8 +210,10 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (moduleData 
 	templateName := fmt.Sprintf("%s-%s-%s", module.Repo, module.Path, module.Hash)
 	tmpl := template.New(templateName)
 	tmpl.Funcs(template.FuncMap{
-		"subst": subst,
-		"subt":  subst,
+		"subst": subt,
+		"subt":  subt,
+		"or":    or,
+		"get":   get,
 	})
 
 	tmpl, err = tmpl.Parse(moduleText)
@@ -231,7 +223,7 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (moduleData 
 		return nil, err
 	}
 
-	newInputs := make(map[string]string)
+	newInputs := make(map[string]JSONEncodedInput)
 	// For now, for each input, json encode it so that it's safe to put into the template
 	for k, v := range inputs {
 		bs, err := json.Marshal(v)
@@ -239,12 +231,12 @@ func LoadModule(module data.ModuleConfig, inputs map[string]string) (moduleData 
 			log.Debug().Err(err).Msgf("failed to parse inputs")
 			return nil, fmt.Errorf("unable to marshal string %q", v)
 		}
-		newInputs[k] = string(bs)
+		newInputs[k] = JSONEncodedInput(bs)
 	}
 
 	var template bytes.Buffer
 	if err := tmpl.Execute(&template, newInputs); err != nil {
-		log.Debug().Err(err).Msgf("failed to executue template")
+		log.Debug().Err(err).Msgf("failed to execute template")
 
 		return nil, fmt.Errorf(
 			"error executing template: %s (tmpl=%s, inputs=%+v)",
