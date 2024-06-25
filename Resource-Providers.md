@@ -101,9 +101,10 @@ sudo docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
 ```
 git clone https://github.com/CoopHive/coophive.git
 ```
-
 `touch resource-provider-gpu.env`
 add WEB3_PRIVATE_KEY=YOUR_PRIVATE_KEY
+
+either `go build` and `sudo mv coophive /usr/bin/` or install from release and copy to /usr/bin
 
 ```
 cd coophive/etc/systemd/
@@ -123,8 +124,8 @@ Environment="LOG_LEVEL=debug"
 Environment="HOME=/app/coophive"
 Environment="OFFER_GPU=1" # Your GPU amounts
 Environment="OFFER_RAM=8192" # Your RAM spec (MiB)
-Environment="OFFER_CPU=1000" # Your CPU spoints (1 = 1000 CPU)
-EnvironmentFile=/app/coophive/resource-provider-gpu.env
+Environment="OFFER_CPU=1000" # Your milli CPU points (1000 = 1 CPU)
+EnvironmentFile=/app/coophive/resource-provider-gpu.env # path to where you cloned coophive and added the resource-provider-gpu.env
 Restart=always
 RestartSec=5s
 ExecStart=/usr/bin/coophive resource-provider 
