@@ -1,13 +1,11 @@
 package hive
 
 import (
-	"encoding/json"
+	_ "encoding/json"
 	"fmt"
 
-	"github.com/CoopHive/coophive/pkg/inspect"
+	"github.com/CoopHive/coophive/pkg/check"
 	optionsfactory "github.com/CoopHive/coophive/pkg/options"
-	"github.com/CoopHive/coophive/pkg/web3"
-	"github.com/CoopHive/coophive/pkg/web3/bindings/storage"
 	"github.com/spf13/cobra"
 )
 
@@ -24,17 +22,17 @@ func newCheckCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return check(cmd, options)
+			return performCheck(cmd, options)
 		},
 	}
 	optionsfactory.AddCheckCliFlags(runCmd, &options)
 	return runCmd
 }
 
-func check(cmd *cobra.Command, options check.checkOptions) error {
+func performCheck(cmd *cobra.Command, options check.CheckOptions) error {
 	// try to run docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
 
-	out, err := inspect.RunDockerCommand("--rm", "--runtime=nvidia", "--gpus", "all", "ubuntu", "nvidia-smi")
+	out, err := check.RunDockerCommand("--rm", "--runtime=nvidia", "--gpus", "all", "ubuntu", "nvidia-smi")
 	if err != nil {
 		return fmt.Errorf("failed to run docker command: %w", err)
 	}
