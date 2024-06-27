@@ -32,7 +32,7 @@ func newCheckCmd() *cobra.Command {
 func performCheck(cmd *cobra.Command, options check.CheckOptions) error {
 	// try to run docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
 
-	out, err := check.RunDockerCommand("--rm", "--runtime=nvidia", "--gpus", "all", "ubuntu", "nvidia-smi")
+	out, err := check.RunDockerCommand()
 	if err != nil {
 		return fmt.Errorf("failed to run docker command: %w", err)
 	}
