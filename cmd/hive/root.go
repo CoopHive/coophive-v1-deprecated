@@ -26,6 +26,7 @@ func NewRootCmd() *cobra.Command {
 	RootCmd.AddCommand(newJobCreatorCmd())
 	RootCmd.AddCommand(newSaasApiCmd())
 	RootCmd.AddCommand(newInspectCmd())
+	RootCmd.AddCommand(newCheckCmd())
 	return RootCmd
 }
 
