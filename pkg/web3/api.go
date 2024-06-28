@@ -128,6 +128,28 @@ func (sdk *Web3SDK) Agree(
 	return tx.Hash().String(), nil
 }
 
+func (sdk *Web3SDK) Forfeit (
+  dealId string,
+) (string, error) {
+  tx, err := sdk.Contracts.Controller.Forfeit(
+    sdk.TransactOpts,
+    dealId,
+  )
+
+  if err != nil {
+    system.Error(sdk.Options.Service, "error submitting controller.Forfeit() tx", err)
+    return "", err
+  } else {
+    system.Debug(sdk.Options.Service, "submitted controller.Forfeit() tx", tx.Hash().String())
+    system.DumpObjectDebug(tx)
+  }
+	_, err = sdk.WaitTx(context.Background(), tx)
+	if err != nil {
+		return "", err
+	}
+  return tx.Hash().String(), nil
+}
+
 func (sdk *Web3SDK) AddResult(
 	dealId string,
 	resultsId string,

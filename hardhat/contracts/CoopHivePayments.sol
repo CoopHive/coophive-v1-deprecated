@@ -5,7 +5,6 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "./ICoopHiveToken.sol";
 import "./ControllerOwnable.sol";
 import "./ICoopHivePayments.sol";
-
 // import "@openzeppelin/contracts/utils/Strings.sol";
 // import "hardhat/console.sol";
 // console.log("ensureDeal");
@@ -32,6 +31,9 @@ contract CoopHivePayments is ControllerOwnable, Initializable {
 
     // the money the JC puts up to pay for the job
     PaymentCollateral,
+
+    // Forfeit
+    Forfeiture,
 
     // the money the RP puts up to attest it's results are correct
     ResultsCollateral,
@@ -158,6 +160,38 @@ contract CoopHivePayments is ControllerOwnable, Initializable {
       dealId,
       timeoutCollateral,
       PaymentReason.TimeoutCollateral
+    );
+  }
+
+  function forfeit(
+    string memory dealId,
+    address jobCreator,
+    address resourceProvider,
+    uint256 paymentCollateral,
+    SharedStructs.DealTimeouts memory timeoutCollateral
+  ) public onlyController {
+    /*
+    _payOut(
+      dealId,
+      jobCreator,
+      resourceProvider,
+      actualPayment,
+      PaymentReason.JobPayment
+    );
+
+    _refundEscrow(
+      dealId,
+      resourceProvider,
+      timeoutCollateral,
+      PaymentReason.Forfeiture
+    );
+
+   */
+    _refundEscrow(
+      dealId,
+      jobCreator,
+      paymentCollateral,
+      PaymentReason.Forfeiture
     );
   }
 

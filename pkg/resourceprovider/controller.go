@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 	"time"
-
+  "strings"
 	"github.com/CoopHive/coophive/pkg/data"
 	"github.com/CoopHive/coophive/pkg/executor"
 	"github.com/CoopHive/coophive/pkg/http"
@@ -197,6 +197,7 @@ func (controller *ResourceProviderController) solve() error {
 	// if there are jobs that have had both sides agree then we should run the job
 	err = controller.runJobs()
 	if err != nil {
+    controller.log.Error("error running jobs", err)
 		return err
 	}
 
@@ -414,11 +415,33 @@ func (controller *ResourceProviderController) runJob(deal data.DealContainer) {
 			return fmt.Errorf("error loading module: %s", err.Error())
 		}
 		controller.log.Info("module loaded", module)
+
 		executorResult, err := controller.executor.RunJob(deal, *module)
 		if err != nil {
-			controller.log.Error("error running job", err)
+      controller.log.Error("error running job", err)
+      // This can be a legitimate failure due to the program, however we need to handle the situation where the error is not due to the program but due to error on the resoure provider side
+      // if err starts with 'not enough nodes' than revert deal     
+      // if err contains 'not enough nodes' than revert deal
+      if strings.Contains(err.Error(), "not enough nodes to run job") {
+        controller.log.Info("not enough nodes, reverting deal", "")
+        txHash, err := controller.web3SDK.Forfeit(deal.ID)
+        if err != nil {
+          return fmt.Errorf("error reverting deal: %s", err.Error())
+        }
+
+        _, err = controller.solverClient.UpdateTransactionsResourceProvider(deal.ID, data.DealTransactionsResourceProvider{
+          Agree: txHash,
+          
+        })
+        
+        if err != nil {
+          return fmt.Errorf("error reverting deal: %s", err.Error())
+        }
+      }
+
+
 			return fmt.Errorf("error running job: %s", err.Error())
-		}
+    }  else {
 		result.InstructionCount = uint64(executorResult.InstructionCount)
 		result.DataID = executorResult.ResultsCID
 		controller.log.Info("got result", result)
@@ -429,6 +452,8 @@ func (controller *ResourceProviderController) runJob(deal data.DealContainer) {
 		if err != nil {
 			return fmt.Errorf("error uploading results: %s", err.Error())
 		}
+
+    }
 
 		return nil
 	}()

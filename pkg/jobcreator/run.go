@@ -3,8 +3,9 @@ package jobcreator
 import (
 	"fmt"
 	"time"
-
-	"github.com/CoopHive/coophive/pkg/data"
+  //import spew
+	_ "github.com/davecgh/go-spew/spew"
+  "github.com/CoopHive/coophive/pkg/data"
 	"github.com/CoopHive/coophive/pkg/system"
 	"github.com/CoopHive/coophive/pkg/web3"
 )
@@ -51,9 +52,8 @@ func RunJob(
 	}
 
 	updateChan := make(chan data.JobOfferContainer)
-
 	jobCreatorService.SubscribeToJobOfferUpdates(func(evOffer data.JobOfferContainer) {
-		// spew.Dump(evOffer)
+		//spew.Dump(data.GetAgreementStateString(evOffer.State))
 		if evOffer.JobOffer.ID != jobOfferContainer.ID {
 			return
 		}
@@ -75,6 +75,9 @@ waitloop:
 			if data.IsTerminalAgreementState(finalJobOffer.State) {
 				break waitloop
 			}
+      if "DealForfeited" == data.GetAgreementStateString(finalJobOffer.State) {
+        break waitloop
+      }
 		}
 	}
 

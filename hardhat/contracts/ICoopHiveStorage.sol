@@ -44,7 +44,10 @@ interface ICoopHiveStorage {
   function agreeJobCreator(
     string memory dealId
   ) external returns (SharedStructs.Agreement memory);
-  
+
+  function forfeit(
+    string memory dealId
+  ) external; 
   /**
    * Post Results
    */

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.6;
-
+import "./SharedStructs.sol";
 interface ICoopHivePayments {
 
   /**
@@ -27,6 +27,13 @@ interface ICoopHivePayments {
     uint256 timeoutCollateral
   ) external;
 
+  function forfeit(
+    string memory dealId,
+    address jobCreator,
+    address resourceProvider,
+    uint256 paymentCollateral,
+    SharedStructs.DealTimeouts memory timeouts
+  ) external;
   /**
    * Results
    */
